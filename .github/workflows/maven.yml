@@ -47,7 +47,11 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: target/site
-        destination_dir: test 
+        destination_dir: test  
+        force_orphan: true
+        user_name: 'github-actions[bot]'  
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: "Automatic test report deployment"
         
       # Generate and deploy Javadoc
     - name: Generate Javadoc
@@ -58,7 +62,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}	        
         publish_dir: target/site/apidocs
         keep_files: true
-        force_orphan: true
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
         commit_message: "Automatic documentation deployment"
