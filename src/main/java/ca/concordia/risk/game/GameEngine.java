@@ -6,6 +6,7 @@ import java.util.Map;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.parsers.CommandParser;
 import ca.concordia.risk.io.parsers.EditorCommandParser;
+import ca.concordia.risk.io.parsers.GameplayCommandParser;
 import ca.concordia.risk.io.parsers.StartupCommandParser;
 import ca.concordia.risk.io.views.ConsoleView;
 
@@ -57,6 +58,7 @@ public class GameEngine {
 		// Initialize and register Command Parsers
 		m_ParserMap.put(GameMode.EDITOR, new EditorCommandParser());
 		m_ParserMap.put(GameMode.STARTUP, new StartupCommandParser());
+		m_ParserMap.put(GameMode.GAMEPLAY, new GameplayCommandParser());
 		
 		// Initialize GameMode
 		changeMode(GameMode.EDITOR);
