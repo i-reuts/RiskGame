@@ -11,7 +11,7 @@ public class MapReader {
 	private String d_map;
 	
 	public MapReader() {
-		d_map = "bigeurope.map";
+		d_map = "testMapFile.map";
 	}
 	
 	public void openMap() {
