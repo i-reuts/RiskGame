@@ -6,23 +6,19 @@ import java.util.List;
 import ca.concordia.risk.game.GameEngine;
 import ca.concordia.risk.io.views.ConsoleView;
 
-/**
- * Command representing <i>"editcountry"</i> operation.
- */
+/** Command representing <i>"editcountry"</i> operation. */
 public class EditCountryCommand implements Command {
 	
 	private List<NewCountryData> m_countriesToAdd = new ArrayList<NewCountryData>();
 	private List<String> m_countriesToRemove = new ArrayList<String>();
 
-	/**
-	 * Performs requested add and remove operations on the active Map.
-	 */
+	/** Performs requested country add and remove operations on the active Map. */
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.getView();
 		
 		// TODO: Replace by the actual implementation
-		l_view.display("\nExecuting edit map command");
+		l_view.display("\nExecuting editcountry command");
 		l_view.display("Countries to add: " + m_countriesToAdd);
 		l_view.display("Countries to remove: " + m_countriesToRemove + "\n");
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.EditCountryCommand;
+import ca.concordia.risk.io.commands.EditMapCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
 
 /**
@@ -19,14 +20,15 @@ public class EditorCommandParser extends CommandParser {
 	protected void registerParserMethods( ) {
 		super.registerParserMethods();
 		
+		m_commandParsers.put("editmap", this::parseEditMapCommand);
 		m_commandParsers.put("editcountry", this::parseEditCountryCommand);
 	}
 	
 	/**
-	 * Parses an "editcountry" command
+	 * Parses an <i>"editcountry"</i> command
 	 * 
 	 * @param p_argumentList list of command arguments.
-	 * @return <code>EditCountryCommand</code> if the command was parser successfully.
+	 * @return <code>EditCountryCommand</code> if the command was parsed successfully.
 	 * 		   <code>InvalidCommand</code> if a parsing error occurred.
 	 */
 	private Command parseEditCountryCommand(List<String> p_argumentList)  {	
@@ -88,4 +90,22 @@ public class EditorCommandParser extends CommandParser {
 		String l_countryName = p_argumentList.remove(0);
 		p_command.removeCountry(l_countryName);	
 	}
+	
+	/**
+	 * Parses an <i>"editmap"</i> command
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>EditMapCommand</code> if the command was parsed successfully.
+	 * 		   <code>InvalidCommand</code> if a parsing error occurred.
+	 */
+	private Command parseEditMapCommand(List<String> p_argumentList)  {	
+		if(p_argumentList.isEmpty()) {
+			return new InvalidCommand("no parameters supplied to editmap command");
+		}
+		
+		String l_filename = p_argumentList.remove(0);
+		return new EditMapCommand(l_filename);
+	}
+	
+	
 }

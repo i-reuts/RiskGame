@@ -34,8 +34,14 @@ public class GameEngine {
 	 * Returns the current view.
 	 * @return view currently used by the game.
 	 */
-	public static ConsoleView getView( ) {
+	public static ConsoleView getView() {
 		return m_View;
+	}
+	
+	/** Changes active game mode to Startup */
+	public static void SwitchToStartupMode() {
+		changeMode(GameMode.STARTUP);
+		// TODO: Change the parser
 	}
 	
 	/** Initializes the <code>GameEngine</code> */

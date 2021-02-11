@@ -20,9 +20,7 @@ public class InvalidCommand implements Command {
 		m_message = p_message;
 	}
 	
-	/**
-	 * Displays the error message to the user.
-	 */
+	/** Displays the error message to the user. */
 	@Override
 	public void execute() {	
 		GameEngine.getView().display("Invalid command received: " + m_message);
