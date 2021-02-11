@@ -24,16 +24,16 @@ public class EditNeighborCommand implements Command {
 	}
 	
 	/** Adds a {CountryName, NeighborCountryName} to the list of neighbors to be added.
-		 * @param m_countryName country a neighbor of which is to be added.
-		 * @param m_neighborCountryName neighbor country to added.
+		 * @param p_countryName country a neighbor of which is to be added.
+		 * @param p_neighborCountryName neighbor country to added.
 	 */
 	public void addNeighbor(String p_countryName, String p_neighborCountryName) {
 		m_neighborsToAdd.add(new NeighborData(p_countryName, p_neighborCountryName));
 	}
 	
 	/** Adds a {CountryName, NeighborCountryName} to the list of neighbors to be removed.
-	 * @param m_countryName country a neighbor of which is to be removed.
-	 * @param m_neighborCountryName neighbor country to remove.
+	 * @param p_countryName country a neighbor of which is to be removed.
+	 * @param p_neighborCountryName neighbor country to remove.
 	 */
 	public void removeNeighbor(String p_countryName, String p_neighborCountryName) {
 		m_neighborsToRemove.add(new NeighborData(p_countryName, p_neighborCountryName));
@@ -50,8 +50,8 @@ public class EditNeighborCommand implements Command {
 
 		/**	
 		 * Creates a new <code>NeighborData</code> tuple.
-		 * @param m_countryName country a neighbor of which is to be modified.
-		 * @param m_neighborCountryName neighbor country to modify.
+		 * @param p_countryName country a neighbor of which is to be modified.
+		 * @param p_neighborCountryName neighbor country to modify.
 		 */
 		public NeighborData(String p_countryName, String p_neighborCountryName) {
 			m_countryName = p_countryName;
