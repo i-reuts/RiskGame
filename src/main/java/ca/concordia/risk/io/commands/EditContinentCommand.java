@@ -19,9 +19,9 @@ public class EditContinentCommand implements Command {
 		ConsoleView l_view = GameEngine.getView();
 		
 		// TODO: Replace by the actual implementation
-		l_view.display("\nExecuting editcountry command");
-		l_view.display("Countries to add: " + m_continentsToAdd);
-		l_view.display("Countries to remove: " + m_continentsToRemove + "\n");	
+		l_view.display("\nExecuting editcontinent command");
+		l_view.display("Continents to add: " + m_continentsToAdd);
+		l_view.display("Continents to remove: " + m_continentsToRemove + "\n");	
 	}
 	
 	/** Adds a continent to the list of continents to be added.

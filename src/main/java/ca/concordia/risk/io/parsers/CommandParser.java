@@ -87,9 +87,6 @@ abstract public class CommandParser {
 	/**
 	 * Converts a raw command string into a list of arguments.
 	 * 
-	 * <p>Splits the string into argument tokens and replaces 
-	 * underscores with spaces in each token.
-	 * 
 	 * @param p_rawCommand raw command string to be processed.
 	 * @return a list of command arguments.
 	 */
@@ -97,12 +94,7 @@ abstract public class CommandParser {
 		// Split the command string into a list of argument tokens
 		String[] l_args = p_rawCommand.split("\s+");
 		List<String> l_argList = new LinkedList<String>(Arrays.asList(l_args));
-		
-		// Replace underscores in each argument token with strings
-		for(String l_arg : l_argList) {
-			l_arg.replace('_', ' ');
-		}
-	
+
 		return l_argList;
 	}
 	

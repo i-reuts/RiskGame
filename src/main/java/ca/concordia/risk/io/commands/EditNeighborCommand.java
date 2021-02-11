@@ -18,9 +18,9 @@ public class EditNeighborCommand implements Command {
 		ConsoleView l_view = GameEngine.getView();
 		
 		// TODO: Replace by the actual implementation
-		l_view.display("\nExecuting editcountry command");
-		l_view.display("Countries to add: " + m_neighborsToAdd);
-		l_view.display("Countries to remove: " + m_neighborsToRemove + "\n");	
+		l_view.display("\nExecuting editneighbor command");
+		l_view.display("Neighbors to add: " + m_neighborsToAdd);
+		l_view.display("Neighbors to remove: " + m_neighborsToRemove + "\n");	
 	}
 	
 	/** Adds a {CountryName, NeighborCountryName} to the list of neighbors to be added.
