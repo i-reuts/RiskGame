@@ -24,7 +24,7 @@ public class LoadMapCommand implements Command {
 		ConsoleView l_view = GameEngine.getView();
 		l_view.display("\nExecuting loadmap command with filename: " + m_filename +"\n");
 		
-		GameEngine.SwitchToStartupMode();
+		GameEngine.switchToStartupMode();
 	}
 
 }
