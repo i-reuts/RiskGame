@@ -1,5 +1,6 @@
 package ca.concordia.risk.io.commands;
 
+import ca.concordia.risk.game.GameEngine;
 
 /** The <code>InvalidCommand</code> class represents an invalid command given by user.
  * 
@@ -24,7 +25,7 @@ public class InvalidCommand implements Command {
 	 */
 	@Override
 	public void execute() {	
-
+		GameEngine.getView().display("Invalid command received: " + m_message);
 	}
 
 }

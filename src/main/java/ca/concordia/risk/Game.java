@@ -7,8 +7,12 @@ import ca.concordia.risk.game.GameEngine;
  */
 public class Game 
 {
-    public static void main( String[] args )
-    {
+	/**
+	 * Startup method.
+	 * 
+	 * @param args command-line arguments.
+	 */
+    public static void main(String[] args) {
         GameEngine.start();
     }
 }

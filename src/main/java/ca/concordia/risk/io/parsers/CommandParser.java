@@ -25,7 +25,7 @@ import ca.concordia.risk.io.commands.InvalidCommand;
  */
 abstract public class CommandParser {
 	
-	private Map<String, ParserMethod> m_commandParsers = new HashMap<String, ParserMethod>();
+	protected Map<String, ParserMethod> m_commandParsers = new HashMap<String, ParserMethod>();
 	
 	
 	/**
@@ -110,7 +110,7 @@ abstract public class CommandParser {
 	 * Creates an <code>InvalidCommand</code> specifying that the give user
 	 * command is currently unavailable.
 	 * 
-	 * @param p_argumentList a list of command arguments.
+	 * @param p_argumentList list of command arguments.
 	 * @return an <code>InvalidCommand</code> specifying that the give user
 	 * command is currently unavailable.
 	 */
@@ -134,7 +134,8 @@ abstract public class CommandParser {
 	/** A Functional Interface specifying the signature of parser methods
 	 * used to parse user commands. */
 	@FunctionalInterface
-	private static interface ParserMethod {
+	protected static interface ParserMethod {
+		/** Method signature that all parser methods should be compatible with */
 		Command parse(List<String> p_arguments);
 	}
 		

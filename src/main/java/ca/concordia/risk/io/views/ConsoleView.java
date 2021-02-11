@@ -3,7 +3,7 @@ package ca.concordia.risk.io.views;
 import java.util.Scanner;
 
 /**
- * A simple view that prints messages to and reads user input from the Console.
+ * A simple view that displays messages and reads user input from the Console.
  */
 public class ConsoleView {
 	
@@ -19,7 +19,7 @@ public class ConsoleView {
 	
 	/** 
 	 * Reads a line of user input from the Console.
-	 * @return a string containing user input.
+	 * @return string containing user input.
 	 */
 	public String getInput() {
 		return m_scanner.nextLine();
