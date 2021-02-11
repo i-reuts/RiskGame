@@ -1,4 +1,4 @@
-package ca.concordia.risk.io;
+package ca.concordia.risk.io.parsers;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -63,14 +63,25 @@ abstract public class CommandParser {
 	}
 	
 	/** 
-	 * Provides a default implementation for the <code>edit</code> command.
-	 * 
-	 * @param p_argumentList a list of command arguments.
-	 * @return <code>InvalidCommand</code> specifying that the command is
-	 * currently inaccessible. 
+	 * Registers default parser methods for each supported user command.
 	 */
-	protected Command parseEditMapCommand(List<String> p_argumentList) {
-		return createUnavailableCommand(p_argumentList);
+	protected void registerParserMethods() {
+		// Editor commands
+		m_commandParsers.put("editmap", this::createUnavailableCommand);
+		m_commandParsers.put("savemap", this::createUnavailableCommand);
+		m_commandParsers.put("showmap", this::createUnavailableCommand);
+		m_commandParsers.put("validatemap", this::createUnavailableCommand);
+		m_commandParsers.put("editcontinent", this::createUnavailableCommand);
+		m_commandParsers.put("editcountry", this::createUnavailableCommand);
+		m_commandParsers.put("editneighbor", this::createUnavailableCommand);
+		m_commandParsers.put("loadmap", this::createUnavailableCommand);
+		
+		// Startup commands
+		m_commandParsers.put("gameplayer", 	this::createUnavailableCommand);
+		m_commandParsers.put("assigncountries", this::createUnavailableCommand);
+		
+		// Gameplay commands
+		m_commandParsers.put("deploy", 	this::createUnavailableCommand);
 	}
 	
 	/**
@@ -93,13 +104,6 @@ abstract public class CommandParser {
 		}
 	
 		return l_argList;
-	}
-	
-	/** 
-	 * Registers default parser methods for each supported user command.
-	 */
-	private void registerParserMethods() {
-		m_commandParsers.put("editmap", this::parseEditMapCommand);
 	}
 	
 	/**
