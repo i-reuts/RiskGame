@@ -1,4 +1,4 @@
-package ca.concordia.risk;
+package ca.concordia.risk.game;
 
 import java.util.LinkedList;
 
@@ -19,7 +19,7 @@ public class Country {
 	private LinkedList<Country> d_neighbors;
 
 	/**
-	 Constructor that doesn't ask for ID to construct the Country class.
+	 * Constructor that doesn't ask for ID to construct the Country class.
 	 * 
 	 * @param p_name Name of the country.
 	 */
@@ -29,7 +29,7 @@ public class Country {
 		d_name = p_name;
 		d_neighbors = new LinkedList<Country>();
 	}
-	
+
 	/**
 	 * Constructor for the Country class.
 	 * 
@@ -84,7 +84,7 @@ public class Country {
 	public void setId(Integer p_id) {
 		this.d_id = p_id;
 	}
-	
+
 	/**
 	 * @param p_parent Continent owning this country.
 	 */

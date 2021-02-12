@@ -1,10 +1,17 @@
 package ca.concordia.risk;
 
+import ca.concordia.risk.game.GameEngine;
+
 /**
- * Main Game class containing the Game Loop
+ * Startup class for the application.
  */
 public class Game {
+	/**
+	 * Startup method.
+	 * 
+	 * @param args command-line arguments.
+	 */
 	public static void main(String[] args) {
-		System.out.println("Starting the game...");
+		GameEngine.Start();
 	}
 }
