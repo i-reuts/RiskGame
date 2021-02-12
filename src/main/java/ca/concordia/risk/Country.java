@@ -82,9 +82,7 @@ public class Country {
 	 * @param p_id Id for the county
 	 */
 	public void setId(Integer p_id) {
-		if (this.d_id == 0) {
-			this.d_id = p_id;
-		}
+		this.d_id = p_id;
 	}
 	
 	/**
