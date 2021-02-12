@@ -19,6 +19,18 @@ public class Country {
 	private LinkedList<Country> d_neighbors;
 
 	/**
+	 Constructor that doesn't ask for ID to construct the Country class.
+	 * 
+	 * @param p_name Name of the country.
+	 */
+	Country(String p_name) {
+		d_armies = 0;
+		d_id = 0;
+		d_name = p_name;
+		d_neighbors = new LinkedList<Country>();
+	}
+	
+	/**
 	 * Constructor for the Country class.
 	 * 
 	 * @param p_id   ID of the country.
@@ -66,6 +78,15 @@ public class Country {
 		return d_owner;
 	}
 
+	/**
+	 * @param p_id Id for the county
+	 */
+	public void setId(Integer p_id) {
+		if (this.d_id == 0) {
+			this.d_id = p_id;
+		}
+	}
+	
 	/**
 	 * @param p_parent Continent owning this country.
 	 */

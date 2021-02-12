@@ -15,7 +15,7 @@ public class Continent {
 	private int d_value;
 	private Integer d_id;
 	private String d_name;
-	private Map<Integer, Country> d_countries;
+	private HashMap<Integer, Country> d_countries;
 
 	/**
 	 * Constructor for the Continent class.
