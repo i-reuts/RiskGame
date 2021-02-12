@@ -14,77 +14,79 @@ import ca.concordia.risk.io.views.ConsoleView;
  * Main game class containing the game loop.
  */
 public class GameEngine {
-	
-	private static enum GameMode { EDITOR, STARTUP, GAMEPLAY }
-	
-	private static ConsoleView m_View; 
-	private static GameMode m_ActiveMode;
-	private static CommandParser m_ActiveParser;
-	private static Map<GameMode, CommandParser> m_ParserMap = new HashMap<GameMode, CommandParser>();
-	
-	
-	/**
-	 * Initializes the <code>GameEngine</code> and starts
-	 * main application loop.
-	 */
-	public static void start() {
-		initialize();
-		runMainLoop();
+
+	private static enum GameMode {
+		EDITOR, STARTUP, GAMEPLAY
 	}
-	
+
+	private static ConsoleView d_View;
+	private static GameMode d_ActiveMode;
+	private static CommandParser d_ActiveParser;
+	private static Map<GameMode, CommandParser> d_ParserMap = new HashMap<GameMode, CommandParser>();
+
+	/**
+	 * Initializes the <code>GameEngine</code> and starts main application loop.
+	 */
+	public static void Start() {
+		Initialize();
+		RunMainLoop();
+	}
+
 	/**
 	 * Returns the current view.
+	 * 
 	 * @return view currently used by the game.
 	 */
-	public static ConsoleView getView() {
-		return m_View;
+	public static ConsoleView GetView() {
+		return d_View;
 	}
-	
+
 	/** Changes active game mode to Startup */
-	public static void switchToStartupMode() {
-		changeMode(GameMode.STARTUP);
+	public static void SwitchToStartupMode() {
+		ChangeMode(GameMode.STARTUP);
 	}
-	
+
 	/** Changes active game mode to Gameplay */
-	public static void switchToGameplayMode() {
-		changeMode(GameMode.GAMEPLAY);
+	public static void SwitchToGameplayMode() {
+		ChangeMode(GameMode.GAMEPLAY);
 	}
-	
+
 	/** Initializes the <code>GameEngine</code> */
-	private static void initialize() {
+	private static void Initialize() {
 		// Initialize the view
-		m_View = new ConsoleView();
-		
+		d_View = new ConsoleView();
+
 		// Initialize and register Command Parsers
-		m_ParserMap.put(GameMode.EDITOR, new EditorCommandParser());
-		m_ParserMap.put(GameMode.STARTUP, new StartupCommandParser());
-		m_ParserMap.put(GameMode.GAMEPLAY, new GameplayCommandParser());
-		
+		d_ParserMap.put(GameMode.EDITOR, new EditorCommandParser());
+		d_ParserMap.put(GameMode.STARTUP, new StartupCommandParser());
+		d_ParserMap.put(GameMode.GAMEPLAY, new GameplayCommandParser());
+
 		// Initialize GameMode
-		changeMode(GameMode.EDITOR);
+		ChangeMode(GameMode.EDITOR);
 	}
-	
-	/** 
+
+	/**
 	 * Changes active game mode.
+	 * 
 	 * @param p_newMode mode to change to.
 	 */
-	private static void changeMode(GameMode p_newMode) {
-		m_ActiveMode = p_newMode;
-		m_ActiveParser = m_ParserMap.get(m_ActiveMode);
+	private static void ChangeMode(GameMode p_newMode) {
+		d_ActiveMode = p_newMode;
+		d_ActiveParser = d_ParserMap.get(d_ActiveMode);
 	}
-	
+
 	/** Executes the main application loop */
-	private static void runMainLoop() {
-		while(true) {
-			processUserCommand();
+	private static void RunMainLoop() {
+		while (true) {
+			ProcessUserCommand();
 		}
 	}
-	
+
 	/** Processes one command inputed by user */
-    private static void processUserCommand() {
-    	m_View.display("Please enter your command");
-    	String l_userInput = m_View.getInput();
-    	Command l_command = m_ActiveParser.parse(l_userInput);
-    	l_command.execute();
-    }
+	private static void ProcessUserCommand() {
+		d_View.display("Please enter your command");
+		String l_userInput = d_View.getInput();
+		Command l_command = d_ActiveParser.parse(l_userInput);
+		l_command.execute();
+	}
 }

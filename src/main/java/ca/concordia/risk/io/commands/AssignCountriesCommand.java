@@ -10,9 +10,9 @@ public class AssignCountriesCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Replace with actual implementation
-		ConsoleView l_view = GameEngine.getView();
+		ConsoleView l_view = GameEngine.GetView();
 		l_view.display("\nAssigning countries to players\n");
-		GameEngine.switchToGameplayMode();
+		GameEngine.SwitchToGameplayMode();
 	}
 
 }
