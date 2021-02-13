@@ -71,8 +71,26 @@ public class MapLoader {
 					}
 				}
 			}
+			ArrayList<String> borders = new ArrayList<>();
+			sc = new Scanner (new File(p_fileName));
 			
+			while (sc.hasNextLine()) {
+				String line = sc.nextLine();
+				if (line.equals("[borders]")) {
+					while (sc.hasNextLine()) {
+						String parse_borders = sc.nextLine();
+						reader = new Scanner(parse_borders);
+						while(reader.hasNext()) 
+							borders.add(reader.next());
+						borders.add("end");	
+					}
+				}
+			}
 			
+			/*for (int i = 0; i < borders.size(); i++) {
+				System.out.println(borders.get(i));
+			}*/
+		
 			/*System.out.println("continent name size: "+ continent_name.size());
 			System.out.println("continent value size: "+ continent_value.size());
 			System.out.println("\nContinent Name\t" + "Continent Values\n");
@@ -90,7 +108,7 @@ public class MapLoader {
 				System.out.println(country_id.get(i) + "\t" + country_name.get(i) + "\t" + country_continent.get(i));
 			}*/
 
-			
+			/*
 			for(int i = 0; i < continent_name.size(); i++) {
 				continent = new Continent(String.valueOf(continent_name.get(i)), Integer.parseInt(continent_value.get(i)));
 				map.addContinent(continent); 
@@ -112,7 +130,7 @@ public class MapLoader {
 						}
 					}
 				}
-			}	
+			}*/	
 			
 			
 			
