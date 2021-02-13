@@ -1,4 +1,4 @@
-package ca.concordia.risk;
+package ca.concordia.risk.game;
 
 import java.util.LinkedList;
 
@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class Map {
 	private LinkedList<Country> d_countries;
 	private LinkedList<Continent> d_continents;
-	
+
 	/**
 	 * Constructor for the Map entity
 	 */
@@ -20,7 +20,7 @@ public class Map {
 		d_countries = new LinkedList<Country>();
 		d_continents = new LinkedList<Continent>();
 	}
-	
+
 	/**
 	 * Add a country to the map.
 	 * 

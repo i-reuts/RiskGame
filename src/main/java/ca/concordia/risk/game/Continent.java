@@ -1,4 +1,4 @@
-package ca.concordia.risk;
+package ca.concordia.risk.game;
 
 import java.util.*;
 
