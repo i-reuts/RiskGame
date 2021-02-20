@@ -3,20 +3,20 @@ package ca.concordia.risk.game;
 import java.util.LinkedList;
 
 /**
- * This class is the representation of the game entity Map. It has a linked list
+ * This class is the representation of the game map. It has a linked list
  * to manage its countries and continents belonging to this map.
  * 
  * @author Enrique
  *
  */
-public class Map {
+public class GameMap {
 	private LinkedList<Country> d_countries;
 	private LinkedList<Continent> d_continents;
 
 	/**
-	 * Constructor for the Map entity
+	 * Constructor for the GameMap entity
 	 */
-	public Map() {
+	public GameMap() {
 		d_countries = new LinkedList<Country>();
 		d_continents = new LinkedList<Continent>();
 	}

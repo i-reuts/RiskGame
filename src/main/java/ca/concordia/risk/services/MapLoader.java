@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
+import ca.concordia.risk.game.GameMap;
 
 /**
  * This class reads the existing maps.
@@ -23,7 +24,7 @@ public class MapLoader {
 	 * @return game map
 	 * @throws Exception
 	 */
-	public ca.concordia.risk.game.Map loadMap(String p_fileName) throws Exception {
+	public GameMap loadMap(String p_fileName) throws Exception {
 		File l_mapFile = new File(p_fileName);
 		Scanner l_sc = new Scanner(l_mapFile);
 
@@ -165,8 +166,8 @@ public class MapLoader {
 	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object.
 	 * @return game map.
 	 */
-	private ca.concordia.risk.game.Map createMap(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
-		ca.concordia.risk.game.Map l_gameMap = new ca.concordia.risk.game.Map();
+	private GameMap createMap(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
+		GameMap l_gameMap = new GameMap();
 		
 		for(Continent c : p_continentMap.values()) {
 			l_gameMap.addContinent(c);
