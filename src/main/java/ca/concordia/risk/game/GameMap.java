@@ -58,4 +58,9 @@ public class GameMap {
 	public boolean removeContinent(Continent p_continent) {
 		return this.d_continents.remove(p_continent);
 	}
+	
+	@Override
+	public String toString() {
+		return d_continents + " " + d_countries;
+	}
 }
