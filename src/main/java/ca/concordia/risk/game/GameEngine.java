@@ -23,6 +23,9 @@ public class GameEngine {
 	private static GameMode d_ActiveMode;
 	private static CommandParser d_ActiveParser;
 	private static Map<GameMode, CommandParser> d_ParserMap = new HashMap<GameMode, CommandParser>();
+	
+	private static GameMap d_ActiveMap;
+	
 
 	/**
 	 * Initializes the <code>GameEngine</code> and starts main application loop.
@@ -49,6 +52,22 @@ public class GameEngine {
 	/** Changes active game mode to Gameplay */
 	public static void SwitchToGameplayMode() {
 		ChangeMode(GameMode.GAMEPLAY);
+	}
+	
+	/**
+	 * Returns the active game map.
+	 * @return active game map.
+	 */
+	public static GameMap GetMap() {
+		return d_ActiveMap;
+	}
+	
+	/**
+	 * Sets the active game map.
+	 * @param p_map game map to set as an active map.
+	 */
+	public static void SetMap(GameMap p_map) {
+		d_ActiveMap = p_map;
 	}
 
 	/** Initializes the <code>GameEngine</code> */
@@ -84,7 +103,7 @@ public class GameEngine {
 
 	/** Processes one command inputed by user */
 	private static void ProcessUserCommand() {
-		d_View.display("Please enter your command");
+		d_View.display("Please enter your command:");
 		String l_userInput = d_View.getInput();
 		Command l_command = d_ActiveParser.parse(l_userInput);
 		l_command.execute();

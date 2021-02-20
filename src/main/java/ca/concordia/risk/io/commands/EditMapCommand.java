@@ -1,7 +1,11 @@
 package ca.concordia.risk.io.commands;
 
+import java.io.FileNotFoundException;
+
 import ca.concordia.risk.game.GameEngine;
+import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
+import ca.concordia.risk.services.MapLoader;
 
 /** Command representing <i>"editmap"</i> operation. */
 public class EditMapCommand implements Command {
@@ -20,9 +24,21 @@ public class EditMapCommand implements Command {
 	/** Loads the requested map file in edit mode. */
 	@Override
 	public void execute() {
-		// TODO Replace with actual implementation
 		ConsoleView l_view = GameEngine.GetView();
-		l_view.display("\nExecuting editmap command with filename: " + d_filename + "\n");
+		GameMap l_gameMap = null;
+		try {
+			l_gameMap = MapLoader.LoadMap(d_filename);
+			l_view.display("Map succesfully loaded from file");
+		} catch (FileNotFoundException e) {
+			l_view.display("Map file with filename " + d_filename + " does not exist");
+			l_view.display("Creating a new map...");
+			l_gameMap = new GameMap();
+		} catch (MapLoader.FileParsingException e) {
+			l_view.display("Failed to load the map file");
+			l_view.display(e.getMessage());
+		} finally {
+			GameEngine.SetMap(l_gameMap);
+		}
 	}
 
 }
