@@ -15,7 +15,7 @@ public class Continent {
 	private int d_value;
 	private Integer d_id;
 	private String d_name;
-	private HashMap<Integer, Country> d_countries;
+	private HashMap<String, Country> d_countries;
 
 	/**
 	 * Constructor for the Continent class.
@@ -23,11 +23,11 @@ public class Continent {
 	 * @param p_name  Name of the continent.
 	 * @param p_value Value of the continent for mustering when fully controlled.
 	 */
-	Continent(String p_name, int p_value) {
+	public Continent(String p_name, int p_value) {
 		d_value = p_value;
 		d_id = Continent.d_counter++;
 		d_name = p_name;
-		d_countries = new HashMap<Integer, Country>();
+		d_countries = new HashMap<String, Country>();
 	}
 
 	/**
@@ -59,11 +59,11 @@ public class Continent {
 	 * @return True if added. False if the country id already existed.
 	 */
 	public boolean addCountry(Country p_country) {
-		if (d_countries.containsKey(p_country.getId())) {
+		if (d_countries.containsKey(p_country.getName())) {
 			return false;
 		}
 
-		d_countries.put(p_country.getId(), p_country);
+		d_countries.put(p_country.getName(), p_country);
 		p_country.setParent(this);
 		return true;
 	}
@@ -74,10 +74,9 @@ public class Continent {
 	 * @param p_id The id of the country to be remove.
 	 * @return True if the continent existed. False other way.
 	 */
-	public boolean removeCountry(Integer p_id) {
-		return (d_countries.remove(p_id) != null);
+	public boolean removeCountry(String p_name) {
+		return (d_countries.remove(p_name) != null);
 	}
-
 	
 	/**
 	 * This method returns list of countries
