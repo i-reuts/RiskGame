@@ -1,152 +1,186 @@
 package ca.concordia.risk.game;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashMap;
+
+import java.util.Map;
 import java.util.Scanner;
 
+import ca.concordia.risk.game.Continent;
+import ca.concordia.risk.game.Country;
+
 /**
- * This class reads the existing maps
+ * This class reads the existing maps.
  * 
  * @author Shubham Vashisth
  */
 public class MapLoader {
-
-	public void loadMap(String p_fileName) {
-		Scanner sc, reader;
-		Map map = new Map();
-		Continent continent;
-		Country country;
-		
-		try {
-			ArrayList<String> continent_name = new ArrayList<>();
-			ArrayList<String> continent_value = new ArrayList<>();
-			ArrayList<String> country_id = new ArrayList<>();
-			ArrayList<String> country_name = new ArrayList<>();
-			ArrayList<String> country_continent = new ArrayList<>();
-			sc = new Scanner(new File(p_fileName));
-
-			while (sc.hasNextLine()) {
-				String line = sc.nextLine();
-				if (line.equals("[continents]")) {
-					while (sc.hasNextLine()) {
-						String parse_continents = sc.nextLine();
-						if (parse_continents.equals("[countries]"))
-							break;
-						else {
-							reader = new Scanner(parse_continents);
-							while (reader.hasNext()) {
-								String continent_n = reader.next();
-								String continent_v = reader.next();
-								reader.next();
-								continent_name.add(continent_n);
-								continent_value.add(continent_v);
-							}
-						}
-					}
-				}
-			}
-			
-			sc = new Scanner (new File(p_fileName));
-
-			while (sc.hasNextLine()) {
-				String line = sc.nextLine();
-				if (line.equals("[countries]")) {
-					while (sc.hasNextLine()) {
-						String parse_countries = sc.nextLine();
-						if (parse_countries.equals("[borders]"))
-							break;
-						else {
-							reader = new Scanner(parse_countries);
-							while (reader.hasNext()) {
-								String country_i = reader.next();
-								String country_n = reader.next();
-								String country_c = reader.next();
-								reader.next();
-								reader.next();
-								country_id.add(country_i);
-								country_name.add(country_n); 
-								country_continent.add(country_c);
-							}
-						}
-					}
-				}
-			}
-			ArrayList<String> borders = new ArrayList<>();
-			sc = new Scanner (new File(p_fileName));
-			
-			while (sc.hasNextLine()) {
-				String line = sc.nextLine();
-				if (line.equals("[borders]")) {
-					while (sc.hasNextLine()) {
-						String parse_borders = sc.nextLine();
-						reader = new Scanner(parse_borders);
-						while(reader.hasNext()) 
-							borders.add(reader.next());
-						borders.add("end");	
-					}
-				}
-			}
-			
-			/*for (int i = 0; i < borders.size(); i++) {
-				System.out.println(borders.get(i));
-			}*/
-		
-			/*System.out.println("continent name size: "+ continent_name.size());
-			System.out.println("continent value size: "+ continent_value.size());
-			System.out.println("\nContinent Name\t" + "Continent Values\n");
-			
-			for (int i = 0; i < continent_name.size(); i++) {
-				System.out.println(continent_name.get(i) + "\t" +continent_value.get(i));
-			}
-			
-			System.out.println("\ncountry id size: "+ country_id.size());
-			System.out.println("country name size: "+ country_name.size());
-			System.out.println("country continent size: "+ country_continent.size());
-			System.out.println("\nCountry id\t" + "Country Name\t" + "Country continent\n");
-			
-			for (int i = 0; i < country_id.size(); i++) {
-				System.out.println(country_id.get(i) + "\t" + country_name.get(i) + "\t" + country_continent.get(i));
-			}*/
-
-			/*
-			for(int i = 0; i < continent_name.size(); i++) {
-				continent = new Continent(String.valueOf(continent_name.get(i)), Integer.parseInt(continent_value.get(i)));
-				map.addContinent(continent); 
-				System.out.println("continent name: " + continent_name.get(i));
-				System.out.println("continent reinforcement: " + continent_value.get(i));
-				
-				for(int j = 0; j < country_id.size(); j++) {
-					country = new Country(Integer.parseInt(country_id.get(j)), String.valueOf(country_name.get(j)));
-					System.out.println("\tcountry name: " + country_name.get(j));
-					System.out.println("\tcountry ID: " + country_id.get(j));
-					System.out.println("\tparent continent id: " + country_continent.get(j));
-					if(String.valueOf(continent.getId()).equals(country_continent.get(j))) {
-						Boolean status = continent.addCountry(country);
-						System.out.println("\t\tcountry added to "+ continent.getName());
-						if(status == true) {
-							map.addCountry(country);
-							System.out.println("\t\t\tcountry added to map object");
-							
-						}
-					}
-				}
-			}*/	
-			
-			
-			
-			
-			
-			
-			
-			
-		} catch (Exception e) {
-			System.out.println("Cannot open the Map file");
-			e.printStackTrace();
-		}	
-	}
-
+	
 	public static void main(String[] args) {
 		MapLoader obj = new MapLoader();
-		obj.loadMap("testMapFile.map");
+		
+		try {
+			obj.loadMap("testMapFile.map");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static class FileParsingException extends Exception {
+		public FileParsingException(String p_message) {
+			super("Invalid map file: " + p_message);
+		}
+	}
+	
+	
+	
+	public ca.concordia.risk.game.Map loadMap(String p_fileName) throws Exception {
+		File l_mapFile = new File(p_fileName);
+		Scanner l_sc = new Scanner(l_mapFile);
+
+		seekToTag("[continents]", l_sc);
+		Map<Integer, Continent> l_continentMap = readContinents(l_sc);
+			
+		seekToTag("[countries]", l_sc);
+		Map<Integer, Country> l_countryMap = readCountries(l_sc, l_continentMap);
+		
+		seekToTag("[borders]", l_sc);
+		readBorders(l_sc, l_countryMap);
+			
+		// TODO Delete the check after parser is completed
+		displayDebugOutput(l_continentMap, l_countryMap);
+	
+		return createMap(l_continentMap, l_countryMap);
+	}
+	
+	
+	/**
+	 * Skips through the file until it finds a line that starts with <code>p_tag</code>.
+	 * <p>
+	 * Scanner <code>p_sc</code> will point to the line after the line with the tag
+	 * after the method returns.
+	 * 
+	 * @param p_tag tag to look for.
+	 * @param p_sc  scanner to use.
+	 * @throws Exception thrown if end of file is reached before encountering the tag.	
+	 */
+	private void seekToTag(String p_tag, Scanner p_sc) throws Exception {
+		while(p_sc.hasNextLine()) {
+			String l_line = p_sc.nextLine().trim();
+			if(l_line.startsWith(p_tag)) {
+				return;
+			}
+		}
+		
+		throw new FileParsingException(p_tag + " tag not found"); 
+	}
+	
+	private Map<Integer, Continent> readContinents(Scanner p_sc) {
+		Map<Integer, Continent> l_continentMap = new HashMap<Integer, Continent>();
+		
+		int l_runningID = 1;
+		while(p_sc.hasNextLine()) {
+			String l_line = p_sc.nextLine();
+			
+			// Stop reading when we come across an empty line
+			if(l_line.isBlank()) {
+				break;
+			}
+			
+			String[] l_tokens = l_line.split("\\s+");
+			String l_continentName = l_tokens[0].replace('_', ' ');
+			int l_continentValue = Integer.parseInt(l_tokens[1]);
+			
+			l_continentMap.put(l_runningID, new Continent(l_continentName, l_continentValue));
+			l_runningID++;
+		}
+		
+		return l_continentMap;
+	}
+	
+	private Map<Integer, Country> readCountries(Scanner p_sc, Map<Integer, Continent> p_continentMap) {
+		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
+		
+		while(p_sc.hasNextLine()) {
+			String l_line = p_sc.nextLine();
+			
+			// Stop reading when we come across an empty line
+			if(l_line.isBlank()) {
+				break;
+			}
+			
+			// Parse country data
+			String[] l_tokens = l_line.split("\\s+");
+			int l_countryID = Integer.parseInt(l_tokens[0]);
+			String l_countryName = l_tokens[1].replace('_', ' ');
+			int l_continentID = Integer.parseInt(l_tokens[2]);
+			
+			// Create country
+			Country l_country = new Country(l_countryName);
+			
+			// Add continent to country and country to continent
+			Continent l_continent = p_continentMap.get(l_continentID);
+			l_country.setParent(l_continent);
+			l_continent.addCountry(l_country);
+			
+			// Add country to country map
+			l_countryMap.put(l_countryID, l_country);
+		}
+		
+		return l_countryMap;
+	}
+
+	private void readBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) {
+		while(p_sc.hasNextLine()) {
+			String l_line = p_sc.nextLine();
+			
+			// Stop reading when we come across an empty line
+			if(l_line.isBlank()) {
+				break;
+			}
+			
+			// Parse country data
+			String[] l_tokens = l_line.split("\\s+");
+			int l_countryID = Integer.parseInt(l_tokens[0]);
+			for(int i = 1; i < l_tokens.length; i++) {
+				// Add neighbors to country
+				int l_neighborID = Integer.parseInt(l_tokens[i]);
+				p_countryMap.get(l_countryID).addNeighbor(p_countryMap.get(l_neighborID));
+			}
+		}
+	}
+	
+	private ca.concordia.risk.game.Map createMap(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
+		ca.concordia.risk.game.Map l_gameMap = new ca.concordia.risk.game.Map();
+		
+		for(Continent c : p_continentMap.values()) {
+			l_gameMap.addContinent(c);
+		}
+		for(Country c : p_countryMap.values()) {
+			l_gameMap.addCountry(c);
+		}
+		
+		return l_gameMap;
+	}
+	
+	private void displayDebugOutput(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
+		System.out.println("\nContinents: ");
+		for(Continent c : p_continentMap.values()) {
+			System.out.print(c.getName() + " - countries: ");
+			for(Country country : c.getCountries()) {
+				System.out.print(country.getName() + " ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("\nCountries: ");
+		for(Country c : p_countryMap.values()) {
+			System.out.print(c.getName() + " - neighbors: ");
+			for(Country n : c.getNeighbors()) {
+				System.out.print(n.getName() + " ");
+			}
+			System.out.println();
+		}	
 	}
 }
