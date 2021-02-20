@@ -1,6 +1,7 @@
 package ca.concordia.risk.game;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class is the representation of the game entity Country. It has a linked
@@ -138,5 +139,14 @@ public class Country {
 	 */
 	public boolean removeNeighbor(Country p_country) {
 		return d_neighbors.remove(p_country);
+	}
+
+	/**
+	 * This method returns a list of neighboring countries.
+	 * 
+	 * @return neighboring countries.
+	 */
+	public List<Country> getNeighbors() {
+		return d_neighbors;
 	}
 }
