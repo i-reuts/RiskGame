@@ -24,9 +24,11 @@ public class MapLoader {
 	 * 
 	 * @param p_fileName location of the (.map) file
 	 * @return game map
-	 * @throws Exception
+	 * @throws FileParsingException  thrown if the parsing error occurs when parsing
+	 *                               the map file.
+	 * @throws FileNotFoundException thrown if the map file with the requested file
+	 *                               name does not exist.
 	 */
-
 	public static GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
 		File l_mapFile = new File(p_fileName);
 		Scanner l_sc = new Scanner(l_mapFile);
@@ -52,8 +54,8 @@ public class MapLoader {
 	 * 
 	 * @param p_tag tag to look for.
 	 * @param p_sc  scanner to use.
-	 * @throws Exception thrown if end of file is reached before encountering the
-	 *                   tag.
+	 * @throws FileParsingException thrown if end of file is reached before
+	 *                              encountering the tag.
 	 */
 	private static void SeekToTag(String p_tag, Scanner p_sc) throws FileParsingException {
 		while (p_sc.hasNextLine()) {
