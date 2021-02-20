@@ -77,4 +77,15 @@ public class Continent {
 	public boolean removeCountry(Integer p_id) {
 		return (d_countries.remove(p_id) != null);
 	}
+
+	
+	/**
+	 * This method returns list of countries
+	 * 
+	 * @return List of type Country
+	 */
+	public List<Country> getCountries() {
+		
+		return new ArrayList<Country>(d_countries.values());
+	}
 }
