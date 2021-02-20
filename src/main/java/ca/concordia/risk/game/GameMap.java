@@ -1,6 +1,7 @@
 package ca.concordia.risk.game;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class is the representation of the game map. It has a linked list
@@ -59,8 +60,37 @@ public class GameMap {
 		return this.d_continents.remove(p_continent);
 	}
 	
+	/**
+	 * This method returns the StringBuilder object for showing the map
+	 */
 	@Override
 	public String toString() {
-		return d_continents + " " + d_countries;
-	}
+		StringBuilder builder = new StringBuilder();	
+		
+		builder.append(String.format("\n%-15s %s\n", "Continent", "Countries"));
+		for (Continent l_c : d_continents) {	
+			builder.append(String.format("%-15s ", l_c.getName()));
+			List<Country> l_countries = l_c.getCountries();
+
+			for (int l_i = 0; l_i < l_countries.size(); l_i++) {
+				builder.append(l_countries.get(l_i).getName());
+				if (l_i < l_countries.size() - 1) {
+					builder.append(" ");
+				}
+			}
+			builder.append("\n");
+	    }
+		
+		builder.append(String.format("\n%-15s %s\n", "Country", "Neighbors"));
+		for (Country c : d_countries) {
+			builder.append(String.format("%-15s ", c.getName()));
+			for (Country n : c.getNeighbors()) {
+				builder.append(n.getName() + " ");
+			}
+			builder.append("\n");
+		}
+		
+		return builder.toString();
+    }
 }
+	
