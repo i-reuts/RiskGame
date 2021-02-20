@@ -1,6 +1,7 @@
 package ca.concordia.risk.io.commands;
 
 import ca.concordia.risk.game.GameEngine;
+import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /** Command representing <i>"showmap"</i> operation. */
@@ -12,6 +13,10 @@ public class ShowMapCommand implements Command {
 		// TODO Replace with actual implementation
 		ConsoleView l_view = GameEngine.GetView();
 		l_view.display("\nDisplaying the active map\n");
+		
+		GameMap l_gm = GameEngine.GetMap();
+		System.out.println(l_gm);
+		//l_view.display(l_gm);
 	}
 
 }
