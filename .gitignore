@@ -1,6 +1,9 @@
-src/main/resources/maps/*
 target/
 .settings/
 .classpath
 .project
 fds
+
+src/main/resources/maps/*
+!src/main/resources/maps/testmap.map
+
