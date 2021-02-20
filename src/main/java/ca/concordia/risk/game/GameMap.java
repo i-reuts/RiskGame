@@ -75,7 +75,7 @@ public class GameMap {
 			for (int l_i = 0; l_i < l_countries.size(); l_i++) {
 				builder.append(l_countries.get(l_i).getName());
 				if (l_i < l_countries.size() - 1) {
-					builder.append(" ");
+					builder.append(", ");
 				}
 			}
 			builder.append("\n");
@@ -85,7 +85,7 @@ public class GameMap {
 		for (Country c : d_countries) {
 			builder.append(String.format("%-15s ", c.getName()));
 			for (Country n : c.getNeighbors()) {
-				builder.append(n.getName() + " ");
+				builder.append(n.getName() + ", ");
 			}
 			builder.append("\n");
 		}
