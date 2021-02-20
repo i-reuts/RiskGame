@@ -71,7 +71,7 @@ public class Continent {
 	/**
 	 * Method to remove a country from the hash map of the continent.
 	 * 
-	 * @param p_id The id of the country to be remove.
+	 * @param p_name The name of the country to be remove.
 	 * @return True if the continent existed. False other way.
 	 */
 	public boolean removeCountry(String p_name) {
@@ -79,9 +79,9 @@ public class Continent {
 	}
 	
 	/**
-	 * This method returns list of countries
+	 * This method returns list of countries.
 	 * 
-	 * @return List of type Country
+	 * @return List of type Country.
 	 */
 	public List<Country> getCountries() {
 		return new ArrayList<Country>(d_countries.values());

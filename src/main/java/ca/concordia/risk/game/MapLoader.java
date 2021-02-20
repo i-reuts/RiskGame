@@ -64,8 +64,8 @@ public class MapLoader {
 	/**
 	 * This method parses Continent names and their corresponding reinforcement value from the .map file.
 	 * 
-	 * @param p_sc Scanner object
-	 * @return HashMap with Continent ID mapped to its corresponding Continent object 
+	 * @param p_sc Scanner object.
+	 * @return HashMap with Continent ID mapped to its corresponding Continent object.
 	 */
 	private Map<Integer, Continent> readContinents(Scanner p_sc) {
 		Map<Integer, Continent> l_continentMap = new HashMap<Integer, Continent>();
@@ -93,9 +93,9 @@ public class MapLoader {
 	/**
 	 * This method parses Country names & IDs and maps them to their respective Continent. 
 	 * 
-	 * @param p_sc Scanner object
-	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object 
-	 * @return HashMap with Country ID mapped to its corresponding Country object 
+	 * @param p_sc Scanner object.
+	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object.
+	 * @return HashMap with Country ID mapped to its corresponding Country object. 
 	 */
 	private Map<Integer, Country> readCountries(Scanner p_sc, Map<Integer, Continent> p_continentMap) {
 		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
@@ -132,8 +132,8 @@ public class MapLoader {
 	/**
 	 * This method parses the borders and adds the neighbors for each country.
 	 * 
-	 * @param p_sc Scanner object
-	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object 
+	 * @param p_sc Scanner object.
+	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object. 
 	 */
 	private void readBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) {
 		while(p_sc.hasNextLine()) {
@@ -158,9 +158,9 @@ public class MapLoader {
 	/**
 	 * This method creates the Risk game map. 
 	 * 
-	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object 
-	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object
-	 * @return game map
+	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object. 
+	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object.
+	 * @return game map.
 	 */
 	private ca.concordia.risk.game.Map createMap(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
 		ca.concordia.risk.game.Map l_gameMap = new ca.concordia.risk.game.Map();
@@ -178,8 +178,8 @@ public class MapLoader {
 	/**
 	 * This methods prints the game map on the console.
 	 * 
-	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object 
-	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object
+	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object.
+	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object.
 	 */
 	private void displayDebugOutput(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
 		System.out.printf("\n%-15s %s\n" , "Continent", "Countries");
@@ -205,7 +205,7 @@ public class MapLoader {
 	}
 	
 	/**
-	 * This class handles exception while parsing the .map file
+	 * This class handles exception while parsing the .map file.
 	 * 
 	 * @author Shubham Vashisth
 	 */
@@ -214,7 +214,7 @@ public class MapLoader {
 		/**
 		 * This constructor calls the constructor of the Exception class and sets a custom file exception message.
 		 * 
-		 * @param p_message contains the custom file exception message
+		 * @param p_message contains the custom file exception message.
 		 */
 		public FileParsingException(String p_message) {
 			super("Invalid map file: " + p_message);
