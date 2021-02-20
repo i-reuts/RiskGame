@@ -2,12 +2,9 @@ package ca.concordia.risk.game;
 
 import java.io.File;
 import java.util.HashMap;
-
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-import ca.concordia.risk.game.Continent;
-import ca.concordia.risk.game.Country;
 
 /**
  * This class reads the existing maps.
@@ -16,25 +13,13 @@ import ca.concordia.risk.game.Country;
  */
 public class MapLoader {
 	
-	public static void main(String[] args) {
-		MapLoader obj = new MapLoader();
-		
-		try {
-			obj.loadMap("testMapFile.map");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static class FileParsingException extends Exception {
-		public FileParsingException(String p_message) {
-			super("Invalid map file: " + p_message);
-		}
-	}
-	
-	
-	
+	/**
+	 * This method loads the (.map) file by calling appropriate functions for reading the continents, countries and borders.
+	 * 
+	 * @param p_fileName location of the (.map) file
+	 * @return game map
+	 * @throws Exception
+	 */
 	public ca.concordia.risk.game.Map loadMap(String p_fileName) throws Exception {
 		File l_mapFile = new File(p_fileName);
 		Scanner l_sc = new Scanner(l_mapFile);
@@ -76,6 +61,12 @@ public class MapLoader {
 		throw new FileParsingException(p_tag + " tag not found"); 
 	}
 	
+	/**
+	 * This method parses Continent names and their corresponding reinforcement value from the .map file.
+	 * 
+	 * @param p_sc Scanner object
+	 * @return HashMap with Continent ID mapped to its corresponding Continent object 
+	 */
 	private Map<Integer, Continent> readContinents(Scanner p_sc) {
 		Map<Integer, Continent> l_continentMap = new HashMap<Integer, Continent>();
 		
@@ -99,6 +90,13 @@ public class MapLoader {
 		return l_continentMap;
 	}
 	
+	/**
+	 * This method parses Country names & IDs and maps them to their respective Continent. 
+	 * 
+	 * @param p_sc Scanner object
+	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object 
+	 * @return HashMap with Country ID mapped to its corresponding Country object 
+	 */
 	private Map<Integer, Country> readCountries(Scanner p_sc, Map<Integer, Continent> p_continentMap) {
 		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
 		
@@ -131,6 +129,12 @@ public class MapLoader {
 		return l_countryMap;
 	}
 
+	/**
+	 * This method parses the borders and adds the neighbors for each country.
+	 * 
+	 * @param p_sc Scanner object
+	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object 
+	 */
 	private void readBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) {
 		while(p_sc.hasNextLine()) {
 			String l_line = p_sc.nextLine();
@@ -151,6 +155,13 @@ public class MapLoader {
 		}
 	}
 	
+	/**
+	 * This method creates the Risk game map. 
+	 * 
+	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object 
+	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object
+	 * @return game map
+	 */
 	private ca.concordia.risk.game.Map createMap(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
 		ca.concordia.risk.game.Map l_gameMap = new ca.concordia.risk.game.Map();
 		
@@ -164,23 +175,59 @@ public class MapLoader {
 		return l_gameMap;
 	}
 	
+	/**
+	 * This methods prints the game map on the console.
+	 * 
+	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding Continent object 
+	 * @param p_countryMap HashMap with Country ID mapped to its corresponding Country object
+	 */
 	private void displayDebugOutput(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
-		System.out.println("\nContinents: ");
-		for(Continent c : p_continentMap.values()) {
-			System.out.print(c.getName() + " - countries: ");
-			for(Country country : c.getCountries()) {
-				System.out.print(country.getName() + " ");
+		System.out.printf("\n%-15s %s\n" , "Continent", "Countries");
+		for(Continent l_c : p_continentMap.values()) {
+			System.out.printf("%-15s ", l_c.getName());
+			List<Country> l_countries = l_c.getCountries();
+			for(int l_i = 0; l_i < l_countries.size(); l_i++) {
+				System.out.print(l_countries.get(l_i).getName());
+				if(l_i < l_countries.size() - 1) {
+					System.out.print(", ");
+				}
 			}
 			System.out.println();
 		}
-		
-		System.out.println("\nCountries: ");
+		System.out.printf("\n%-15s %s\n", "Country", "Neighbors");
 		for(Country c : p_countryMap.values()) {
-			System.out.print(c.getName() + " - neighbors: ");
+			System.out.printf("%-15s ", c.getName());
 			for(Country n : c.getNeighbors()) {
 				System.out.print(n.getName() + " ");
 			}
 			System.out.println();
 		}	
+	}
+	
+	/**
+	 * This class handles exception while parsing the .map file
+	 * 
+	 * @author Shubham Vashisth
+	 */
+	public static class FileParsingException extends Exception {
+		
+		/**
+		 * This constructor calls the constructor of the Exception class and sets a custom file exception message.
+		 * 
+		 * @param p_message contains the custom file exception message
+		 */
+		public FileParsingException(String p_message) {
+			super("Invalid map file: " + p_message);
+		}
+	}
+	
+	public static void main(String[] args) {
+		MapLoader obj = new MapLoader();
+		
+		try {
+			obj.loadMap("testMapFile.map");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

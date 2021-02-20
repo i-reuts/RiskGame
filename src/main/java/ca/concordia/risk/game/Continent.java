@@ -85,7 +85,6 @@ public class Continent {
 	 * @return List of type Country
 	 */
 	public List<Country> getCountries() {
-		
 		return new ArrayList<Country>(d_countries.values());
 	}
 }
