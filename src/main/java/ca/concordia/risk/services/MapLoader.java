@@ -1,7 +1,7 @@
 package ca.concordia.risk.services;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +30,12 @@ public class MapLoader {
 	 *                               name does not exist.
 	 */
 	public static GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
-		File l_mapFile = new File(p_fileName);
-		Scanner l_sc = new Scanner(l_mapFile);
+		InputStream l_fileStream = MapLoader.class.getClassLoader().getResourceAsStream("maps/" + p_fileName);
+		if(l_fileStream == null) {
+			throw new FileNotFoundException(p_fileName + " not found in the maps folder");
+		}
+
+		Scanner l_sc = new Scanner(l_fileStream);
 
 		SeekToTag("[continents]", l_sc);
 		Map<Integer, Continent> l_continentMap = ReadContinents(l_sc);

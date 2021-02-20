@@ -1,3 +1,4 @@
+src/main/resources/maps/*
 target/
 .settings/
 .classpath
