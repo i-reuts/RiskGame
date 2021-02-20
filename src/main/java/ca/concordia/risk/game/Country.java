@@ -24,7 +24,7 @@ public class Country {
 	 * 
 	 * @param p_name Name of the country.
 	 */
-	Country(String p_name) {
+	public Country(String p_name) {
 		d_armies = 0;
 		d_id = 0;
 		d_name = p_name;

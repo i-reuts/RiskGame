@@ -16,7 +16,7 @@ public class Map {
 	/**
 	 * Constructor for the Map entity
 	 */
-	Map() {
+	public Map() {
 		d_countries = new LinkedList<Country>();
 		d_continents = new LinkedList<Continent>();
 	}

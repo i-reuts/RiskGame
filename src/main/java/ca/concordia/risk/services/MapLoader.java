@@ -1,10 +1,13 @@
-package ca.concordia.risk.game;
+package ca.concordia.risk.services;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import ca.concordia.risk.game.Continent;
+import ca.concordia.risk.game.Country;
 
 /**
  * This class reads the existing maps.
