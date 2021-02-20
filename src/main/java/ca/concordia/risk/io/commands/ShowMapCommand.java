@@ -7,16 +7,17 @@ import ca.concordia.risk.io.views.ConsoleView;
 /** Command representing <i>"showmap"</i> operation. */
 public class ShowMapCommand implements Command {
 
-	/** Displays the active Map. */
+	/** Displays the active <code>GameMap</code>. */
 	@Override
 	public void execute() {
-		// TODO Replace with actual implementation
 		ConsoleView l_view = GameEngine.GetView();
-		l_view.display("\nDisplaying the active map\n");
-		
-		GameMap l_gm = GameEngine.GetMap();
-		System.out.println(l_gm);
-		//l_view.display(l_gm);
+		GameMap l_gameMap = GameEngine.GetMap();
+		if(l_gameMap != null) {
+			l_view.display(l_gameMap.toString());
+		} 
+		else {
+			l_view.display("No map to display - please load a map first");
+		}	
 	}
 
 }
