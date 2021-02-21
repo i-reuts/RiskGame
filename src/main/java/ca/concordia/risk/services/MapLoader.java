@@ -3,7 +3,6 @@ package ca.concordia.risk.services;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -104,7 +103,7 @@ public class MapLoader {
 	}
 
 	/**
-	 * This method parses Country names & IDs and maps them to their respective
+	 * This method parses Country names and IDs and maps them to their respective
 	 * Continent.
 	 * 
 	 * @param p_sc           Scanner object.
@@ -129,12 +128,11 @@ public class MapLoader {
 			String l_countryName = l_tokens[1].replace('_', ' ');
 			int l_continentID = Integer.parseInt(l_tokens[2]);
 
+			// Get country continent
+			Continent l_continent = p_continentMap.get(l_continentID);		
 			// Create country
-			Country l_country = new Country(l_countryName);
-
-			// Add continent to country and country to continent
-			Continent l_continent = p_continentMap.get(l_continentID);
-			l_country.setParent(l_continent);
+			Country l_country = new Country(l_countryName, l_continent);
+			// Add country to continent
 			l_continent.addCountry(l_country);
 
 			// Add country to country map
@@ -191,37 +189,6 @@ public class MapLoader {
 		}
 
 		return l_gameMap;
-	}
-
-	/**
-	 * This methods prints the game map on the console.
-	 * 
-	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding
-	 *                       Continent object.
-	 * @param p_countryMap   HashMap with Country ID mapped to its corresponding
-	 *                       Country object.
-	 */
-	private static void DisplayDebugOutput(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
-		System.out.printf("\n%-15s %s\n", "Continent", "Countries");
-		for (Continent l_c : p_continentMap.values()) {
-			System.out.printf("%-15s ", l_c.getName());
-			List<Country> l_countries = l_c.getCountries();
-			for (int l_i = 0; l_i < l_countries.size(); l_i++) {
-				System.out.print(l_countries.get(l_i).getName());
-				if (l_i < l_countries.size() - 1) {
-					System.out.print(", ");
-				}
-			}
-			System.out.println();
-		}
-		System.out.printf("\n%-15s %s\n", "Country", "Neighbors");
-		for (Country c : p_countryMap.values()) {
-			System.out.printf("%-15s ", c.getName());
-			for (Country n : c.getNeighbors()) {
-				System.out.print(n.getName() + " ");
-			}
-			System.out.println();
-		}
 	}
 
 	/**

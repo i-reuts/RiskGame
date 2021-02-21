@@ -1,152 +1,128 @@
 package ca.concordia.risk.game;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
- * This class is the representation of the game entity Country. It has a linked
- * list to manage its neighbors. Currently there is no detection for duplicate
- * neighbors.
+ * This class is the representation of the game entity Country.
  * 
  * @author Enrique
  *
  */
 public class Country {
-	private int d_armies;
-	private Integer d_id;
+	private int d_numArmies;
 	private String d_name;
-	private Continent d_parent;
+	private Continent d_continent;
 	private Player d_owner;
-	private LinkedList<Country> d_neighbors;
+	private Set<Country> d_neighbors = new TreeSet<Country>(Comparator.comparing(Country::getName));
 
 	/**
-	 * Constructor that doesn't ask for ID to construct the Country class.
+	 * Creates a new <code>Country</code>.
 	 * 
-	 * @param p_name Name of the country.
+	 * @param p_countryName name of the country to create.
+	 * @param p_continent   continent the country belongs to.
 	 */
-	public Country(String p_name) {
-		d_armies = 0;
-		d_id = 0;
-		d_name = p_name;
-		d_neighbors = new LinkedList<Country>();
+	public Country(String p_countryName, Continent p_continent) {
+		d_name = p_countryName;
+		d_continent = p_continent;
 	}
 
 	/**
-	 * Constructor for the Country class.
+	 * Gets the number of deployed armies.
 	 * 
-	 * @param p_id   ID of the country.
-	 * @param p_name Name of the country.
-	 */
-	Country(Integer p_id, String p_name) {
-		d_armies = 0;
-		d_id = p_id;
-		d_name = p_name;
-		d_neighbors = new LinkedList<Country>();
-	}
-
-	/**
-	 * @return number of current amount of armies on this country.
+	 * @return number of of armies currently deployed in this country.
 	 */
 	public int getArmies() {
-		return d_armies;
+		return d_numArmies;
 	}
 
 	/**
-	 * @return ID of the country.
-	 */
-	public Integer getId() {
-		return d_id;
-	}
-
-	/**
-	 * @return Name of the country.
+	 * Gets the name of the country.
+	 * 
+	 * @return country name.
 	 */
 	public String getName() {
 		return d_name;
 	}
 
 	/**
-	 * @return Continent it belongs to.
+	 * Get the continent that this country belong to.
+	 * 
+	 * @return continent the country belongs to.
 	 */
-	public Continent getParent() {
-		return d_parent;
+	public Continent getContinent() {
+		return d_continent;
 	}
 
 	/**
-	 * @return Player owning this country.
+	 * Get the player owning this country.
+	 * 
+	 * @return player owning the country.
 	 */
 	public Player getOwner() {
 		return d_owner;
 	}
 
 	/**
-	 * @param p_id Id for the county
+	 * Get the neighboring countries.
+	 * 
+	 * @return set of neighbors.
 	 */
-	public void setId(Integer p_id) {
-		this.d_id = p_id;
+	public Set<Country> getNeighbors() {
+		return d_neighbors;
 	}
 
 	/**
-	 * @param p_parent Continent owning this country.
-	 */
-	public void setParent(Continent p_parent) {
-		this.d_parent = p_parent;
-	}
-
-	/**
-	 * @param p_owner Player owning this country.
+	 * Set the player owning this country.
+	 * 
+	 * @param p_owner player owning the country.
 	 */
 	public void setOwner(Player p_owner) {
 		this.d_owner = p_owner;
 	}
 
 	/**
-	 * Add an amount of armies.
+	 * Add armies to the country.
 	 * 
-	 * @param p_armies Positive integer of armies to add.
+	 * @param p_armies positive integer representing the number of armies to add.
 	 */
 	public void addArmies(int p_armies) {
 		if (p_armies > 0) {
-			d_armies += p_armies;
+			d_numArmies += p_armies;
 		}
 	}
 
 	/**
-	 * Remove an amount of armies.
+	 * Remove armies from the country.
 	 * 
-	 * @param p_armies Positive integer of armies to remove.
+	 * @param p_armies positive integer representing the number of armies to remove.
 	 */
 	public void removeArmies(int p_armies) {
-		if (p_armies > 0 && p_armies <= d_armies) {
-			d_armies -= p_armies;
+		if (p_armies > 0 && p_armies <= d_numArmies) {
+			d_numArmies -= p_armies;
 		}
 	}
 
 	/**
-	 * Add a neighbor. Currently it doesn't detects duplicates.
+	 * Add a neighbor to the country, representing a border.
 	 * 
-	 * @param p_country Country to be added as a neighbor.
+	 * @param p_country country to be added as a neighbor.
+	 * @return <code>true</code> if the neighbor was added.<br>
+	 *         <code>false</code> if the neighbor already existed.
 	 */
-	public void addNeighbor(Country p_country) {
-		d_neighbors.add(p_country);
+	public boolean addNeighbor(Country p_country) {
+		return d_neighbors.add(p_country);
 	}
 
 	/**
-	 * Remove a neighbor.
+	 * Remove a neighbor from the country.
 	 * 
-	 * @param p_country Country to be removed from the list of neighbors.
-	 * @return True if removed from the list. False if it was not on the list.
+	 * @param p_country country to be removed from the set of neighbors.
+	 * @return <code>true</code> if the neighbor was removed.<br>
+	 *         <code>false</code> if <code>p_country</code> was not a neighbor.
 	 */
 	public boolean removeNeighbor(Country p_country) {
 		return d_neighbors.remove(p_country);
-	}
-
-	/**
-	 * This method returns a list of neighboring countries.
-	 * 
-	 * @return neighboring countries.
-	 */
-	public List<Country> getNeighbors() {
-		return d_neighbors;
 	}
 }

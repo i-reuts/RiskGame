@@ -3,7 +3,10 @@ package ca.concordia.risk.io.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.concordia.risk.game.Continent;
+import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameEngine;
+import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /** Command representing <i>"editcountry"</i> operation. */
@@ -12,15 +15,29 @@ public class EditCountryCommand implements Command {
 	private List<NewCountryData> d_countriesToAdd = new ArrayList<NewCountryData>();
 	private List<String> d_countriesToRemove = new ArrayList<String>();
 
-	/** Performs requested country add and remove operations on the active Map. */
+	/**
+	 * Performs requested country add and remove operations on the active
+	 * <code>GameMap</code>.
+	 * <p>
+	 * New country is added only if a country with the specified name does not
+	 * already exist.<br>
+	 * Country is removed only if a country with the specified name exists.
+	 */
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();
+		GameMap l_gameMap = GameEngine.GetMap();
 
-		// TODO: Replace by the actual implementation
-		l_view.display("\nExecuting editcountry command");
-		l_view.display("Countries to add: " + d_countriesToAdd);
-		l_view.display("Countries to remove: " + d_countriesToRemove + "\n");
+		if (l_gameMap != null) {
+			for (NewCountryData l_countryData : d_countriesToAdd) {
+				executeAddCountry(l_view, l_gameMap, l_countryData);
+			}
+			for (String l_countryName : d_countriesToRemove) {
+				executeRemoveCountry(l_view, l_gameMap, l_countryName);
+			}
+		} else {
+			l_view.display("No map to edit - please load a map first");
+		}
 	}
 
 	/**
@@ -40,6 +57,47 @@ public class EditCountryCommand implements Command {
 	 */
 	public void removeCountry(String p_countryName) {
 		d_countriesToRemove.add(p_countryName);
+	}
+
+	/**
+	 * Executes a single add country command.
+	 * 
+	 * @param p_view        view to display feedback to the user.
+	 * @param p_gameMap     active game map to add the country to.
+	 * @param p_countryData data of the country to add.
+	 */
+	private void executeAddCountry(ConsoleView p_view, GameMap p_gameMap, NewCountryData p_countryData) {
+		// Check if the specified continent exists
+		Continent l_countryContinent = p_gameMap.getContinent(p_countryData.d_continentName);
+		if (l_countryContinent == null) {
+			p_view.display(
+					"Failed to add country - continent with name " + p_countryData.d_continentName + " does not exist");
+			return;
+		}
+
+		// Try adding the country
+		Country l_newCountry = new Country(p_countryData.d_countryName, l_countryContinent);
+		if (p_gameMap.addCountry(l_newCountry)) {
+			p_view.display("Country " + p_countryData.d_countryName + " added");
+		} else {
+			p_view.display(
+					"Failed to add country - country with name " + p_countryData.d_countryName + " already exists");
+		}
+	}
+
+	/**
+	 * Executes a single remove country command.
+	 * 
+	 * @param p_view        view to display feedback to the user.
+	 * @param p_gameMap     active game map to remove the country from.
+	 * @param p_countryName name of the country to remove.
+	 */
+	private void executeRemoveCountry(ConsoleView p_view, GameMap p_gameMap, String p_countryName) {
+		if (p_gameMap.removeCountry(p_countryName)) {
+			p_view.display("Country " + p_countryName + " removed");
+		} else {
+			p_view.display("Failed to remove country - country with name " + p_countryName + " does not exist");
+		}
 	}
 
 	/**

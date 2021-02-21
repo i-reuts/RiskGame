@@ -3,48 +3,42 @@ package ca.concordia.risk.game;
 import java.util.*;
 
 /**
- * This class is the representation of the game entity Continent. It contains a
- * hash map to keep track of the countries it owns. This class generates its own
- * id as it is not specific to the map file.
+ * This class is the representation of the game entity Continent.
+ * <p>
+ * It contains the set of countries it owns.
  * 
  * @author Enrique
  * 
  */
 public class Continent {
-	private static int d_counter = 1;
 	private int d_value;
-	private Integer d_id;
 	private String d_name;
-	private HashMap<String, Country> d_countries;
+	private Set<Country> d_countries = new TreeSet<Country>(Comparator.comparing(Country::getName));
 
 	/**
 	 * Constructor for the Continent class.
 	 * 
-	 * @param p_name  Name of the continent.
-	 * @param p_value Value of the continent for mustering when fully controlled.
+	 * @param p_name  name of the continent.
+	 * @param p_value value of the continent for mustering when fully controlled by
+	 *                a player.
 	 */
 	public Continent(String p_name, int p_value) {
 		d_value = p_value;
-		d_id = Continent.d_counter++;
 		d_name = p_name;
-		d_countries = new HashMap<String, Country>();
 	}
 
 	/**
-	 * @return The continent value for mustering when fully controlled.
+	 * Get continent value.
+	 * 
+	 * @return continent value for mustering when fully controlled.
 	 */
 	public int getValue() {
 		return d_value;
 	}
 
 	/**
-	 * @return The continent id.
-	 */
-	public Integer getId() {
-		return d_id;
-	}
-
-	/**
+	 * Get continent name.
+	 * 
 	 * @return The continent name.
 	 */
 	public String getName() {
@@ -52,38 +46,33 @@ public class Continent {
 	}
 
 	/**
-	 * Method to add a country to the hash map of countries own by the continent,
-	 * and set its parent to be this continent.
+	 * Get the set of countries belonging to the continent.
 	 * 
-	 * @param p_country The country to be added to this continent.
-	 * @return True if added. False if the country id already existed.
+	 * @return set of countries belonging to the continent.
+	 */
+	public Set<Country> getCountries() {
+		return d_countries;
+	}
+
+	/**
+	 * Add a country to the set of countries owned by the continent.
+	 * 
+	 * @param p_country country to be added to this continent.
+	 * @return <code>true</code> the country was added.<br>
+	 *         <code>false</code> if the country already belonged to this continent.
 	 */
 	public boolean addCountry(Country p_country) {
-		if (d_countries.containsKey(p_country.getName())) {
-			return false;
-		}
-
-		d_countries.put(p_country.getName(), p_country);
-		p_country.setParent(this);
-		return true;
+		return d_countries.add(p_country);
 	}
 
 	/**
-	 * Method to remove a country from the hash map of the continent.
+	 * Removes a country from the continent.
 	 * 
-	 * @param p_name The name of the country to be remove.
-	 * @return True if the continent existed. False other way.
+	 * @param p_country name of the country to remove.
+	 * @return <code>true</code> if the country was removed.<br>
+	 *         <code>false</code> if the country did not belong to the continent.
 	 */
-	public boolean removeCountry(String p_name) {
-		return (d_countries.remove(p_name) != null);
-	}
-	
-	/**
-	 * This method returns list of countries.
-	 * 
-	 * @return List of type Country.
-	 */
-	public List<Country> getCountries() {
-		return new ArrayList<Country>(d_countries.values());
+	public boolean removeCountry(Country p_country) {
+		return d_countries.remove(p_country);
 	}
 }

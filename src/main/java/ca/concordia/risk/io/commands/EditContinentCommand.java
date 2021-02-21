@@ -3,7 +3,9 @@ package ca.concordia.risk.io.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.GameEngine;
+import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /** Command representing <i>"editcontinent"</i> operation. */
@@ -12,15 +14,29 @@ public class EditContinentCommand implements Command {
 	private List<NewContinentData> d_continentsToAdd = new ArrayList<NewContinentData>();
 	private List<String> d_continentsToRemove = new ArrayList<String>();
 
-	/** Performs requested continent add and remove operations on the active Map. */
+	/**
+	 * Performs requested continent add and remove operations on the active
+	 * <code>GameMap</code>.
+	 * <p>
+	 * New continent is added only if a continent with the specified name does not
+	 * already exist.<br>
+	 * Continent is removed only if a continent with the specified name exists.
+	 */
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();
+		GameMap l_gameMap = GameEngine.GetMap();
 
-		// TODO: Replace by the actual implementation
-		l_view.display("\nExecuting editcontinent command");
-		l_view.display("Continents to add: " + d_continentsToAdd);
-		l_view.display("Continents to remove: " + d_continentsToRemove + "\n");
+		if (l_gameMap != null) {
+			for (NewContinentData l_continentData : d_continentsToAdd) {
+				executeAddContinent(l_view, l_gameMap, l_continentData);
+			}
+			for (String l_continentName : d_continentsToRemove) {
+				executeRemoveContinent(l_view, l_gameMap, l_continentName);
+			}
+		} else {
+			l_view.display("No map to edit - please load a map first");
+		}
 	}
 
 	/**
@@ -40,6 +56,38 @@ public class EditContinentCommand implements Command {
 	 */
 	public void removeContinent(String p_continentName) {
 		d_continentsToRemove.add(p_continentName);
+	}
+
+	/**
+	 * Executes a single add continent command.
+	 * 
+	 * @param p_view          view to display feedback to the user.
+	 * @param p_gameMap       active game map to add the continent to.
+	 * @param p_continentData data of the continent to add.
+	 */
+	private void executeAddContinent(ConsoleView p_view, GameMap p_gameMap, NewContinentData p_continentData) {
+		Continent l_newContinent = new Continent(p_continentData.d_continentName, p_continentData.d_continentValue);
+		if (p_gameMap.addContinent(l_newContinent)) {
+			p_view.display("Continent " + p_continentData.d_continentName + " added");
+		} else {
+			p_view.display("Failed to add continent - continent with name " + p_continentData.d_continentName
+					+ " already exists");
+		}
+	}
+
+	/**
+	 * Executes a single remove continent command.
+	 * 
+	 * @param p_view          view to display feedback to the user.
+	 * @param p_gameMap       active game map to remove the continent from.
+	 * @param p_continentName name of the continent to remove.
+	 */
+	private void executeRemoveContinent(ConsoleView p_view, GameMap p_gameMap, String p_continentName) {
+		if (p_gameMap.removeContinent(p_continentName)) {
+			p_view.display("Continent " + p_continentName + " removed");
+		} else {
+			p_view.display("Failed to remove continent - continent with name " + p_continentName + " does not exist");
+		}
 	}
 
 	/**

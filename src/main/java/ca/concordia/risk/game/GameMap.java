@@ -1,13 +1,14 @@
 package ca.concordia.risk.game;
 
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 /**
- * This class is the representation of the game map. It has a linked list to
- * manage its countries and continents belonging to this map.
+ * This class is the representation of the game map.
+ * <p>
+ * It is responsible for managing countries and continents belonging to this
+ * map.
  * 
  * @author Enrique
  *
@@ -54,7 +55,7 @@ public class GameMap {
 	 * Adds a country to the map if a country with the same name does not already
 	 * exist.
 	 * 
-	 * @param p_country Country object
+	 * @param p_country country to add.
 	 * @return <code>true</code> if country was successfully added.<br>
 	 *         <code>false</code> if the country already existed.
 	 */
@@ -64,6 +65,8 @@ public class GameMap {
 		}
 
 		d_countries.put(p_country.getName(), p_country);
+		p_country.getContinent().addCountry(p_country);
+
 		return true;
 	}
 
@@ -87,61 +90,100 @@ public class GameMap {
 	/**
 	 * Removes a country from the map.
 	 * 
-	 * @param p_countryName name of the Country to remove.
-	 * @return Country that was removed if the Country existed. Null other way.
+	 * @param p_countryName name of the country to remove.
+	 * @return <code>true</code> if the country was removed.<br>
+	 *         <code>false</code> if the country was not found.
 	 */
-	public Country removeCountry(String p_countryName) {
-		return d_countries.remove(p_countryName);
+	public boolean removeCountry(String p_countryName) {
+		Country l_country = d_countries.get(p_countryName);
+		if (l_country == null) {
+			return false;
+		}
+
+		// Remove country from the continent it belongs to
+		Continent l_continent = l_country.getContinent();
+		l_continent.removeCountry(l_country);
+
+		// Remove country from neighbors of all other countries
+		for (Country l_c : d_countries.values()) {
+			l_c.removeNeighbor(l_country);
+		}
+
+		// Remove country from the map
+		d_countries.remove(p_countryName);
+
+		return true;
 	}
 
 	/**
 	 * Removes a continent from the map.
 	 * 
-	 * @param p_continentName name of the Continent to remove.
-	 * @return Continent that was removed if the continent existed. Null other way.
+	 * @param p_continentName name of the continent to remove.
+	 * @return <code>true</code> if the continent was removed.<br>
+	 *         <code>false</code> if the continent was not found.
 	 */
-	public Continent removeContinent(String p_continentName) {
-		return d_continents.remove(p_continentName);
+	public boolean removeContinent(String p_continentName) {
+		Continent l_continent = d_continents.get(p_continentName);
+		if (l_continent == null) {
+			return false;
+		}
+
+		// Remove all of the continent countries
+		for (Country l_country : l_continent.getCountries()) {
+			// Remove country from neighbors of all other countries
+			for (Country l_c : d_countries.values()) {
+				l_c.removeNeighbor(l_country);
+			}
+
+			// Remove country from the map
+			d_countries.remove(l_country.getName());
+		}
+
+		// Remove continent
+		d_continents.remove(p_continentName);
+
+		return true;
 	}
-	
+
 	/**
-	 * Returns a string representation of the map.
+	 * Builds a string representation of the map.
 	 * 
-	 * @return string representing the map. 
+	 * @return string representing the map.
 	 */
 	@Override
 	public String toString() {
-		StringBuilder l_builder = new StringBuilder();	
-		
-		l_builder.append(String.format("\n%-15s %s\n", "Continent", "Countries"));
-		for (Continent l_c : d_continents.values()) {	
-			l_builder.append(String.format("%-15s ", l_c.getName()));
-			List<Country> l_countries = l_c.getCountries();
+		StringBuilder l_builder = new StringBuilder();
 
-			for (int l_i = 0; l_i < l_countries.size(); l_i++) {
-				l_builder.append(l_countries.get(l_i).getName());
-				if (l_i < l_countries.size() - 1) {
-					l_builder.append(", ");
-				}
-			}
-			l_builder.append("\n");
-	    }
-		
-		l_builder.append(String.format("\n%-15s %s\n", "Country", "Neighbors"));
-		for (Country l_c : d_countries.values()) {
+		// Build the continent table
+		l_builder.append(String.format("\n%-15s %s\n", "Continent", "Countries"));
+		for (Continent l_c : d_continents.values()) {
 			l_builder.append(String.format("%-15s ", l_c.getName()));
-			List<Country> l_neighbors = l_c.getNeighbors();
-			
-			for (int l_i = 0; l_i < l_neighbors.size(); l_i++) {
-				l_builder.append(l_neighbors.get(l_i).getName());
-				if (l_i < l_neighbors.size() - 1) {
+			Iterator<Country> l_i = l_c.getCountries().iterator();
+
+			while (l_i.hasNext()) {
+				l_builder.append(l_i.next().getName());
+				if (l_i.hasNext()) {
 					l_builder.append(", ");
 				}
 			}
 			l_builder.append("\n");
 		}
-		
+
+		// Build the country neighbors table
+		l_builder.append(String.format("\n%-15s %s\n", "Country", "Neighbors"));
+		for (Country l_c : d_countries.values()) {
+			l_builder.append(String.format("%-15s ", l_c.getName()));
+
+			Iterator<Country> l_i = l_c.getNeighbors().iterator();
+			while (l_i.hasNext()) {
+				l_builder.append(l_i.next().getName());
+				if (l_i.hasNext()) {
+					l_builder.append(", ");
+				}
+			}
+			l_builder.append("\n");
+		}
+
 		return l_builder.toString();
-    }
+	}
 }
-	
