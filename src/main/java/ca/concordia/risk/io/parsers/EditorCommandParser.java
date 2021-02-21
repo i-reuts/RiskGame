@@ -231,6 +231,10 @@ public class EditorCommandParser extends CommandParser {
 		int l_continentValue;
 		try {
 			l_continentValue = Integer.parseInt(p_argumentList.remove(0));
+			
+			if(l_continentValue < 0) {
+				throw new ParsingException("continent value cannot be negative");
+			}
 		} catch (NumberFormatException l_e) {
 			throw new ParsingException("continent value was not a number");
 		}
