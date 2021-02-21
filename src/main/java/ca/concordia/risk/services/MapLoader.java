@@ -34,7 +34,10 @@ public class MapLoader {
 			throw new FileNotFoundException(p_fileName + " not found in the maps folder");
 		}
 
-		Scanner l_sc = new Scanner(l_fileStream);
+		// Use ISO-8859-1 encoding, since most map files are encoded with it.
+		// UTF encoded map files are theoretically possible, however we haven't found any in practice.
+		// If required, encoding detection can be added later on.
+		Scanner l_sc = new Scanner(l_fileStream, "ISO-8859-1");
 
 		SeekToTag("[continents]", l_sc);
 		Map<Integer, Continent> l_continentMap = ReadContinents(l_sc);
