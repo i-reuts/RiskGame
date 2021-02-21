@@ -76,7 +76,7 @@ public class EditorCommandParser extends CommandParser {
 	 * @return <code>ShowMapCommand</code>.
 	 */
 	private Command parseShowMapCommand(List<String> p_argumentList) {
-		return new ShowMapCommand();
+		return new ShowMapCommand(false);
 	}
 
 	/**

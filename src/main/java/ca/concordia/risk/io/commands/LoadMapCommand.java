@@ -37,7 +37,6 @@ public class LoadMapCommand implements Command {
 			l_view.display("Error while loading the map file");
 			l_view.display(e.getMessage());
 		}
-
 	}
 
 }
