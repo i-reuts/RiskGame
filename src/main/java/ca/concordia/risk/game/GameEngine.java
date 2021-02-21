@@ -1,7 +1,7 @@
 package ca.concordia.risk.game;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.parsers.CommandParser;
@@ -22,8 +22,8 @@ public class GameEngine {
 	private static ConsoleView d_View;
 	private static GameMode d_ActiveMode;
 	private static CommandParser d_ActiveParser;
-	private static Map<GameMode, CommandParser> d_ParserMap = new HashMap<GameMode, CommandParser>();
-	private static Map<String, Player> d_ActivePlayers = new HashMap<String, Player>();
+	private static Map<GameMode, CommandParser> d_ParserMap = new TreeMap<GameMode, CommandParser>();
+	private static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
 	private static GameMap d_ActiveMap;
 
 	/**
@@ -71,11 +71,15 @@ public class GameEngine {
 		d_ActiveMap = p_map;
 	}
 	
+	public static Player GetPlayer(String p_name) {
+		return d_ActivePlayers.get(p_name);
+	}
+
 	public static void AddPlayer(String p_name) {
 		Player l_player = new Player(p_name);
 		d_ActivePlayers.put(p_name, l_player);
 	}
-	
+
 	public static void RemovePlayer(String p_name) {
 		d_ActivePlayers.remove(p_name);
 	}
