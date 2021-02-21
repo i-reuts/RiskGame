@@ -5,7 +5,7 @@
 A **Risk Game** implementation according to Warzone rules.
 
 Generated documentation:
-* [Latest Javadoc](https://i-reuts.github.io/RiskGame/index.html)
+* [Latest Javadoc](https://i-reuts.github.io/RiskGame)
 * [Latest Test Report](https://i-reuts.github.io/RiskGame/test/surefire-report.html)
 
 ## Setup, Configuration and Usage
