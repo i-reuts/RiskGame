@@ -14,6 +14,7 @@ public class ShowMapCommand implements Command {
 		GameMap l_gameMap = GameEngine.GetMap();
 		if(l_gameMap != null) {
 			l_view.display(l_gameMap.toString());
+			l_gameMap.showMap();
 		} 
 		else {
 			l_view.display("No map to display - please load a map first");
@@ -21,3 +22,4 @@ public class ShowMapCommand implements Command {
 	}
 
 }
+

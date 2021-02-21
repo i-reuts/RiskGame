@@ -2,6 +2,7 @@ package ca.concordia.risk.game;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
@@ -186,4 +187,15 @@ public class GameMap {
 
 		return l_builder.toString();
 	}
+
+	/**
+	 * Show map in play mode
+	 */
+	public void showMap() {
+		for (Entry<String, Country> entry : d_countries.entrySet()) {
+			System.out.println(
+					entry.getKey() + ":" + entry.getValue().getOwner().toString() + "," + entry.getValue().getArmies());
+		}
+	}
 }
+
