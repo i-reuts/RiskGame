@@ -84,7 +84,7 @@ public class MapLoader {
 
 		int l_runningID = 1;
 		while (p_sc.hasNextLine()) {
-			String l_line = p_sc.nextLine();
+			String l_line = p_sc.nextLine().trim();
 
 			// Stop reading when we come across an empty line
 			if (l_line.isBlank()) {
@@ -115,11 +115,15 @@ public class MapLoader {
 		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
 
 		while (p_sc.hasNextLine()) {
-			String l_line = p_sc.nextLine();
+			String l_line = p_sc.nextLine().trim();
 
 			// Stop reading when we come across an empty line
 			if (l_line.isBlank()) {
 				break;
+			}
+			// Skip comments
+			if (l_line.startsWith(";")) {
+				continue;
 			}
 
 			// Parse country data
@@ -151,11 +155,15 @@ public class MapLoader {
 	 */
 	private static void ReadBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) {
 		while (p_sc.hasNextLine()) {
-			String l_line = p_sc.nextLine();
+			String l_line = p_sc.nextLine().trim();
 
 			// Stop reading when we come across an empty line
 			if (l_line.isBlank()) {
 				break;
+			}
+			// Skip comments
+			if (l_line.startsWith(";")) {
+				continue;
 			}
 
 			// Parse country data
