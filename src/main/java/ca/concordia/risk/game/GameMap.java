@@ -156,9 +156,9 @@ public class GameMap {
 		StringBuilder l_builder = new StringBuilder();
 
 		// Build the continent table
-		l_builder.append(String.format("\n%-15s %s\n", "Continent", "Countries"));
+		l_builder.append(String.format("\n%-20s %s\n", "Continent", "Countries"));
 		for (Continent l_c : d_continents.values()) {
-			l_builder.append(String.format("%-15s ", l_c.getName()));
+			l_builder.append(String.format("%-20s ", l_c.getName()));
 			Iterator<Country> l_i = l_c.getCountries().iterator();
 
 			while (l_i.hasNext()) {
@@ -171,9 +171,9 @@ public class GameMap {
 		}
 
 		// Build the country neighbors table
-		l_builder.append(String.format("\n%-15s %s\n", "Country", "Neighbors"));
+		l_builder.append(String.format("\n%-20s %s\n", "Country", "Neighbors"));
 		for (Country l_c : d_countries.values()) {
-			l_builder.append(String.format("%-15s ", l_c.getName()));
+			l_builder.append(String.format("%-20s ", l_c.getName()));
 
 			Iterator<Country> l_i = l_c.getNeighbors().iterator();
 			while (l_i.hasNext()) {
