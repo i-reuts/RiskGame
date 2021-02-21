@@ -29,7 +29,7 @@ public class GamePlayerCommand implements Command {
 	 * @param p_playerName name of the player to add.
 	 */
 	public void addPlayer(String p_playerName) {
-		d_playersToAdd.add(p_playerName);
+		GameEngine.AddPlayer(p_playerName);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class GamePlayerCommand implements Command {
 	 * @param p_playerName name of the player to remove.
 	 */
 	public void removePlayer(String p_playerName) {
-		d_playersToRemove.add(p_playerName);
+		GameEngine.RemovePlayer(p_playerName);
 	}
 
 }

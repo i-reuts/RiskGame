@@ -23,7 +23,7 @@ public class GameEngine {
 	private static GameMode d_ActiveMode;
 	private static CommandParser d_ActiveParser;
 	private static Map<GameMode, CommandParser> d_ParserMap = new HashMap<GameMode, CommandParser>();
-
+	private static Map<String, Player> d_ActivePlayers = new HashMap<String, Player>();
 	private static GameMap d_ActiveMap;
 
 	/**
@@ -69,6 +69,15 @@ public class GameEngine {
 	 */
 	public static void SetMap(GameMap p_map) {
 		d_ActiveMap = p_map;
+	}
+	
+	public static void AddPlayer(String p_name) {
+		Player l_player = new Player(p_name);
+		d_ActivePlayers.put(p_name, l_player);
+	}
+	
+	public static void RemovePlayer(String p_name) {
+		d_ActivePlayers.remove(p_name);
 	}
 
 	/** Initializes the <code>GameEngine</code> */
