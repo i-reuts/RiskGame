@@ -163,6 +163,7 @@ public class GameMap {
 
 		return true;
 	}
+	 
 
 	/**
 	 * Builds a string representation of the map.
