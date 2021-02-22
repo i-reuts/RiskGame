@@ -192,10 +192,25 @@ public class GameMap {
 	 * Show map in play mode
 	 */
 	public void showMap() {
-		for (Entry<String, Country> entry : d_countries.entrySet()) {
-			System.out.println(
-					entry.getKey() + ":" + entry.getValue().getOwner().toString() + "," + entry.getValue().getArmies());
+		StringBuilder sb = new StringBuilder();
+		for (Country l_c : d_countries.values()) {
+			Iterator<Country> l_i = l_c.getNeighbors().iterator();
+			while (l_i.hasNext()) {
+				sb.append(l_i.next().getName());
+				if (l_i.hasNext()) {
+					sb.append(", ");
+				}
+			}
 		}
+
+		StringBuilder l_builder = new StringBuilder(
+				String.format("%-20s %-20s %-20s %-20s %s\n", "Country", "Owner", "Armies", "Continent", "Neighbors"));
+		for (Entry<String, Country> entry : d_countries.entrySet()) {
+			l_builder.append(String.format("%-20s %-20s %-20d %-20s %s\n", entry.getValue().getName(),
+					entry.getValue().getOwner().getName(), entry.getValue().getArmies(),
+					entry.getValue().getContinent().getName(), sb.toString()));
+		}
+		System.out.println(l_builder.toString());
 	}
 }
 
