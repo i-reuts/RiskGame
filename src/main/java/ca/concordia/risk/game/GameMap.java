@@ -25,15 +25,6 @@ public class GameMap {
 		d_countries = new TreeMap<String, Country>();
 		d_continents = new TreeMap<String, Continent>();
 	}
-	
-	/**
-	 * Get the number of continents the GameMap has 
-	 * 
-	 * @return <code>Number of Continents</code>
-	 */
-	public int numberOfContinents() {
-		return d_continents.size();
-	}
 
 	/**
 	 * Get the number of countries the GameMap has 
