@@ -2,6 +2,7 @@ package ca.concordia.risk.io.commands;
 
 import ca.concordia.risk.game.GameEngine;
 import ca.concordia.risk.io.views.ConsoleView;
+import ca.concordia.risk.services.DeploymentOrder;
 
 /** Command representing <i>"deploy"</i> operation. */
 public class DeployCommand implements Command {
@@ -23,9 +24,11 @@ public class DeployCommand implements Command {
 	/** Create a deploy order to deploy armies to the specified country. */
 	@Override
 	public void execute() {
-		// TODO Replace with actual implementation
 		ConsoleView l_view = GameEngine.GetView();
 		l_view.display("\nDeploying " + d_numberOfArmies + " armies to country " + d_deployCountry + "\n");
+		if (DeploymentOrder.isPlayerCountryOwer(GameEngine.GetMap().getCountry(d_deployCountry), d_numberOfArmies)) {
+			GameEngine.GetMap().getCountry(d_deployCountry).addArmies(d_numberOfArmies);
+		}
 	}
 
 }
