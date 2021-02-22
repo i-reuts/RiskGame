@@ -27,6 +27,24 @@ public class GameMap {
 	}
 
 	/**
+	 * Get the number of countries the GameMap has 
+	 * 
+	 * @return <code>Number of Countries</code>
+	 */
+	public int numberOfCountries() {
+		return d_countries.size();
+	}
+	
+	/**
+	 * Get a list with the name of all countries
+	 * 
+	 * @return <code>List</code> with the name of all <code>Countries</code>
+	 */
+	public String[] getArrayOfCountries() {
+		return d_countries.keySet().toArray(new String[0]);
+	}
+	
+	/**
 	 * Gets a country with the corresponding name if it exists.
 	 * 
 	 * @param p_countryName name of the country to return.

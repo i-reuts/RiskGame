@@ -1,7 +1,11 @@
 package ca.concordia.risk.game;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.parsers.CommandParser;
@@ -71,13 +75,49 @@ public class GameEngine {
 		d_ActiveMap = p_map;
 	}
 	
+	/**
+	 * Add a new player
+	 * @param p_name <code>Player</code> to be added.
+	 */
 	public static void AddPlayer(String p_name) {
 		Player l_player = new Player(p_name);
 		d_ActivePlayers.put(p_name, l_player);
 	}
 	
+	/**
+	 * Remove a player
+	 * @param p_name <code>Player</code> to be removed.
+	 */
 	public static void RemovePlayer(String p_name) {
 		d_ActivePlayers.remove(p_name);
+	}
+
+	/**  Assign all countries randomly to all players */
+	public static void assignCountires() {
+		int l_numOfCountries = d_ActiveMap.numberOfCountries();
+		Iterator<Entry<String, Player>> l_itr = d_ActivePlayers.entrySet().iterator();
+		String[] l_listOfCountries = d_ActiveMap.getArrayOfCountries();
+		ArrayList<Integer> l_indexes = new ArrayList<Integer>();
+		
+		
+		// Create a list of indexes
+		for(int l_i = 0; l_i < l_numOfCountries; l_i++) {
+			l_indexes.add(l_i);
+		}
+		
+		// Randomize the indexes 
+		Collections.shuffle(l_indexes);
+		
+		// Assign all countries randomly by using the randomized indexes 
+		for(int l_i = 0; l_i < l_numOfCountries; l_i++) {
+			if (!l_itr.hasNext()) {
+				l_itr = d_ActivePlayers.entrySet().iterator();
+			}
+			
+			Country l_tmp_country = d_ActiveMap.getCountry(l_listOfCountries[l_indexes.get(l_i)]);
+			Map.Entry<String, Player> l_tmp_player = (Entry<String, Player>)l_itr.next();
+			l_tmp_player.getValue().addCountry(l_tmp_country);
+		}
 	}
 
 	/** Initializes the <code>GameEngine</code> */
