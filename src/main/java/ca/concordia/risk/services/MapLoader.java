@@ -10,11 +10,7 @@ import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 
-/**
- * This class reads the existing maps.
- * 
- * @author Shubham Vashisth
- */
+/** This class reads the existing maps. */
 public class MapLoader {
 
 	/**
@@ -202,11 +198,7 @@ public class MapLoader {
 		return l_gameMap;
 	}
 
-	/**
-	 * This class handles exceptions while parsing the .map file.
-	 * 
-	 * @author Shubham Vashisth
-	 */
+	/** This class handles exceptions while parsing the .map file. */
 	@SuppressWarnings("serial")
 	public static class FileParsingException extends Exception {
 
