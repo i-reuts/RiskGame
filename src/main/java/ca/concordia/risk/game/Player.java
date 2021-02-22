@@ -27,6 +27,10 @@ public class Player {
 		d_countries = new HashSet<Country>();
 	}
 	
+	public String getName() {
+		return d_name;
+	}
+	
 	public Order next_order() {
 		return d_orders.poll();
 	}

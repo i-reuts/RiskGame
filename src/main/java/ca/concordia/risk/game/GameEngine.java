@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.parsers.CommandParser;
@@ -26,8 +27,8 @@ public class GameEngine {
 	private static ConsoleView d_View;
 	private static GameMode d_ActiveMode;
 	private static CommandParser d_ActiveParser;
-	private static Map<GameMode, CommandParser> d_ParserMap = new HashMap<GameMode, CommandParser>();
-	private static Map<String, Player> d_ActivePlayers = new HashMap<String, Player>();
+	private static Map<GameMode, CommandParser> d_ParserMap = new TreeMap<GameMode, CommandParser>();
+	private static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
 	private static GameMap d_ActiveMap;
 
 	/**
@@ -75,6 +76,15 @@ public class GameEngine {
 		d_ActiveMap = p_map;
 	}
 	
+	/**
+	 * Get Player
+	 * @param p_name The <code>string</code> name of the <code>player</code>
+	 * @return <code>Player</code> entity.
+	 */
+	public static Player GetPlayer(String p_name) {
+		return d_ActivePlayers.get(p_name);
+	}
+
 	/**
 	 * Add a new player
 	 * @param p_name <code>Player</code> to be added.
