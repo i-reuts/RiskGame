@@ -1,10 +1,16 @@
 package ca.concordia.risk.utils;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
@@ -12,6 +18,9 @@ import ca.concordia.risk.game.GameMap;
 
 /** This class reads the existing maps. */
 public class MapLoader {
+
+	private static final String d_MapFolder = "./maps/";
+	private static final String d_Encoding = "ISO-8859-1";
 
 	/**
 	 * This method loads the (.map) file by calling appropriate functions for
@@ -25,8 +34,8 @@ public class MapLoader {
 	 *                               name does not exist.
 	 */
 	public static GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
-		InputStream l_fileStream = MapLoader.class.getClassLoader().getResourceAsStream("maps/" + p_fileName);
-		if (l_fileStream == null) {
+		File l_file = new File(d_MapFolder + p_fileName);
+		if (!l_file.exists()) {
 			throw new FileNotFoundException(p_fileName + " not found in the maps folder");
 		}
 
@@ -34,7 +43,7 @@ public class MapLoader {
 		// UTF encoded map files are theoretically possible, however we haven't found
 		// any in practice.
 		// If required, encoding detection can be added later on.
-		Scanner l_sc = new Scanner(l_fileStream, "ISO-8859-1");
+		Scanner l_sc = new Scanner(l_file, d_Encoding);
 
 		SeekToTag("[continents]", l_sc);
 		Map<Integer, Continent> l_continentMap = ReadContinents(l_sc);
@@ -46,6 +55,36 @@ public class MapLoader {
 		ReadBorders(l_sc, l_countryMap);
 
 		return CreateMap(l_continentMap, l_countryMap);
+	}
+
+	/**
+	 * Saves the map to a file.
+	 * 
+	 * @param p_fileName name of the file to save the map into.
+	 * @param p_map      map object to save.
+	 * @throws IOException exception thrown if an error occurs while writing the map
+	 *                     to file.
+	 */
+	public static void SaveMap(String p_fileName, GameMap p_map) throws IOException {
+		List<Continent> l_continentList = p_map.getContinents();
+		List<Country> l_countryList = p_map.getCountries();
+
+		Map<Continent, Integer> l_continentToIdMap = GenerateContinentIDs(l_continentList);
+		Map<Country, Integer> l_countryToIdMap = GenerateCountryIDs(l_countryList);
+
+		File l_file = new File(d_MapFolder + p_fileName);
+		try (BufferedWriter l_writer = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(l_file), d_Encoding))) {
+			WriteContinents(l_writer, l_continentList);
+			WriteCountries(l_writer, l_countryList, l_continentToIdMap);
+			WriteBorders(l_writer, l_countryList, l_countryToIdMap);
+		} catch (IOException e) {
+			// In case if we have a partially written file, delete it
+			if (l_file.exists()) {
+				l_file.delete();
+			}
+			throw e;
+		}
 	}
 
 	/**
@@ -197,6 +236,115 @@ public class MapLoader {
 		}
 
 		return l_gameMap;
+	}
+
+	/**
+	 * This method builds and returns a map of continents mapped to generated
+	 * continent ID.
+	 * 
+	 * @param p_continentList list of all continents in the map.
+	 * @return map of Continent to generated Continent ID.
+	 */
+	private static Map<Continent, Integer> GenerateContinentIDs(List<Continent> p_continentList) {
+		Map<Continent, Integer> l_continentToIdMap = new HashMap<Continent, Integer>();
+
+		int l_continentID = 1;
+		for (Continent l_continet : p_continentList) {
+			l_continentToIdMap.put(l_continet, l_continentID);
+			l_continentID++;
+		}
+
+		return l_continentToIdMap;
+	}
+
+	/**
+	 * This method builds and returns a map of countries mapped to generated country
+	 * ID.
+	 * 
+	 * @param p_countryList list of all countries in the map.
+	 * @return map of Country to generated Country ID.
+	 */
+	private static Map<Country, Integer> GenerateCountryIDs(List<Country> p_countryList) {
+		Map<Country, Integer> l_countryToIdMap = new HashMap<>();
+
+		int l_countryID = 1;
+		for (Country l_country : p_countryList) {
+			l_countryToIdMap.put(l_country, l_countryID);
+			l_countryID++;
+		}
+
+		return l_countryToIdMap;
+	}
+
+	/**
+	 * This method writes the required continent details to the map file.
+	 * 
+	 * @param p_writer        buffered writer used to write to the file.
+	 * @param p_continentList list of all continents.
+	 * @throws IOException exception thrown if an error occurs while writing the map
+	 *                     to file.
+	 */
+	private static void WriteContinents(BufferedWriter p_writer, List<Continent> p_continentList) throws IOException {
+		p_writer.write("[continents]");
+		p_writer.newLine();
+
+		for (Continent l_continent : p_continentList) {
+			p_writer.write(l_continent.getName().replaceAll("\\s+", "_") + " " + l_continent.getValue());
+			p_writer.newLine();
+		}
+	}
+
+	/**
+	 * This method writes the required country details to the map file.
+	 * 
+	 * @param p_writer           buffered writer used to write to the file.
+	 * @param p_countryList      list of all countries.
+	 * @param l_continentToIdMap map of continents mapped to generated continent
+	 *                           IDs.
+	 * @throws IOException exception thrown if an error occurs while writing the map
+	 *                     to file.
+	 */
+	private static void WriteCountries(BufferedWriter p_writer, List<Country> p_countryList,
+			Map<Continent, Integer> l_continentToIdMap) throws IOException {
+		p_writer.newLine();
+		p_writer.write("[countries]");
+		p_writer.newLine();
+
+		for (int l_i = 0; l_i < p_countryList.size(); l_i++) {
+			Country l_country = p_countryList.get(l_i);
+			Continent l_continent = l_country.getContinent();
+			p_writer.write(l_i + 1 + " " + l_country.getName().replaceAll("\\s+", "_") + " "
+					+ l_continentToIdMap.get(l_continent));
+			p_writer.newLine();
+		}
+		p_writer.newLine();
+	}
+
+	/**
+	 * This method writes the required country details to the map file.
+	 * 
+	 * @param p_writer         buffered writer used to write to the file.
+	 * @param p_countryList    list of all countries.
+	 * @param l_countryToIdMap map of countries mapped to generated country IDs.
+	 * @throws IOException exception thrown if an error occurs while writing the map
+	 *                     to file.
+	 */
+	private static void WriteBorders(BufferedWriter p_writer, List<Country> p_countryList,
+			Map<Country, Integer> l_countryToIdMap) throws IOException {
+		p_writer.write("[borders]");
+		p_writer.newLine();
+
+		for (int l_i = 0; l_i < p_countryList.size(); l_i++) {
+			Country l_country = p_countryList.get(l_i);
+			p_writer.write(l_i + 1 + " ");
+
+			Set<Country> l_neighbors = l_country.getNeighbors();
+			for (Country l_c : l_neighbors) {
+				p_writer.write(l_countryToIdMap.get(l_c) + " ");
+			}
+
+			p_writer.newLine();
+		}
 	}
 
 	/** This class handles exceptions while parsing the .map file. */

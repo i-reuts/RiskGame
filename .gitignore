@@ -4,7 +4,7 @@ target/
 .project
 fds
 
-src/main/resources/maps/*
-!src/main/resources/maps/testmap.map
+maps/*
+!maps/testmap.map
 
 /bin/

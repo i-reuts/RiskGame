@@ -29,7 +29,7 @@ class Graph {
 	/**
 	 * Constructor of class Graph
 	 * 
-	 * @param nodes Total number of Countries/Vertices in the given map
+	 * @param p_nodes Total number of Countries/Vertices in the given map
 	 */
 	public Graph(int p_nodes) {
 		d_graph = new ArrayList<>();
@@ -76,7 +76,7 @@ class Graph {
 	 * Uses depth first search for checking whether the given directed graph is
 	 * fully connected or not
 	 * 
-	 * @param start
+	 * @param p_start
 	 */
 	public void dfs(int p_start) {
 		Stack<Integer> stack = new Stack<>();
