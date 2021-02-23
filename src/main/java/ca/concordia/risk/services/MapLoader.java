@@ -26,12 +26,13 @@ public class MapLoader {
 	 */
 	public static GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
 		InputStream l_fileStream = MapLoader.class.getClassLoader().getResourceAsStream("maps/" + p_fileName);
-		if(l_fileStream == null) {
+		if (l_fileStream == null) {
 			throw new FileNotFoundException(p_fileName + " not found in the maps folder");
 		}
 
 		// Use ISO-8859-1 encoding, since most map files are encoded with it.
-		// UTF encoded map files are theoretically possible, however we haven't found any in practice.
+		// UTF encoded map files are theoretically possible, however we haven't found
+		// any in practice.
 		// If required, encoding detection can be added later on.
 		Scanner l_sc = new Scanner(l_fileStream, "ISO-8859-1");
 
@@ -132,7 +133,7 @@ public class MapLoader {
 			int l_continentID = Integer.parseInt(l_tokens[2]);
 
 			// Get country continent
-			Continent l_continent = p_continentMap.get(l_continentID);		
+			Continent l_continent = p_continentMap.get(l_continentID);
 			// Create country
 			Country l_country = new Country(l_countryName, l_continent);
 			// Add country to continent
