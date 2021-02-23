@@ -36,6 +36,15 @@ public class GameMap {
 	}
 	
 	/**
+	 * Get a list with the name of all continents
+	 * 
+	 * @return <code>List</code> with the name of all <code>Continents</code>
+	 */
+	public String[] getArrayOfContinents() {
+		return d_continents.keySet().toArray(new String[0]);
+	}
+	
+	/**
 	 * Get a list with the name of all countries
 	 * 
 	 * @return <code>List</code> with the name of all <code>Countries</code>
