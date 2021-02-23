@@ -2,9 +2,17 @@ package ca.concordia.risk.io.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
@@ -21,7 +29,7 @@ class Graph {
 	/**
 	 * Constructor of class Graph
 	 * 
-	 * @param nodes
+	 * @param nodes Total number of Countries/Vertices in the given map
 	 */
 	public Graph(int p_nodes) {
 		d_graph = new ArrayList<>();
@@ -32,7 +40,7 @@ class Graph {
 			d_graph.add(i, new ArrayList<>());
 		}
 	}
-	
+
 	/**
 	 * Adds edges to the adjacency list
 	 * 
@@ -43,12 +51,11 @@ class Graph {
 		d_graph.get(a).add(b);
 	}
 
-
 	/**
 	 * Checks whether the given directed graph is fully connected or not.
 	 * 
 	 * @return<code>true</code> if the given directed graph is fully connected.<br>
-	 * 		  <code>false</code> if the given directed graph not is fully connected.
+	 * <code>false</code> if the given directed graph not is fully connected.
 	 */
 	public boolean isConnected() {
 
@@ -65,11 +72,10 @@ class Graph {
 		return true;
 	}
 
-	
 	/**
-	 * Uses depth first search for checking whether the given directed 
-	 * graph is fully connected or not
-	 *  
+	 * Uses depth first search for checking whether the given directed graph is
+	 * fully connected or not
+	 * 
 	 * @param start
 	 */
 	public void dfs(int p_start) {
@@ -103,10 +109,27 @@ public class ValidateMapCommand implements Command {
 		ConsoleView l_view = GameEngine.GetView();
 		l_view.display("\nValidating the active map\n");
 
-		GameMap l_gameMap = GameEngine.GetMap();
-		int nodes = l_gameMap.numberOfCountries();
+		try {
+			GameMap l_gameMap = GameEngine.GetMap();
+			String[] d_nameCountries = l_gameMap.getArrayOfCountries();
+			int[] d_countryId = IntStream.range(1, d_nameCountries.length + 1).toArray();
+			Country c;
+			Map<Country, Integer> d_m = new HashMap<Country, Integer>();
+			Set<Country> d_neighborCountry;
+			int d_nodes = l_gameMap.numberOfCountries();
 
-		Graph a = new Graph(nodes);
+			Graph obj = new Graph(d_nodes);
 
+			for (int i = 0; i < l_gameMap.numberOfCountries(); i++) {
+				c = l_gameMap.getCountry(d_nameCountries[i]);
+				d_m.put(c, d_countryId[i]);
+			}
+
+			d_m = d_m.entrySet().stream().sorted(Entry.comparingByValue())
+					.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
