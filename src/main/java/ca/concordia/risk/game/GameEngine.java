@@ -1,11 +1,8 @@
 package ca.concordia.risk.game;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import ca.concordia.risk.io.commands.Command;
@@ -75,9 +72,10 @@ public class GameEngine {
 	public static void SetMap(GameMap p_map) {
 		d_ActiveMap = p_map;
 	}
-	
+
 	/**
 	 * Get Player
+	 * 
 	 * @param p_name The <code>string</code> name of the <code>player</code>
 	 * @return <code>Player</code> entity.
 	 */
@@ -87,46 +85,38 @@ public class GameEngine {
 
 	/**
 	 * Add a new player
+	 * 
 	 * @param p_name <code>Player</code> to be added.
 	 */
 	public static void AddPlayer(String p_name) {
 		Player l_player = new Player(p_name);
 		d_ActivePlayers.put(p_name, l_player);
 	}
-	
+
 	/**
 	 * Remove a player
+	 * 
 	 * @param p_name <code>Player</code> to be removed.
 	 */
 	public static void RemovePlayer(String p_name) {
 		d_ActivePlayers.remove(p_name);
 	}
 
-	/**  Assign all countries randomly to all players */
-	public static void assignCountires() {
-		int l_numOfCountries = d_ActiveMap.numberOfCountries();
-		Iterator<Entry<String, Player>> l_itr = d_ActivePlayers.entrySet().iterator();
-		String[] l_listOfCountries = d_ActiveMap.getArrayOfCountries();
-		ArrayList<Integer> l_indexes = new ArrayList<Integer>();
-		
-		
-		// Create a list of indexes
-		for(int l_i = 0; l_i < l_numOfCountries; l_i++) {
-			l_indexes.add(l_i);
-		}
-		
-		// Randomize the indexes 
-		Collections.shuffle(l_indexes);
-		
-		// Assign all countries randomly by using the randomized indexes 
-		for(int l_i = 0; l_i < l_numOfCountries; l_i++) {
-			if (!l_itr.hasNext()) {
-				l_itr = d_ActivePlayers.entrySet().iterator();
+	/** Assign countries randomly to players */
+	public static void AssignCountries() {
+		// Get all countries and shuffle them randomly
+		List<Country> p_countryList = d_ActiveMap.getCountries();
+		Collections.shuffle(p_countryList);
+
+		// While there are countries remaining, assign shuffled countries one by one to
+		// players in a round-robin fashion
+		while (!p_countryList.isEmpty()) {
+			for (Player p_player : d_ActivePlayers.values()) {
+				if (p_countryList.isEmpty()) {
+					break;
+				}
+				p_player.addCountry(p_countryList.remove(p_countryList.size() - 1));
 			}
-			
-			Country l_tmp_country = d_ActiveMap.getCountry(l_listOfCountries[l_indexes.get(l_i)]);
-			Map.Entry<String, Player> l_tmp_player = (Entry<String, Player>)l_itr.next();
-			l_tmp_player.getValue().addCountry(l_tmp_country);
 		}
 	}
 

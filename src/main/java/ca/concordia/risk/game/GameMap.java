@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
@@ -55,6 +54,10 @@ public class GameMap {
 	 */
 	public String[] getArrayOfCountries() {
 		return d_countries.keySet().toArray(new String[0]);
+	}
+	
+	public List<Country> getCountries() {
+		return new ArrayList<Country>(d_countries.values());
 	}
 
 	/**
