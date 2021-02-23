@@ -1,7 +1,5 @@
 package ca.concordia.risk.game;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -177,62 +175,7 @@ public class GameMap {
 
 		return true;
 	}
-	 
-	
-	/**
-	 * Checks if the directed map is a connected graph
-	 * 
-	 * @return <code>true</code> if the map is a connected graph.<br>
-	 *         <code>false</code> if the map is not a connected graph.
-	 */
-	@SuppressWarnings("null")
-	public boolean isConnected() {
-		
-		boolean[] d_visited ;
-		List<List<Integer>> d_graph = null; //adjacency list
-		
-        d_visited = new boolean[d_countries.size()];
-		
-		for(int i = 0; i< numberOfCountries();i++) {
-			d_graph.add(i,new ArrayList<>());			
-		}
-		
-		for(int i = 0; i < numberOfCountries();i++) { 
-		 dfs(i, d_visited, d_graph);
-		 	for(int j=0;j<numberOfCountries();j++) {
-				if(!d_visited[j]) {
-					return false;
-				}
-			}
-			Arrays.fill(d_visited,false);
-		}
-		return true;
-		
-	}
-	
-	/**
-	 * Performs the depth first search to check if the graph is connected 
-	 * @param start
-	 */
-	public void dfs(int start,boolean[] d_visited, List<List<Integer>> d_graph) {
-			Stack<Integer> stack = new Stack<Integer>();
-			stack.push(start);
-			
-			d_visited[start]= true;
-			 while(!stack.isEmpty()) {
-				 Integer node = stack.pop();
-				 List<Integer> neighboursList = d_graph.get(node); // 0-> 1,2
-				 
-				 for(Integer neighbour: neighboursList) {
-					 if(!d_visited[neighbour]) {
-						 stack.push(neighbour);
-						 d_visited[neighbour]=true;
-					 }
-				 }
-				 
-			 }
-	}
-	
+	 	
 	/**
 	 * Builds a string representation of the map for editor.
 	 * 
@@ -299,5 +242,24 @@ public class GameMap {
 		}
 		System.out.println(l_builder.toString());
 	}
+	
+	public void dfs(int start,boolean[] d_visited, List<List<Integer>> d_adjList) {
+			Stack<Integer> stack = new Stack<Integer>();
+			stack.push(start);
+			
+			d_visited[start]= true;
+			 while(!stack.isEmpty()) {
+				 Integer node = stack.pop();
+				 List<Integer> neighboursList = d_adjList.get(node); 
+				 
+				 for(Integer neighbour: neighboursList) {
+					 if(!d_visited[neighbour]) {
+						 stack.push(neighbour);
+						 d_visited[neighbour]=true;
+					 }
+				 } 
+			 }
+	}
+	
 }
 

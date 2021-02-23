@@ -16,10 +16,10 @@ public class ValidateMapCommand implements Command {
 		
 		GameMap l_gameMap = GameEngine.GetMap();
 		if (l_gameMap != null) {
-			//l_view.display(l_gameMap.isConnected());
+			//l_gameMap.isConnected();
 			
 		} else {
-			l_view.display("Please load a map first");
+			l_view.display("Please load a map to be validated first");
 		}
 	}
 
