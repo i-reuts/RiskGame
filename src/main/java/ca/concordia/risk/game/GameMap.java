@@ -1,5 +1,7 @@
 package ca.concordia.risk.game;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,6 @@ import java.util.TreeMap;
 public class GameMap {
 	private Map<String, Country> d_countries;
 	private Map<String, Continent> d_continents;
-	
 
 	/**
 	 * Constructor for the GameMap entity
@@ -30,14 +31,14 @@ public class GameMap {
 	}
 
 	/**
-	 * Get the number of countries the GameMap has 
+	 * Get the number of countries the GameMap has
 	 * 
 	 * @return <code>Number of Countries</code>
 	 */
 	public int numberOfCountries() {
 		return d_countries.size();
 	}
-	
+
 	/**
 	 * Get a list with the name of all continents
 	 * 
@@ -46,7 +47,7 @@ public class GameMap {
 	public String[] getArrayOfContinents() {
 		return d_continents.keySet().toArray(new String[0]);
 	}
-	
+
 	/**
 	 * Get a list with the name of all countries
 	 * 
@@ -55,7 +56,7 @@ public class GameMap {
 	public String[] getArrayOfCountries() {
 		return d_countries.keySet().toArray(new String[0]);
 	}
-	
+
 	/**
 	 * Gets a country with the corresponding name if it exists.
 	 * 
@@ -175,14 +176,16 @@ public class GameMap {
 
 		return true;
 	}
-	 	
+
 	/**
-	 * Builds a string representation of the map for editor.
+	 * Builds a string representation of the map.
+	 * <p>
+	 * This representation includes only the map topology, i.e. countries,
+	 * continents and their relationships.
 	 * 
 	 * @return string representing the map.
 	 */
-	@Override
-	public String toString() {
+	public String buildMapString() {
 		StringBuilder l_builder = new StringBuilder();
 
 		// Build the continent table
@@ -219,47 +222,65 @@ public class GameMap {
 	}
 
 	/**
-	 * Show map in play mode
+	 * Builds a string representation of the gameplay map.
+	 * <p>
+	 * This representation includes both the map topology and gameplay information
+	 * such as which country is owned by which player and how many armies are
+	 * deployed in each country.
+	 * 
+	 * @return string representing the gameplay map.
 	 */
-	public void showMap() {
-		StringBuilder sb = new StringBuilder();
-		for (Country l_c : d_countries.values()) {
-			Iterator<Country> l_i = l_c.getNeighbors().iterator();
+	public String buildGameplayMapString() {
+		// Create a country list grouped and sorted in 3 levels: by player name, then by
+		// continent name and finally by country name
+		List<Country> l_countryList = new ArrayList<Country>(d_countries.values());
+		Collections.sort(l_countryList, (l_c1, l_c2) -> {
+			if (l_c1.getOwner().getName().compareTo(l_c2.getOwner().getName()) == 0) {
+				return l_c1.getContinent().getName().compareTo(l_c2.getContinent().getName());
+			} else {
+				return l_c1.getOwner().getName().compareTo(l_c2.getOwner().getName());
+			}
+		});
+
+		// Build a table of countries from the sorted list
+		StringBuilder l_builder = new StringBuilder();
+		// Build the table header
+		l_builder.append(
+				String.format("\n%-20s %-15s %-8s %-15s %s\n", "Country", "Owner", "Armies", "Continent", "Neighbors"));
+		for (Country l_country : l_countryList) {
+			// Build a single row of the table
+			l_builder.append(String.format("%-20s %-15s %-8s %-15s ", l_country.getName(),
+					l_country.getOwner().getName(), l_country.getArmies(), l_country.getContinent().getName()));
+
+			Iterator<Country> l_i = l_country.getNeighbors().iterator();
 			while (l_i.hasNext()) {
-				sb.append(l_i.next().getName());
+				l_builder.append(l_i.next().getName());
 				if (l_i.hasNext()) {
-					sb.append(", ");
+					l_builder.append(", ");
+				}
+			}
+			l_builder.append("\n");
+		}
+
+		return l_builder.toString();
+	}
+
+	public void dfs(int start, boolean[] d_visited, List<List<Integer>> d_adjList) {
+		Stack<Integer> stack = new Stack<Integer>();
+		stack.push(start);
+
+		d_visited[start] = true;
+		while (!stack.isEmpty()) {
+			Integer node = stack.pop();
+			List<Integer> neighboursList = d_adjList.get(node);
+
+			for (Integer neighbour : neighboursList) {
+				if (!d_visited[neighbour]) {
+					stack.push(neighbour);
+					d_visited[neighbour] = true;
 				}
 			}
 		}
+	}
 
-		StringBuilder l_builder = new StringBuilder(
-				String.format("%-20s %-20s %-20s %-20s %s\n", "Country", "Owner", "Armies", "Continent", "Neighbors"));
-		for (Entry<String, Country> entry : d_countries.entrySet()) {
-			l_builder.append(String.format("%-20s %-20s %-20d %-20s %s\n", entry.getValue().getName(),
-					entry.getValue().getOwner().getName(), entry.getValue().getArmies(),
-					entry.getValue().getContinent().getName(), sb.toString()));
-		}
-		System.out.println(l_builder.toString());
-	}
-	
-	public void dfs(int start,boolean[] d_visited, List<List<Integer>> d_adjList) {
-			Stack<Integer> stack = new Stack<Integer>();
-			stack.push(start);
-			
-			d_visited[start]= true;
-			 while(!stack.isEmpty()) {
-				 Integer node = stack.pop();
-				 List<Integer> neighboursList = d_adjList.get(node); 
-				 
-				 for(Integer neighbour: neighboursList) {
-					 if(!d_visited[neighbour]) {
-						 stack.push(neighbour);
-						 d_visited[neighbour]=true;
-					 }
-				 } 
-			 }
-	}
-	
 }
-

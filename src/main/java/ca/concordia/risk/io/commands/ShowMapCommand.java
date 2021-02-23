@@ -25,10 +25,11 @@ public class ShowMapCommand implements Command {
 		ConsoleView l_view = GameEngine.GetView();
 		GameMap l_gameMap = GameEngine.GetMap();
 		if (l_gameMap != null) {
-			l_view.display(l_gameMap.toString());
 			if (d_showGameplayInfo) {
-				l_gameMap.showMap();
-			}
+				l_gameMap.buildGameplayMapString();
+			} else {
+				l_view.display(l_gameMap.buildMapString());
+			}		
 		} else {
 			l_view.display("No map to display - please load a map first");
 		}
