@@ -1,4 +1,4 @@
-package ca.concordia.risk.game;
+package ca.concordia.risk.game.orders;
 
 /**
  * Interface class for the Orders entities.
@@ -12,4 +12,5 @@ public interface Order {
 	 * Order API for executing an order.
 	 */
 	public void execute();
+	public String getStatus();
 }

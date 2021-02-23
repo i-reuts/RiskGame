@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import ca.concordia.risk.game.orders.Order;
 import ca.concordia.risk.io.commands.Command;
+import ca.concordia.risk.io.commands.OrderCommand;
 import ca.concordia.risk.io.parsers.CommandParser;
 import ca.concordia.risk.io.parsers.EditorCommandParser;
 import ca.concordia.risk.io.parsers.GameplayCommandParser;
@@ -168,7 +170,7 @@ public class GameEngine {
 	private static void IssueOrders() {
 		boolean l_allPlayersIssued = false;
 		while (!l_allPlayersIssued) {
-			l_allPlayersIssued = false;
+			l_allPlayersIssued = true;
 			for (Player l_p : d_ActivePlayers.values()) {
 				if (!l_p.finishedIssuingOrders()) {
 					l_p.issueOrder();
@@ -190,7 +192,7 @@ public class GameEngine {
 					l_order.execute();
 					l_allOrdersExecuted = false;
 					
-					// d_View.display(l_order.getStatus());
+					d_View.display(l_order.getStatus());
 				}
 			}
 		}

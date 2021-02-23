@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import ca.concordia.risk.game.orders.Order;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /**
@@ -53,6 +54,10 @@ public class Player {
 		p_country.setOwner(null);
 		d_countries.remove(p_country);
 	}
+	
+	public boolean ownsCountry(Country p_country) {
+		return d_countries.contains(p_country);
+	}
 
 	/**
 	 * Assigns reinforcements to the player.
@@ -81,18 +86,13 @@ public class Player {
 	}
 
 	public int numberOfReinforcementsLeft() {
-		ConsoleView l_view = GameEngine.GetView();
-		l_view.display("\nPlayer \"" + d_name + " has " + d_reinforcements + " left.\n");
 		return d_reinforcements;
 	}
 
 	public boolean retrieveReinforcements(int p_amount) {
-		ConsoleView l_view = GameEngine.GetView();
 		if (p_amount <= 0) {
-			l_view.display("\nCan't retrieve a negative amout of armies");
 			return false;
 		} else if (p_amount > d_reinforcements) {
-			l_view.display("\nCan't retrieve more armies than you have. Armies you have: " + d_reinforcements + "\n");
 			return false;
 		}
 
