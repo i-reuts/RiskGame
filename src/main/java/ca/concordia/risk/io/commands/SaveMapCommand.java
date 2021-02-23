@@ -61,11 +61,11 @@ public class SaveMapCommand implements Command {
 	}
 
 	/**
-	 * This method returns a sorted HashMap of type <Continent, Integer>.
+	 * This method returns a sorted HashMap of Continent mapped to generated Continent ID.
 	 * 
 	 * @param p_gameMap active game map.
 	 * @param p_namesContinents array consisting of all continent names.
-	 * @return sorted HashMap of type <Continent, Integer>.
+	 * @return sorted HashMap of Continent mapped to generated Continent ID.
 	 */
 	public Map<Continent, Integer> fetchActiveContinents(GameMap p_gameMap, String[] p_namesContinents) {
 
@@ -85,11 +85,11 @@ public class SaveMapCommand implements Command {
 	}
 
 	/**
-	 * This method returns a sorted HashMap of type <Country, Integer>.
+	 * This method returns a sorted HashMap of Country mapped to generated Country ID.
 	 * 
 	 * @param p_gameMap active game map.
 	 * @param p_namesCountries array consisting of all country names.
-	 * @return sorted HashMap of type <Country, Integer>.
+	 * @return sorted HashMap of Country mapped to generated Country ID.
 	 */
 	public Map<Country, Integer> fetchActiveCountries(GameMap p_gameMap, String[] p_namesCountries) {
 		Arrays.sort(p_namesCountries);
@@ -111,7 +111,7 @@ public class SaveMapCommand implements Command {
 	 * This method writes the required continent details in the request map file.
 	 * 
 	 * @param p_filename filename of the map file to save the active Map into.
-	 * @param l_activeContinents HashMap of type <Continent, Integer>.
+	 * @param l_activeContinents HashMap of Continent mapped to generated Continent ID.
 	 */
 	public void writeContients(String p_filename, Map<Continent, Integer> l_activeContinents) {
 
@@ -141,7 +141,7 @@ public class SaveMapCommand implements Command {
 	 * 
 	 * @param p_gameMap active game map.
 	 * @param p_filename filename of the map file to save the active Map into.
-	 * @param p_activeCountries HashMap of type <Country, Integer>.
+	 * @param p_activeCountries HashMap of Country mapped to generated Country ID.
 	 * @param p_namesContinent array consisting of all continent names.
 	 * @param p_namesCountries array consisting of all country names.
 	 */
