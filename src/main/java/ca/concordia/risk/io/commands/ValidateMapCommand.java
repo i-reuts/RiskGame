@@ -128,6 +128,21 @@ public class ValidateMapCommand implements Command {
 			d_m = d_m.entrySet().stream().sorted(Entry.comparingByValue())
 					.collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
+			for (Entry<Country, Integer> e : d_m.entrySet()) {
+				c = e.getKey();
+				int d_homeId = d_m.get(c);
+				// System.out.println(c.getName() + " : " + d_homeId + "\n");
+				d_neighborCountry = c.getNeighbors();
+				for (Country c1 : d_neighborCountry) {
+					int d_neighborId = d_m.get(c1);
+					// System.out.println(d_neighborId);
+					obj.addEdge(d_homeId - 1, d_neighborId - 1);
+				}
+				System.out.println();
+			}
+
+			System.out.println(obj.isConnected());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
