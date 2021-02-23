@@ -31,8 +31,16 @@ public class Player {
 		return d_name;
 	}
 
-	public Order next_order() {
+	public Order nextOrder() {
 		return d_orders.poll();
+	}
+	
+	public void issueOrder() {
+		
+	}
+	
+	public boolean finishedIssuingOrders() {
+		return d_reinforcements == 0;
 	}
 
 	public void addCountry(Country p_country) {

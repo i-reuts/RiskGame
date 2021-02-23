@@ -147,7 +147,52 @@ public class GameEngine {
 	/** Executes the main application loop */
 	private static void RunMainLoop() {
 		while (true) {
-			ProcessUserCommand();
+			while(d_ActiveMode != GameMode.GAMEPLAY) {
+				ProcessUserCommand();
+			}
+			
+			while(d_ActiveMode == GameMode.GAMEPLAY) {
+				AssignReinforcements();
+				IssueOrders();
+				ExecuteOrders();
+			}
+		}
+	}
+	
+	private static void AssignReinforcements() {
+		for (Player l_p : d_ActivePlayers.values()) {
+			l_p.assignReinfocements();
+		}
+	}
+	
+	private static void IssueOrders() {
+		boolean l_allPlayersIssued = false;
+		while (!l_allPlayersIssued) {
+			l_allPlayersIssued = false;
+			for (Player l_p : d_ActivePlayers.values()) {
+				if (!l_p.finishedIssuingOrders()) {
+					l_p.issueOrder();
+					l_allPlayersIssued = false;
+				}
+			}
+		}
+	}
+	
+	private static void ExecuteOrders() {
+		d_View.display("\nExecuting orders...");
+		
+		boolean l_allOrdersExecuted = false;
+		while (!l_allOrdersExecuted) {
+			l_allOrdersExecuted = true;
+			for (Player l_p : d_ActivePlayers.values()) {
+				Order l_order = l_p.nextOrder();
+				if (l_order != null) {
+					l_order.execute();
+					l_allOrdersExecuted = false;
+					
+					// d_View.display(l_order.getStatus());
+				}
+			}
 		}
 	}
 
