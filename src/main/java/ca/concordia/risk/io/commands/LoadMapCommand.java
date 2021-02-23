@@ -6,12 +6,12 @@ import ca.concordia.risk.game.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 import ca.concordia.risk.services.MapLoader;
-import ca.concordia.risk.services.MapLoader.FileParsingException;
 
 /** Command representing <i>"loadmap"</i> operation. */
 public class LoadMapCommand implements Command {
 
 	private String d_filename;
+
 	/**
 	 * Creates a new <code>LoadMapCommand</code> object.
 	 * 
@@ -25,16 +25,18 @@ public class LoadMapCommand implements Command {
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();
-		l_view.display("\nExecuting loadmap command with filename: " + d_filename + "\n");
-
+		GameMap l_gameMap = null;
 		try {
-			GameMap gameMap=MapLoader.LoadMap(d_filename);
-			GameEngine.SetMap(gameMap);
+			l_gameMap = MapLoader.LoadMap(d_filename);
+			l_view.display("Map succesfully loaded from file");
+			GameEngine.SetMap(l_gameMap);
 			GameEngine.SwitchToStartupMode();
-		} catch (FileNotFoundException | FileParsingException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			l_view.display("Map file with filename " + d_filename + " does not exist");
+		} catch (MapLoader.FileParsingException e) {
+			l_view.display("Error while loading the map file");
+			l_view.display(e.getMessage());
 		}
-		
 	}
 
 }

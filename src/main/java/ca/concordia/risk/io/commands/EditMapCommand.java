@@ -34,7 +34,7 @@ public class EditMapCommand implements Command {
 			l_view.display("Creating a new map...");
 			l_gameMap = new GameMap();
 		} catch (MapLoader.FileParsingException e) {
-			l_view.display("Failed to load the map file");
+			l_view.display("Error while loading the map file");
 			l_view.display(e.getMessage());
 		} finally {
 			GameEngine.SetMap(l_gameMap);

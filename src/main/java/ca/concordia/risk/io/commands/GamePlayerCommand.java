@@ -17,10 +17,25 @@ public class GamePlayerCommand implements Command {
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();
 
-		// TODO: Replace by the actual implementation
-		l_view.display("\nExecuting gameplayer command");
-		l_view.display("Players to add: " + d_playersToAdd);
-		l_view.display("Players to remove: " + d_playersToRemove + "\n");
+		// Add players
+		for (String l_playerName : d_playersToAdd) {
+			if (GameEngine.GetPlayer(l_playerName) != null) {
+				l_view.display("Add failed: player named " + l_playerName + " already exists");
+			} else {
+				GameEngine.AddPlayer(l_playerName);
+				l_view.display("Player " + l_playerName + " added");
+			}
+		}
+
+		// Remove players
+		for (String l_playerName : d_playersToRemove) {
+			if (GameEngine.GetPlayer(l_playerName) == null) {
+				l_view.display("Remove failed: player named " + l_playerName + " does not exist");
+			} else {
+				GameEngine.RemovePlayer(l_playerName);
+				l_view.display("Player " + l_playerName + " removed");
+			}
+		}
 	}
 
 	/**

@@ -34,7 +34,10 @@ public class MapLoader {
 			throw new FileNotFoundException(p_fileName + " not found in the maps folder");
 		}
 
-		Scanner l_sc = new Scanner(l_fileStream);
+		// Use ISO-8859-1 encoding, since most map files are encoded with it.
+		// UTF encoded map files are theoretically possible, however we haven't found any in practice.
+		// If required, encoding detection can be added later on.
+		Scanner l_sc = new Scanner(l_fileStream, "ISO-8859-1");
 
 		SeekToTag("[continents]", l_sc);
 		Map<Integer, Continent> l_continentMap = ReadContinents(l_sc);
@@ -84,7 +87,7 @@ public class MapLoader {
 
 		int l_runningID = 1;
 		while (p_sc.hasNextLine()) {
-			String l_line = p_sc.nextLine();
+			String l_line = p_sc.nextLine().trim();
 
 			// Stop reading when we come across an empty line
 			if (l_line.isBlank()) {
@@ -115,11 +118,15 @@ public class MapLoader {
 		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
 
 		while (p_sc.hasNextLine()) {
-			String l_line = p_sc.nextLine();
+			String l_line = p_sc.nextLine().trim();
 
 			// Stop reading when we come across an empty line
 			if (l_line.isBlank()) {
 				break;
+			}
+			// Skip comments
+			if (l_line.startsWith(";")) {
+				continue;
 			}
 
 			// Parse country data
@@ -151,11 +158,15 @@ public class MapLoader {
 	 */
 	private static void ReadBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) {
 		while (p_sc.hasNextLine()) {
-			String l_line = p_sc.nextLine();
+			String l_line = p_sc.nextLine().trim();
 
 			// Stop reading when we come across an empty line
 			if (l_line.isBlank()) {
 				break;
+			}
+			// Skip comments
+			if (l_line.startsWith(";")) {
+				continue;
 			}
 
 			// Parse country data

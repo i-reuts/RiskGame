@@ -5,6 +5,7 @@ import java.util.List;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.DeployCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
+import ca.concordia.risk.io.commands.ShowMapCommand;
 
 /**
  * A <code>CommandParser</code> implementation for the Gameplay mode.
@@ -20,6 +21,7 @@ public class GameplayCommandParser extends CommandParser {
 	protected void registerParserMethods() {
 		super.registerParserMethods();
 
+		d_commandParsers.put("showmap", this::parseShowMapCommand);
 		d_commandParsers.put("deploy", this::parseDeployCommand);
 	}
 
@@ -44,6 +46,16 @@ public class GameplayCommandParser extends CommandParser {
 		}
 
 		return new DeployCommand(l_deployCountry, l_numberOfArmies);
+	}
+	
+	/**
+	 * Parses a <i>"showmap"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>ShowMapCommand</code>.
+	 */
+	private Command parseShowMapCommand(List<String> p_argumentList) {
+		return new ShowMapCommand(true);
 	}
 
 }
