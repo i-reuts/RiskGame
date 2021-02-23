@@ -1,7 +1,7 @@
 package ca.concordia.risk.game.orders;
 
 /**
- * Interface class for the Orders entities.
+ * Interface for Order entities.
  * 
  * @author Enrique
  *
@@ -9,8 +9,16 @@ package ca.concordia.risk.game.orders;
 public interface Order {
 
 	/**
-	 * Order API for executing an order.
+	 * Executes the order.
 	 */
 	public void execute();
+
+	/**
+	 * Returns the current status of the order.
+	 * <p>
+	 * Order status represents the result of executing an order.
+	 * 
+	 * @return order status string.
+	 */
 	public String getStatus();
 }

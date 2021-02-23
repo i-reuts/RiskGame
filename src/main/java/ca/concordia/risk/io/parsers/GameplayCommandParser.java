@@ -3,7 +3,7 @@ package ca.concordia.risk.io.parsers;
 import java.util.List;
 
 import ca.concordia.risk.io.commands.Command;
-import ca.concordia.risk.io.commands.DeployCommand;
+import ca.concordia.risk.io.commands.DeployOrderCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
 import ca.concordia.risk.io.commands.ShowMapCommand;
 
@@ -41,11 +41,14 @@ public class GameplayCommandParser extends CommandParser {
 		int l_numberOfArmies;
 		try {
 			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
+			if(l_numberOfArmies < 0) {
+				return new InvalidCommand("number of armies value was negative");
+			}
 		} catch (NumberFormatException l_e) {
 			return new InvalidCommand("number of armies value was not a number");
 		}
 
-		return new DeployCommand(l_deployCountry, l_numberOfArmies);
+		return new DeployOrderCommand(l_deployCountry, l_numberOfArmies);
 	}
 	
 	/**

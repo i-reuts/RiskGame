@@ -1,4 +1,4 @@
-package ca.concordia.risk.services;
+package ca.concordia.risk.utils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

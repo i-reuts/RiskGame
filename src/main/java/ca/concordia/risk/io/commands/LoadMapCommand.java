@@ -2,10 +2,10 @@ package ca.concordia.risk.io.commands;
 
 import java.io.FileNotFoundException;
 
-import ca.concordia.risk.game.GameEngine;
+import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
-import ca.concordia.risk.services.MapLoader;
+import ca.concordia.risk.utils.MapLoader;
 
 /** Command representing <i>"loadmap"</i> operation. */
 public class LoadMapCommand implements Command {

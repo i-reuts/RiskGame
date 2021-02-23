@@ -4,7 +4,7 @@ import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.Player;
 
 /**
- * Implement the deployment order
+ * This class represents a deploy order.
  * 
  * @author Sindu
  *
@@ -16,6 +16,13 @@ public class DeployOrder implements Order {
 	private int d_armiesToDeploy;
 	private String d_status;
 
+	/**
+	 * Creates a new <code>DeployOrder</code>.
+	 * 
+	 * @param p_player    player giving the order.
+	 * @param p_country   country to deploy armies to.
+	 * @param p_numArmies number of armies to deploy.
+	 */
 	public DeployOrder(Player p_player, Country p_country, int p_numArmies) {
 		d_player = p_player;
 		d_deployCountry = p_country;
@@ -23,6 +30,12 @@ public class DeployOrder implements Order {
 		d_status = "Order not executed";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Adds the requested number of armies to the deploy country if the player still
+	 * owns it. Does nothing if the player no longer owns the country.
+	 */
 	@Override
 	public void execute() {
 		if (!d_player.ownsCountry(d_deployCountry)) {
@@ -34,6 +47,9 @@ public class DeployOrder implements Order {
 		d_deployCountry.addArmies(d_armiesToDeploy);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getStatus() {
 		return d_status;

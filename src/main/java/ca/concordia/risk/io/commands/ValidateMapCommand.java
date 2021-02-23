@@ -12,8 +12,8 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Country;
-import ca.concordia.risk.game.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 
@@ -106,7 +106,7 @@ public class ValidateMapCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Replace with actual implementation
-		ConsoleView l_view = GameEngine.GetView();
+		/* ConsoleView l_view = GameEngine.GetView();
 		l_view.display("\nValidating the active map\n");
 
 		try {
@@ -145,6 +145,6 @@ public class ValidateMapCommand implements Command {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

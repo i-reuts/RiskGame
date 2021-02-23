@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.*;
 import ca.concordia.risk.io.views.ConsoleView;
 
@@ -40,7 +41,7 @@ public class SaveMapCommand implements Command {
 		try {
 
 			if (l_gameMap != null) {
-				String[] l_namesContinents = l_gameMap.getArrayOfContinents();
+				/*String[] l_namesContinents = l_gameMap.getArrayOfContinents();
 				String[] l_namesCountries = l_gameMap.getArrayOfCountries();
 				Map<Continent, Integer> l_activeContinents;
 				Map<Country, Integer> l_activeCountries;
@@ -49,7 +50,7 @@ public class SaveMapCommand implements Command {
 				l_activeCountries = fetchActiveCountries(l_gameMap, l_namesCountries);
 
 				writeContients(d_filename, l_activeContinents);
-				writeCountriesAndBorders(l_gameMap, d_filename, l_activeCountries, l_namesContinents, l_namesCountries);
+				writeCountriesAndBorders(l_gameMap, d_filename, l_activeCountries, l_namesContinents, l_namesCountries);*/
 			} else {
 				l_view.display("No map to be saved in the file named '" + d_filename + ".map'");
 

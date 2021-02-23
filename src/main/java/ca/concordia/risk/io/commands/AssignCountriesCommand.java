@@ -1,6 +1,6 @@
 package ca.concordia.risk.io.commands;
 
-import ca.concordia.risk.game.GameEngine;
+import ca.concordia.risk.GameEngine;
 
 /** Command representing <i>"assigncountries"</i> operation. */
 public class AssignCountriesCommand implements Command {

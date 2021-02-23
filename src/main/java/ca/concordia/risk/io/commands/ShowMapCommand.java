@@ -1,6 +1,6 @@
 package ca.concordia.risk.io.commands;
 
-import ca.concordia.risk.game.GameEngine;
+import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 
@@ -29,7 +29,7 @@ public class ShowMapCommand implements Command {
 				l_view.display(l_gameMap.buildGameplayMapString());
 			} else {
 				l_view.display(l_gameMap.buildMapString());
-			}		
+			}
 		} else {
 			l_view.display("No map to display - please load a map first");
 		}

@@ -28,7 +28,7 @@ public class Continent {
 	}
 
 	/**
-	 * Get continent value.
+	 * Gets continent value.
 	 * 
 	 * @return continent value for mustering when fully controlled.
 	 */
@@ -37,7 +37,7 @@ public class Continent {
 	}
 
 	/**
-	 * Get continent name.
+	 * Gets continent name.
 	 * 
 	 * @return The continent name.
 	 */
@@ -46,7 +46,7 @@ public class Continent {
 	}
 
 	/**
-	 * Get the set of countries belonging to the continent.
+	 * Gets the set of countries belonging to the continent.
 	 * 
 	 * @return set of countries belonging to the continent.
 	 */
@@ -55,7 +55,7 @@ public class Continent {
 	}
 
 	/**
-	 * Add a country to the set of countries owned by the continent.
+	 * Adds a country to the set of countries owned by the continent.
 	 * 
 	 * @param p_country country to be added to this continent.
 	 * @return <code>true</code> the country was added.<br>

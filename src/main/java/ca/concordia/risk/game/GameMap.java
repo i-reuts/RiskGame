@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.TreeMap;
 
 /**
@@ -30,34 +29,21 @@ public class GameMap {
 	}
 
 	/**
-	 * Get the number of countries the GameMap has
+	 * Gets a list of all countries in the map.
 	 * 
-	 * @return <code>Number of Countries</code>
+	 * @return list of map countries.
 	 */
-	public int numberOfCountries() {
-		return d_countries.size();
-	}
-
-	/**
-	 * Get a list with the name of all continents
-	 * 
-	 * @return <code>List</code> with the name of all <code>Continents</code>
-	 */
-	public String[] getArrayOfContinents() {
-		return d_continents.keySet().toArray(new String[0]);
-	}
-
-	/**
-	 * Get a list with the name of all countries
-	 * 
-	 * @return <code>List</code> with the name of all <code>Countries</code>
-	 */
-	public String[] getArrayOfCountries() {
-		return d_countries.keySet().toArray(new String[0]);
-	}
-	
 	public List<Country> getCountries() {
 		return new ArrayList<Country>(d_countries.values());
+	}
+
+	/**
+	 * Gets a list of all continents in the map.
+	 * 
+	 * @return list of map continents.
+	 */
+	public List<Continent> getContinents() {
+		return new ArrayList<Continent>(d_continents.values());
 	}
 
 	/**
@@ -109,7 +95,7 @@ public class GameMap {
 	 * Adds a continent to the map if a continent with the same name does not
 	 * already exist.
 	 * 
-	 * @param p_continent Continent object
+	 * @param p_continent continent to add.
 	 * @return <code>true</code> if continent was successfully added.<br>
 	 *         <code>false</code> if the continent already existed.
 	 */
@@ -267,23 +253,4 @@ public class GameMap {
 
 		return l_builder.toString();
 	}
-
-	public void dfs(int start, boolean[] d_visited, List<List<Integer>> d_adjList) {
-		Stack<Integer> stack = new Stack<Integer>();
-		stack.push(start);
-
-		d_visited[start] = true;
-		while (!stack.isEmpty()) {
-			Integer node = stack.pop();
-			List<Integer> neighboursList = d_adjList.get(node);
-
-			for (Integer neighbour : neighboursList) {
-				if (!d_visited[neighbour]) {
-					stack.push(neighbour);
-					d_visited[neighbour] = true;
-				}
-			}
-		}
-	}
-
 }

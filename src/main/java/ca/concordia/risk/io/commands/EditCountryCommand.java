@@ -3,9 +3,9 @@ package ca.concordia.risk.io.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
-import ca.concordia.risk.game.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 

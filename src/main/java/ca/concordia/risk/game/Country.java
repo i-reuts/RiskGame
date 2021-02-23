@@ -29,15 +29,6 @@ public class Country {
 	}
 
 	/**
-	 * Gets the number of deployed armies.
-	 * 
-	 * @return number of of armies currently deployed in this country.
-	 */
-	public int getArmies() {
-		return d_numArmies;
-	}
-
-	/**
 	 * Gets the name of the country.
 	 * 
 	 * @return country name.
@@ -47,7 +38,7 @@ public class Country {
 	}
 
 	/**
-	 * Get the continent that this country belong to.
+	 * Gets the continent that this country belongs to.
 	 * 
 	 * @return continent the country belongs to.
 	 */
@@ -56,16 +47,7 @@ public class Country {
 	}
 
 	/**
-	 * Get the player owning this country.
-	 * 
-	 * @return player owning the country.
-	 */
-	public Player getOwner() {
-		return d_owner;
-	}
-
-	/**
-	 * Get the neighboring countries.
+	 * Gets the neighboring countries.
 	 * 
 	 * @return set of neighbors.
 	 */
@@ -74,38 +56,25 @@ public class Country {
 	}
 
 	/**
-	 * Set the player owning this country.
+	 * Gets the player owning this country.
 	 * 
-	 * @param p_owner player owning the country.
+	 * @return player owning the country.
 	 */
-	public void setOwner(Player p_owner) {
-		this.d_owner = p_owner;
+	public Player getOwner() {
+		return d_owner;
 	}
 
 	/**
-	 * Add armies to the country.
+	 * Gets the number of deployed armies.
 	 * 
-	 * @param p_armies positive integer representing the number of armies to add.
+	 * @return number of of armies currently deployed in this country.
 	 */
-	public void addArmies(int p_armies) {
-		if (p_armies > 0) {
-			d_numArmies += p_armies;
-		}
+	public int getArmies() {
+		return d_numArmies;
 	}
 
 	/**
-	 * Remove armies from the country.
-	 * 
-	 * @param p_armies positive integer representing the number of armies to remove.
-	 */
-	public void removeArmies(int p_armies) {
-		if (p_armies > 0 && p_armies <= d_numArmies) {
-			d_numArmies -= p_armies;
-		}
-	}
-
-	/**
-	 * Add a neighbor to the country, representing a border.
+	 * Adds a neighbor to the country, representing a border.
 	 * 
 	 * @param p_country country to be added as a neighbor.
 	 * @return <code>true</code> if the neighbor was added.<br>
@@ -116,7 +85,7 @@ public class Country {
 	}
 
 	/**
-	 * Remove a neighbor from the country.
+	 * Removes a neighbor from the country.
 	 * 
 	 * @param p_country country to be removed from the set of neighbors.
 	 * @return <code>true</code> if the neighbor was removed.<br>
@@ -124,5 +93,36 @@ public class Country {
 	 */
 	public boolean removeNeighbor(Country p_country) {
 		return d_neighbors.remove(p_country);
+	}
+
+	/**
+	 * Sets the player owning this country.
+	 * 
+	 * @param p_owner player owning the country.
+	 */
+	public void setOwner(Player p_owner) {
+		this.d_owner = p_owner;
+	}
+
+	/**
+	 * Adds armies to the country.
+	 * 
+	 * @param p_armies positive integer representing the number of armies to add.
+	 */
+	public void addArmies(int p_armies) {
+		if (p_armies > 0) {
+			d_numArmies += p_armies;
+		}
+	}
+
+	/**
+	 * Removes armies from the country.
+	 * 
+	 * @param p_armies positive integer representing the number of armies to remove.
+	 */
+	public void removeArmies(int p_armies) {
+		if (p_armies > 0 && p_armies <= d_numArmies) {
+			d_numArmies -= p_armies;
+		}
 	}
 }
