@@ -195,6 +195,24 @@ public class GameEngine {
 			}
 		}
 	}
+	
+	protected static Order ProcessOrderCommand(Player p_player) {
+		Order l_order = null;
+		
+		while(l_order == null) {
+			d_View.display("\n" + p_player.getName() + ", please enter your command (" + p_player.numberOfReinforcementsLeft()
+			+ " reinforcements left):");
+			
+			Command l_command = d_ActiveParser.parse(d_View.getInput());
+			if (l_command instanceof OrderCommand) {
+				l_order = ((OrderCommand) l_command).buildOrder(p_player);
+			} else {
+				l_command.execute();
+			}
+		}
+		
+		return l_order;
+	}
 
 	/** Processes one command inputed by user */
 	private static void ProcessUserCommand() {

@@ -36,7 +36,8 @@ public class Player {
 	}
 	
 	public void issueOrder() {
-		
+		Order l_order = GameEngine.ProcessOrderCommand(this);
+		d_orders.add(l_order);
 	}
 	
 	public boolean finishedIssuingOrders() {
