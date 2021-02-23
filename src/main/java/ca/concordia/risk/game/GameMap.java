@@ -1,7 +1,9 @@
 package ca.concordia.risk.game;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -17,6 +19,7 @@ import java.util.TreeMap;
 public class GameMap {
 	private Map<String, Country> d_countries;
 	private Map<String, Continent> d_continents;
+	
 
 	/**
 	 * Constructor for the GameMap entity
@@ -172,9 +175,9 @@ public class GameMap {
 
 		return true;
 	}
-
+	 	
 	/**
-	 * Builds a string representation of the map.
+	 * Builds a string representation of the map for editor.
 	 * 
 	 * @return string representing the map.
 	 */
@@ -239,5 +242,24 @@ public class GameMap {
 		}
 		System.out.println(l_builder.toString());
 	}
+	
+	public void dfs(int start,boolean[] d_visited, List<List<Integer>> d_adjList) {
+			Stack<Integer> stack = new Stack<Integer>();
+			stack.push(start);
+			
+			d_visited[start]= true;
+			 while(!stack.isEmpty()) {
+				 Integer node = stack.pop();
+				 List<Integer> neighboursList = d_adjList.get(node); 
+				 
+				 for(Integer neighbour: neighboursList) {
+					 if(!d_visited[neighbour]) {
+						 stack.push(neighbour);
+						 d_visited[neighbour]=true;
+					 }
+				 } 
+			 }
+	}
+	
 }
 
