@@ -45,8 +45,18 @@ public class Player {
 		d_countries.remove(p_country);
 	}
 	
+	
+	/** Assigning Reinforcement to players.
+	 * 
+	 */
 	public void assignReinfocements() {
-		//TODO Calculate the amount of reinforcements the player needs.
+		
+		Set<String> continents = new HashSet<String>();
+		for (Country country : d_countries) {
+			continents.add(country.getContinent().getName());
+		}
+		d_reinforcements = Math.max(3, d_countries.size() / 3) + continents.size();
+	
 	}
 
 	public int numberOfReinforcementsLeft() {
