@@ -1,6 +1,7 @@
 package ca.concordia.risk.io.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import ca.concordia.risk.game.GameEngine;
 import ca.concordia.risk.game.GameMap;
@@ -28,6 +29,39 @@ class Graph {
 		for (int i = 0; i < nodes; i++) {
 			graph.add(i, new ArrayList<>());
 		}
+	}
+	
+	/**
+	 * @param a
+	 * @param b
+	 */
+	public void addEdge(int a, int b) {
+		graph.get(a).add(b);
+	}
+
+
+	/**
+	 * @return
+	 */
+	public boolean isConnected() {
+
+		for (int i = 0; i < nodes; i++) {
+			dfs(i);
+
+			for (int j = 0; j < nodes; j++) {
+				if (!visited[j]) {
+					return false;
+				}
+			}
+
+			Arrays.fill(visited, false);
+		}
+
+		return true;
+	}
+
+
+	public void dfs(int start) {
 	}
 }
 
