@@ -1,6 +1,7 @@
 package ca.concordia.risk.utils;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -12,6 +13,8 @@ import ca.concordia.risk.game.GameMap;
 /** This class validates the game maps. */
 public class MapValidator {
 
+	private static String d_Status = "";
+
 	/**
 	 * Checks the validity of a map as a whole and each continent in the map.
 	 * 
@@ -21,7 +24,8 @@ public class MapValidator {
 	 */
 	public static boolean Validate(GameMap p_map) {
 		Set<Country> l_countries = new HashSet<Country>(p_map.getCountries());
-		if (l_countries.isEmpty()) {
+		if (l_countries.size() < 2) {
+			d_Status = "map has less than two countries";
 			return false;
 		}
 		// Validate the graph as a whole
@@ -29,6 +33,9 @@ public class MapValidator {
 			Set<Country> l_visited = new HashSet<Country>();
 			Dfs(l_country, l_visited, l_countries);
 			if (l_visited.size() != l_countries.size()) {
+				l_countries.removeAll(l_visited);
+				d_Status = "map validation - countries " + BuildCountryListString(l_countries)
+						+ " are unreachable from country " + l_country.getName();
 				return false;
 			}
 		}
@@ -37,15 +44,34 @@ public class MapValidator {
 		for (Continent l_continent : l_continents) {
 			Set<Country> l_continentCountries = l_continent.getCountries();
 			if (l_continentCountries.isEmpty()) {
+				d_Status = "continent " + l_continent.getName() + " has no countries";
 				return false;
 			}
-			Set<Country> l_visited = new HashSet<Country>();
-			Dfs(l_continentCountries.iterator().next(), l_visited, l_continentCountries);
-			if (l_visited.size() != l_continentCountries.size()) {
-				return false;
+			for (Country l_country : l_continentCountries) {
+				Set<Country> l_visited = new HashSet<Country>();
+				Dfs(l_country, l_visited, l_continentCountries);
+				if (l_visited.size() != l_continentCountries.size()) {
+					Set<Country> l_unreachableCountries = new HashSet<Country>(l_continentCountries);
+					l_unreachableCountries.removeAll(l_visited);
+					d_Status = "continent validation - countries " + BuildCountryListString(l_unreachableCountries)
+							+ " are unreachable from country " + l_country.getName() + " in continent "
+							+ l_continent.getName();
+					return false;
+				}
 			}
 		}
+
+		d_Status = "map is valid";
 		return true;
+	}
+
+	/**
+	 * Gets the validation status.
+	 * 
+	 * @return validation status message.
+	 */
+	public static String getStatus() {
+		return d_Status;
 	}
 
 	/**
@@ -70,5 +96,26 @@ public class MapValidator {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Builds and get a list of country names.
+	 * 
+	 * @return string list of country names.
+	 */
+	private static String BuildCountryListString(Set<Country> p_unreachableCountries) {
+		StringBuilder l_sb = new StringBuilder();
+
+		l_sb.append("[");
+		Iterator<Country> l_it = p_unreachableCountries.iterator();
+		while (l_it.hasNext()) {
+			l_sb.append(l_it.next().getName());
+			if (l_it.hasNext()) {
+				l_sb.append(", ");
+			}
+		}
+		l_sb.append("]");
+		
+		return l_sb.toString();
 	}
 }

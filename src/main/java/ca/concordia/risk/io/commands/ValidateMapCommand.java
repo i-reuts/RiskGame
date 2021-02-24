@@ -22,7 +22,7 @@ public class ValidateMapCommand implements Command {
 		if (d_validate == true) {
 			System.out.println("The map is a valid");
 		} else {
-			System.out.println("The map is not valid");
+			System.out.println("The map is not valid: " + MapValidator.getStatus());
 		}
 	}
 }
