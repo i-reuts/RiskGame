@@ -16,7 +16,7 @@ public class MapValidator {
 	private static String d_Status = "";
 
 	/**
-	 * Checks the validity of a map as a whole and each continent in the map.
+	 * Checks the validity of a map as a whole and of each continent in the map.
 	 * 
 	 * @param p_map map to validate.
 	 * @return <code>true</code> if map is a valid map.<br>

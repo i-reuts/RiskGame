@@ -1,7 +1,7 @@
 package ca.concordia.risk.game.orders;
 
 /**
- * Interface for Order entities.
+ * Interface for player orders.
  * 
  * @author Enrique
  *

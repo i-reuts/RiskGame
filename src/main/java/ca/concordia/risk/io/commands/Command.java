@@ -1,7 +1,7 @@
 package ca.concordia.risk.io.commands;
 
 /**
- * An interface implemented by all executable commands.
+ * Interface implemented by all executable commands.
  * 
  * <p>
  * A <code>Command</code> object represents an executable command produced by

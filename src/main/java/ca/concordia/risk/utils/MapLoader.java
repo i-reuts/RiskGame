@@ -16,18 +16,23 @@ import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 
-/** This class reads the existing maps. */
+/**
+ * This class provides functionality to load the map from and save the map to
+ * <i>.map</i> files.
+ */
 public class MapLoader {
 
 	private static final String d_MapFolder = "./maps/";
 	private static final String d_Encoding = "ISO-8859-1";
 
 	/**
-	 * This method loads the (.map) file by calling appropriate functions for
-	 * reading the continents, countries and borders.
+	 * Loads a map file.
+	 * <p>
+	 * Reads a (.map) file by calling appropriate functions for reading the
+	 * continents, countries and borders.
 	 * 
-	 * @param p_fileName location of the (.map) file
-	 * @return game map
+	 * @param p_fileName filename of the (.map) file
+	 * @return game map loaded from the file.
 	 * @throws FileParsingException  thrown if the parsing error occurs when parsing
 	 *                               the map file.
 	 * @throws FileNotFoundException thrown if the map file with the requested file
@@ -363,7 +368,10 @@ public class MapLoader {
 		}
 	}
 
-	/** This class handles exceptions while parsing the .map file. */
+	/**
+	 * A custom <code>Exception</code> class thrown when a parsing error occurs
+	 * while parsing the .map file.
+	 */
 	@SuppressWarnings("serial")
 	public static class FileParsingException extends Exception {
 

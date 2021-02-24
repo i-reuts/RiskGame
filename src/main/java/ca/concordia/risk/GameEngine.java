@@ -48,7 +48,7 @@ public class GameEngine {
 	}
 
 	/**
-	 * Returns the current view.
+	 * Gets the current view.
 	 * 
 	 * @return view currently used by the game.
 	 */
@@ -94,7 +94,7 @@ public class GameEngine {
 	}
 
 	/**
-	 * Gets a player from he list of active players.
+	 * Gets a player from the list of active players.
 	 * 
 	 * @param p_name name of the player to get.
 	 * @return <code>Player</code> object if the player with specified name
@@ -108,7 +108,7 @@ public class GameEngine {
 	/**
 	 * Adds a new player to the list of active players.
 	 * 
-	 * @param p_name name of the player to added.
+	 * @param p_name name of the player to add.
 	 */
 	public static void AddPlayer(String p_name) {
 		Player l_player = new Player(p_name);
@@ -118,13 +118,13 @@ public class GameEngine {
 	/**
 	 * Removes a player from the list of active players.
 	 * 
-	 * @param p_name name of the player to be removed.
+	 * @param p_name name of the player to remove.
 	 */
 	public static void RemovePlayer(String p_name) {
 		d_ActivePlayers.remove(p_name);
 	}
 
-	/** Assign countries randomly to active players. */
+	/** Assigns countries randomly to active players. */
 	public static void AssignCountries() {
 		// Get all countries and shuffle them randomly
 		List<Country> l_countryList = d_ActiveMap.getCountries();
@@ -146,12 +146,12 @@ public class GameEngine {
 	}
 
 	/**
-	 * Process one player order command inputed by user.
+	 * Processes one player order command inputed by user.
 	 * <p>
 	 * Keeps asking user for to provide a command until a valid order is received.
 	 * 
 	 * @param p_player player that is issuing the command.
-	 * @return order representing the order issued by the user.
+	 * @return order representing the order issued by the player.
 	 */
 	public static Order ProcessOrderCommand(Player p_player) {
 		Order l_order = null;

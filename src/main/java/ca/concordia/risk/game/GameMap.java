@@ -21,7 +21,7 @@ public class GameMap {
 	private Map<String, Continent> d_continents;
 
 	/**
-	 * Constructor for the GameMap entity.
+	 * Constructor for the <code>GameMap</code> entity.
 	 */
 	public GameMap() {
 		d_countries = new TreeMap<String, Country>();
@@ -50,10 +50,10 @@ public class GameMap {
 	 * Gets a country with the corresponding name if it exists.
 	 * 
 	 * @param p_countryName name of the country to return.
-	 * @return <code>Country</code> with the the <code>p_countryName</code> if it
+	 * @return <code>Country</code> with the name <code>p_countryName</code> if it
 	 *         exists in the map.<br>
-	 *         <code>null</code> if the country with <code>p_countryName</code> does
-	 *         not exist in the map.
+	 *         <code>null</code> if the country with name <code>p_countryName</code>
+	 *         does not exist in the map.
 	 */
 	public Country getCountry(String p_countryName) {
 		return d_countries.get(p_countryName);
@@ -62,11 +62,11 @@ public class GameMap {
 	/**
 	 * Gets a continent with the corresponding name if it exists.
 	 * 
-	 * @param p_continentName name of the country to return.
-	 * @return <code>Continent</code> with the the <code>continentName</code> if it
-	 *         exists in the map.<br>
-	 *         <code>null</code> if the continent with <code>continentName</code>
-	 *         does not exist in the map.
+	 * @param p_continentName name of the continent to return.
+	 * @return <code>Continent</code> with the name <code>p_continentName</code> if
+	 *         it exists in the map.<br>
+	 *         <code>null</code> if the continent with name
+	 *         <code>p_continentName</code> does not exist in the map.
 	 */
 	public Continent getContinent(String p_continentName) {
 		return d_continents.get(p_continentName);
@@ -77,7 +77,7 @@ public class GameMap {
 	 * exist.
 	 * 
 	 * @param p_country country to add.
-	 * @return <code>true</code> if country was successfully added.<br>
+	 * @return <code>true</code> if the country was successfully added.<br>
 	 *         <code>false</code> if the country already existed.
 	 */
 	public boolean addCountry(Country p_country) {
@@ -96,7 +96,7 @@ public class GameMap {
 	 * already exist.
 	 * 
 	 * @param p_continent continent to add.
-	 * @return <code>true</code> if continent was successfully added.<br>
+	 * @return <code>true</code> if the continent was successfully added.<br>
 	 *         <code>false</code> if the continent already existed.
 	 */
 	public boolean addContinent(Continent p_continent) {
@@ -109,11 +109,12 @@ public class GameMap {
 	}
 
 	/**
-	 * Removes a country from the map.
+	 * Removes a country with the specified name from the map.
 	 * 
 	 * @param p_countryName name of the country to remove.
 	 * @return <code>true</code> if the country was removed.<br>
-	 *         <code>false</code> if the country was not found.
+	 *         <code>false</code> if the country with name
+	 *         <code>p_countryName</code> was not found.
 	 */
 	public boolean removeCountry(String p_countryName) {
 		Country l_country = d_countries.get(p_countryName);
@@ -137,11 +138,12 @@ public class GameMap {
 	}
 
 	/**
-	 * Removes a continent from the map.
+	 * Removes a continent with the specified name from the map.
 	 * 
 	 * @param p_continentName name of the continent to remove.
 	 * @return <code>true</code> if the continent was removed.<br>
-	 *         <code>false</code> if the continent was not found.
+	 *         <code>false</code> if the continent with name
+	 *         <code>p_continentName</code> was not found.
 	 */
 	public boolean removeContinent(String p_continentName) {
 		Continent l_continent = d_continents.get(p_continentName);

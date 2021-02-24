@@ -11,7 +11,7 @@ import ca.concordia.risk.utils.MapValidator;
  */
 public class ValidateMapCommand implements Command {
 
-	/** Validates the active Map. */
+	/** Validates the active map. */
 	@Override
 	public void execute() {
 
