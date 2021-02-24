@@ -2,20 +2,12 @@ package ca.concordia.risk.io.commands;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Set;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
-import ca.concordia.risk.utils.MapLoader;
-import ca.concordia.risk.utils.MapLoader.FileParsingException;
 import ca.concordia.risk.utils.MapValidator;
 
 /**
@@ -128,7 +120,7 @@ class ValidateMapCommandTest {
 	}
 
 	/**
-	 * Finally checks for the overall map to be valid
+	 * Tests for the overall map to be valid
 	 */
 	@Test
 	void validMap() {
