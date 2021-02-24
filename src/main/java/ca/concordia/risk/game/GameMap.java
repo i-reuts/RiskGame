@@ -27,7 +27,7 @@ public class GameMap {
 		d_countries = new TreeMap<String, Country>();
 		d_continents = new TreeMap<String, Continent>();
 	}
-	
+
 	/**
 	 * Gets a list of all countries in the map.
 	 * 
@@ -178,19 +178,7 @@ public class GameMap {
 		StringBuilder l_builder = new StringBuilder();
 
 		// Build the continent table
-		l_builder.append(String.format("\n%-20s %s\n", "Continent", "Countries"));
-		for (Continent l_c : d_continents.values()) {
-			l_builder.append(String.format("%-20s ", l_c.getName()));
-			Iterator<Country> l_i = l_c.getCountries().iterator();
-
-			while (l_i.hasNext()) {
-				l_builder.append(l_i.next().getName());
-				if (l_i.hasNext()) {
-					l_builder.append(", ");
-				}
-			}
-			l_builder.append("\n");
-		}
+		buildContinentString(l_builder);
 
 		// Build the country neighbors table
 		l_builder.append(String.format("\n%-20s %s\n", "Country", "Neighbors"));
@@ -231,8 +219,11 @@ public class GameMap {
 			}
 		});
 
-		// Build a table of countries from the sorted list
 		StringBuilder l_builder = new StringBuilder();
+		// Build the continent table
+		buildContinentString(l_builder);
+
+		// Build a table of countries from the sorted list
 		// Build the table header
 		l_builder.append(
 				String.format("\n%-20s %-15s %-8s %-15s %s\n", "Country", "Owner", "Armies", "Continent", "Neighbors"));
@@ -252,5 +243,26 @@ public class GameMap {
 		}
 
 		return l_builder.toString();
+	}
+
+	/**
+	 * Builds the continent table and appends it to the given string builder.
+	 * 
+	 * @param l_builder string builder to append the continent table to.
+	 */
+	private void buildContinentString(StringBuilder l_builder) {
+		l_builder.append(String.format("\n%-20s %-6s %s\n", "Continent", "Value", "Countries"));
+		for (Continent l_c : d_continents.values()) {
+			l_builder.append(String.format("%-20s %-6s ", l_c.getName(), l_c.getValue()));
+			Iterator<Country> l_i = l_c.getCountries().iterator();
+
+			while (l_i.hasNext()) {
+				l_builder.append(l_i.next().getName());
+				if (l_i.hasNext()) {
+					l_builder.append(", ");
+				}
+			}
+			l_builder.append("\n");
+		}
 	}
 }
