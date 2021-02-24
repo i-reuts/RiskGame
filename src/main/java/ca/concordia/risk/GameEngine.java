@@ -23,7 +23,7 @@ import ca.concordia.risk.io.views.ConsoleView;
  */
 public class GameEngine {
 
-	/** Enumerable representing supported game modes **/
+	/** Enumerable representing supported game modes. **/
 	private static enum GameMode {
 		EDITOR, STARTUP, GAMEPLAY
 	}
@@ -40,9 +40,9 @@ public class GameEngine {
 	 * <p>
 	 * Initializes the <code>GameEngine</code> and starts main application loop.
 	 * 
-	 * @param args command-line arguments.
+	 * @param p_args command-line arguments.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] p_args) {
 		Initialize();
 		RunMainLoop();
 	}
@@ -74,24 +74,25 @@ public class GameEngine {
 		d_ActiveMap = p_map;
 	}
 
-	/** Changes active game mode to Startup */
+	/** Changes active game mode to Startup. */
 	public static void SwitchToStartupMode() {
 		ChangeMode(GameMode.STARTUP);
 	}
 
-	/** Changes active game mode to Gameplay */
+	/** Changes active game mode to Gameplay. */
 	public static void SwitchToGameplayMode() {
 		ChangeMode(GameMode.GAMEPLAY);
 	}
 
-	/** 
+	/**
 	 * Gets the number of active players.
+	 * 
 	 * @return number of active players.
 	 */
 	public static int GetNumberOfPlayers() {
 		return d_ActivePlayers.size();
 	}
-	
+
 	/**
 	 * Gets a player from he list of active players.
 	 * 
@@ -179,7 +180,7 @@ public class GameEngine {
 		d_ActiveParser = d_ParserMap.get(d_ActiveMode);
 	}
 
-	/** Initializes the <code>GameEngine</code> */
+	/** Initializes the <code>GameEngine</code>. */
 	private static void Initialize() {
 		// Initialize the view
 		d_View = new ConsoleView();
@@ -193,7 +194,7 @@ public class GameEngine {
 		ChangeMode(GameMode.EDITOR);
 	}
 
-	/** Executes the main application loop */
+	/** Executes the main application loop. */
 	private static void RunMainLoop() {
 		while (true) {
 			while (d_ActiveMode != GameMode.GAMEPLAY) {
@@ -256,7 +257,7 @@ public class GameEngine {
 		}
 	}
 
-	/** Processes one general application command inputed by user */
+	/** Processes one general application command inputed by user. */
 	private static void ProcessUserCommand() {
 		d_View.display("\nPlease enter your command:");
 		String l_userInput = d_View.getInput();

@@ -101,13 +101,14 @@ public class MapValidator {
 	/**
 	 * Builds and get a list of country names.
 	 * 
+	 * @param p_countries list of countries to build the list from.
 	 * @return string list of country names.
 	 */
-	private static String BuildCountryListString(Set<Country> p_unreachableCountries) {
+	private static String BuildCountryListString(Set<Country> p_countries) {
 		StringBuilder l_sb = new StringBuilder();
 
 		l_sb.append("[");
-		Iterator<Country> l_it = p_unreachableCountries.iterator();
+		Iterator<Country> l_it = p_countries.iterator();
 		while (l_it.hasNext()) {
 			l_sb.append(l_it.next().getName());
 			if (l_it.hasNext()) {
@@ -115,7 +116,7 @@ public class MapValidator {
 			}
 		}
 		l_sb.append("]");
-		
+
 		return l_sb.toString();
 	}
 }

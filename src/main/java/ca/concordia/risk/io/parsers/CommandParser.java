@@ -25,7 +25,7 @@ import ca.concordia.risk.io.commands.ShowMapCommand;
  * can define a set of operations supported in the phase it represents.
  * </ol>
  */
-abstract public class CommandParser {
+public abstract class CommandParser {
 
 	/**
 	 * A {CommandString, ParserMethod} map containing the mapping of commands to
@@ -57,10 +57,10 @@ abstract public class CommandParser {
 		}
 
 		String l_rootCommand = l_argList.remove(0);
-		ParserMethod l_pMethod = d_commandParsers.get(l_rootCommand);
+		ParserMethod l_parserMethod = d_commandParsers.get(l_rootCommand);
 
-		if (l_pMethod != null) {
-			return l_pMethod.parse(l_argList);
+		if (l_parserMethod != null) {
+			return l_parserMethod.parse(l_argList);
 		}
 
 		return new InvalidCommand("unknown command " + l_rootCommand);

@@ -21,7 +21,7 @@ public class GameMap {
 	private Map<String, Continent> d_continents;
 
 	/**
-	 * Constructor for the GameMap entity
+	 * Constructor for the GameMap entity.
 	 */
 	public GameMap() {
 		d_countries = new TreeMap<String, Country>();
@@ -248,21 +248,21 @@ public class GameMap {
 	/**
 	 * Builds the continent table and appends it to the given string builder.
 	 * 
-	 * @param l_builder string builder to append the continent table to.
+	 * @param p_builder string builder to append the continent table to.
 	 */
-	private void buildContinentString(StringBuilder l_builder) {
-		l_builder.append(String.format("\n%-20s %-6s %s\n", "Continent", "Value", "Countries"));
+	private void buildContinentString(StringBuilder p_builder) {
+		p_builder.append(String.format("\n%-20s %-6s %s\n", "Continent", "Value", "Countries"));
 		for (Continent l_c : d_continents.values()) {
-			l_builder.append(String.format("%-20s %-6s ", l_c.getName(), l_c.getValue()));
+			p_builder.append(String.format("%-20s %-6s ", l_c.getName(), l_c.getValue()));
 			Iterator<Country> l_i = l_c.getCountries().iterator();
 
 			while (l_i.hasNext()) {
-				l_builder.append(l_i.next().getName());
+				p_builder.append(l_i.next().getName());
 				if (l_i.hasNext()) {
-					l_builder.append(", ");
+					p_builder.append(", ");
 				}
 			}
-			l_builder.append("\n");
+			p_builder.append("\n");
 		}
 	}
 }

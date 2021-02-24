@@ -3,7 +3,7 @@ package ca.concordia.risk.io.commands;
 import java.io.IOException;
 
 import ca.concordia.risk.GameEngine;
-import ca.concordia.risk.game.*;
+import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 import ca.concordia.risk.utils.MapLoader;
 
@@ -31,8 +31,8 @@ public class SaveMapCommand implements Command {
 			try {
 				MapLoader.SaveMap(d_filename, l_gameMap);
 				l_view.display("Map saved");
-			} catch (IOException e) {
-				l_view.display("Error when saving the map: " + e.getMessage());
+			} catch (IOException l_e) {
+				l_view.display("Error when saving the map: " + l_e.getMessage());
 			}
 		} else {
 			l_view.display("No map to save - please load a map first");

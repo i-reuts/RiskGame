@@ -1,6 +1,9 @@
 package ca.concordia.risk.game;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +19,7 @@ class GameMapTest {
 	 * Initializes the context with an empty map before each test.
 	 */
 	@BeforeEach
-	void SetUp() {
+	void setUp() {
 		d_Map = new GameMap();
 	}
 

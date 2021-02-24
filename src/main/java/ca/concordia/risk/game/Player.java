@@ -150,8 +150,8 @@ public class Player {
 		// must form a subset of the countries owned by the player)
 		// 3. Add fully owned continent bonus values to reinforcements
 		Set<Continent> l_processedContinents = new HashSet<Continent>();
-		for (Country country : d_countries) {
-			Continent l_continent = country.getContinent();
+		for (Country l_country : d_countries) {
+			Continent l_continent = l_country.getContinent();
 			if (!l_processedContinents.contains(l_continent)) {
 				if (d_countries.containsAll(l_continent.getCountries())) {
 					d_reinforcements += l_continent.getValue();

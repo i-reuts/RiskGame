@@ -1,6 +1,8 @@
 package ca.concordia.risk.game;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * This class is the representation of the game entity Continent.

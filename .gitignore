@@ -2,9 +2,11 @@ target/
 .settings/
 .classpath
 .project
+.vscode
 fds
 
 maps/*
 !maps/testmap.map
 
 /bin/
+checkstyle.xml

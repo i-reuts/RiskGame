@@ -29,13 +29,13 @@ public class EditMapCommand implements Command {
 		try {
 			l_gameMap = MapLoader.LoadMap(d_filename);
 			l_view.display("Map succesfully loaded from file");
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException l_e) {
 			l_view.display("Map file with filename " + d_filename + " does not exist");
 			l_view.display("Creating a new map...");
 			l_gameMap = new GameMap();
-		} catch (MapLoader.FileParsingException e) {
+		} catch (MapLoader.FileParsingException l_e) {
 			l_view.display("Error while loading the map file");
-			l_view.display(e.getMessage());
+			l_view.display(l_e.getMessage());
 		} finally {
 			GameEngine.SetMap(l_gameMap);
 		}

@@ -18,8 +18,7 @@ public class ValidateMapCommand implements Command {
 		ConsoleView l_view = GameEngine.GetView();
 		l_view.display("Validating the active map...");
 
-		boolean d_validate = MapValidator.Validate(GameEngine.GetMap());
-		if (d_validate == true) {
+		if (MapValidator.Validate(GameEngine.GetMap())) {
 			System.out.println("The map is valid");
 		} else {
 			System.out.println("The map is not valid: " + MapValidator.getStatus());

@@ -69,8 +69,8 @@ public class MapLoader {
 		List<Continent> l_continentList = p_map.getContinents();
 		List<Country> l_countryList = p_map.getCountries();
 
-		Map<Continent, Integer> l_continentToIdMap = GenerateContinentIDs(l_continentList);
-		Map<Country, Integer> l_countryToIdMap = GenerateCountryIDs(l_countryList);
+		Map<Continent, Integer> l_continentToIdMap = GenerateContinentIds(l_continentList);
+		Map<Country, Integer> l_countryToIdMap = GenerateCountryIds(l_countryList);
 
 		File l_file = new File(d_MapFolder + p_fileName);
 		try (BufferedWriter l_writer = new BufferedWriter(
@@ -78,12 +78,12 @@ public class MapLoader {
 			WriteContinents(l_writer, l_continentList);
 			WriteCountries(l_writer, l_countryList, l_continentToIdMap);
 			WriteBorders(l_writer, l_countryList, l_countryToIdMap);
-		} catch (IOException e) {
+		} catch (IOException l_e) {
 			// In case if we have a partially written file, delete it
 			if (l_file.exists()) {
 				l_file.delete();
 			}
-			throw e;
+			throw l_e;
 		}
 	}
 
@@ -122,7 +122,7 @@ public class MapLoader {
 	private static Map<Integer, Continent> ReadContinents(Scanner p_sc) throws FileParsingException {
 		Map<Integer, Continent> l_continentMap = new HashMap<Integer, Continent>();
 
-		int l_runningID = 1;
+		int l_runningId = 1;
 		while (p_sc.hasNextLine()) {
 			String l_line = p_sc.nextLine().trim();
 
@@ -136,9 +136,9 @@ public class MapLoader {
 				String l_continentName = l_tokens[0].replace('_', ' ');
 				int l_continentValue = Integer.parseInt(l_tokens[1]);
 
-				l_continentMap.put(l_runningID, new Continent(l_continentName, l_continentValue));
-				l_runningID++;
-			} catch (Exception e) {
+				l_continentMap.put(l_runningId, new Continent(l_continentName, l_continentValue));
+				l_runningId++;
+			} catch (Exception l_e) {
 				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
 			}
 		}
@@ -175,20 +175,20 @@ public class MapLoader {
 			try {
 				// Parse country data
 				String[] l_tokens = l_line.split("\\s+");
-				int l_countryID = Integer.parseInt(l_tokens[0]);
+				int l_countryId = Integer.parseInt(l_tokens[0]);
 				String l_countryName = l_tokens[1].replace('_', ' ');
-				int l_continentID = Integer.parseInt(l_tokens[2]);
+				int l_continentId = Integer.parseInt(l_tokens[2]);
 
 				// Get country continent
-				Continent l_continent = p_continentMap.get(l_continentID);
+				Continent l_continent = p_continentMap.get(l_continentId);
 				// Create country
 				Country l_country = new Country(l_countryName, l_continent);
 				// Add country to continent
 				l_continent.addCountry(l_country);
 
 				// Add country to country map
-				l_countryMap.put(l_countryID, l_country);
-			} catch (Exception e) {
+				l_countryMap.put(l_countryId, l_country);
+			} catch (Exception l_e) {
 				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
 			}
 		}
@@ -220,13 +220,13 @@ public class MapLoader {
 			try {
 				// Parse country data
 				String[] l_tokens = l_line.split("\\s+");
-				int l_countryID = Integer.parseInt(l_tokens[0]);
-				for (int i = 1; i < l_tokens.length; i++) {
+				int l_countryId = Integer.parseInt(l_tokens[0]);
+				for (int l_i = 1; l_i < l_tokens.length; l_i++) {
 					// Add neighbors to country
-					int l_neighborID = Integer.parseInt(l_tokens[i]);
-					p_countryMap.get(l_countryID).addNeighbor(p_countryMap.get(l_neighborID));
+					int l_neighborId = Integer.parseInt(l_tokens[l_i]);
+					p_countryMap.get(l_countryId).addNeighbor(p_countryMap.get(l_neighborId));
 				}
-			} catch (Exception e) {
+			} catch (Exception l_e) {
 				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
 			}
 		}
@@ -244,11 +244,11 @@ public class MapLoader {
 	private static GameMap CreateMap(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
 		GameMap l_gameMap = new GameMap();
 
-		for (Continent c : p_continentMap.values()) {
-			l_gameMap.addContinent(c);
+		for (Continent l_c : p_continentMap.values()) {
+			l_gameMap.addContinent(l_c);
 		}
-		for (Country c : p_countryMap.values()) {
-			l_gameMap.addCountry(c);
+		for (Country l_c : p_countryMap.values()) {
+			l_gameMap.addCountry(l_c);
 		}
 
 		return l_gameMap;
@@ -261,13 +261,13 @@ public class MapLoader {
 	 * @param p_continentList list of all continents in the map.
 	 * @return map of Continent to generated Continent ID.
 	 */
-	private static Map<Continent, Integer> GenerateContinentIDs(List<Continent> p_continentList) {
+	private static Map<Continent, Integer> GenerateContinentIds(List<Continent> p_continentList) {
 		Map<Continent, Integer> l_continentToIdMap = new HashMap<Continent, Integer>();
 
-		int l_continentID = 1;
+		int l_continentId = 1;
 		for (Continent l_continet : p_continentList) {
-			l_continentToIdMap.put(l_continet, l_continentID);
-			l_continentID++;
+			l_continentToIdMap.put(l_continet, l_continentId);
+			l_continentId++;
 		}
 
 		return l_continentToIdMap;
@@ -280,13 +280,13 @@ public class MapLoader {
 	 * @param p_countryList list of all countries in the map.
 	 * @return map of Country to generated Country ID.
 	 */
-	private static Map<Country, Integer> GenerateCountryIDs(List<Country> p_countryList) {
+	private static Map<Country, Integer> GenerateCountryIds(List<Country> p_countryList) {
 		Map<Country, Integer> l_countryToIdMap = new HashMap<>();
 
-		int l_countryID = 1;
+		int l_countryId = 1;
 		for (Country l_country : p_countryList) {
-			l_countryToIdMap.put(l_country, l_countryID);
-			l_countryID++;
+			l_countryToIdMap.put(l_country, l_countryId);
+			l_countryId++;
 		}
 
 		return l_countryToIdMap;
@@ -315,13 +315,13 @@ public class MapLoader {
 	 * 
 	 * @param p_writer           buffered writer used to write to the file.
 	 * @param p_countryList      list of all countries.
-	 * @param l_continentToIdMap map of continents mapped to generated continent
+	 * @param p_continentToIdMap map of continents mapped to generated continent
 	 *                           IDs.
 	 * @throws IOException exception thrown if an error occurs while writing the map
 	 *                     to file.
 	 */
 	private static void WriteCountries(BufferedWriter p_writer, List<Country> p_countryList,
-			Map<Continent, Integer> l_continentToIdMap) throws IOException {
+			Map<Continent, Integer> p_continentToIdMap) throws IOException {
 		p_writer.newLine();
 		p_writer.write("[countries]");
 		p_writer.newLine();
@@ -330,7 +330,7 @@ public class MapLoader {
 			Country l_country = p_countryList.get(l_i);
 			Continent l_continent = l_country.getContinent();
 			p_writer.write(l_i + 1 + " " + l_country.getName().replaceAll("\\s+", "_") + " "
-					+ l_continentToIdMap.get(l_continent));
+					+ p_continentToIdMap.get(l_continent));
 			p_writer.newLine();
 		}
 		p_writer.newLine();
@@ -341,12 +341,12 @@ public class MapLoader {
 	 * 
 	 * @param p_writer         buffered writer used to write to the file.
 	 * @param p_countryList    list of all countries.
-	 * @param l_countryToIdMap map of countries mapped to generated country IDs.
+	 * @param p_countryToIdMap map of countries mapped to generated country IDs.
 	 * @throws IOException exception thrown if an error occurs while writing the map
 	 *                     to file.
 	 */
 	private static void WriteBorders(BufferedWriter p_writer, List<Country> p_countryList,
-			Map<Country, Integer> l_countryToIdMap) throws IOException {
+			Map<Country, Integer> p_countryToIdMap) throws IOException {
 		p_writer.write("[borders]");
 		p_writer.newLine();
 
@@ -356,7 +356,7 @@ public class MapLoader {
 
 			Set<Country> l_neighbors = l_country.getNeighbors();
 			for (Country l_c : l_neighbors) {
-				p_writer.write(l_countryToIdMap.get(l_c) + " ");
+				p_writer.write(p_countryToIdMap.get(l_c) + " ");
 			}
 
 			p_writer.newLine();

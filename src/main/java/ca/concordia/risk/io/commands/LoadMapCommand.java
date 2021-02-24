@@ -31,11 +31,11 @@ public class LoadMapCommand implements Command {
 			l_view.display("Map succesfully loaded from file");
 			GameEngine.SetMap(l_gameMap);
 			GameEngine.SwitchToStartupMode();
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException l_e) {
 			l_view.display("Map file with filename " + d_filename + " does not exist");
-		} catch (MapLoader.FileParsingException e) {
+		} catch (MapLoader.FileParsingException l_e) {
 			l_view.display("Error while loading the map file");
-			l_view.display(e.getMessage());
+			l_view.display(l_e.getMessage());
 		}
 	}
 
