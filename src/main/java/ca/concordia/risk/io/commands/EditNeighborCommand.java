@@ -19,7 +19,8 @@ public class EditNeighborCommand implements Command {
 	 * <code>GameMap</code>.
 	 * <p>
 	 * New neighbor is added only if both the specified target and neighbor
-	 * countries exist.<br>
+	 * countries exist, and neighbor is not already a neighbor of the target
+	 * country.<br>
 	 * Neighbor is removed only if both the specified target and neighbor countries
 	 * exist and the specified neighbor is a neighbor of the target country.
 	 */
@@ -41,7 +42,7 @@ public class EditNeighborCommand implements Command {
 	}
 
 	/**
-	 * Adds a {CountryName, NeighborCountryName} to the list of neighbors to be
+	 * Adds a {CountryName, NeighborCountryName} pair to the list of neighbors to be
 	 * added.
 	 * 
 	 * @param p_countryName         country a neighbor of which is to be added.
@@ -52,7 +53,7 @@ public class EditNeighborCommand implements Command {
 	}
 
 	/**
-	 * Adds a {CountryName, NeighborCountryName} to the list of neighbors to be
+	 * Adds a {CountryName, NeighborCountryName} pair to the list of neighbors to be
 	 * removed.
 	 * 
 	 * @param p_countryName         country a neighbor of which is to be removed.

@@ -19,7 +19,12 @@ public class ShowMapCommand implements Command {
 		d_showGameplayInfo = p_showGameplayInfo;
 	}
 
-	/** Displays the active <code>GameMap</code>. */
+	/**
+	 * Displays the active <code>GameMap</code>.
+	 * <p>
+	 * Chooses the appropriate display format depending on whether the
+	 * <code>d_showGameplayInfo</code> flag is set.
+	 */
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();

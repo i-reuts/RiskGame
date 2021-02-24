@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * This class is the representation of the game entity Country.
+ * This class is the representation of the game country.
  * 
  * @author Enrique
  *
@@ -49,7 +49,7 @@ public class Country {
 	/**
 	 * Gets the neighboring countries.
 	 * 
-	 * @return set of neighbors.
+	 * @return set of neighboring countries.
 	 */
 	public Set<Country> getNeighbors() {
 		return d_neighbors;

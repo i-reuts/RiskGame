@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * This class is the representation of the game entity Continent.
+ * This class is the representation of the game continent.
  * <p>
  * It contains the set of countries it owns.
  * 
@@ -20,7 +20,7 @@ public class Continent {
 	/**
 	 * Constructor for the Continent class.
 	 * 
-	 * @param p_name  name of the continent.
+	 * @param p_name  name of the continent to create.
 	 * @param p_value value of the continent for mustering when fully controlled by
 	 *                a player.
 	 */
@@ -32,7 +32,7 @@ public class Continent {
 	/**
 	 * Gets continent value.
 	 * 
-	 * @return continent value for mustering when fully controlled.
+	 * @return continent bonus value for mustering when fully controlled.
 	 */
 	public int getValue() {
 		return d_value;
@@ -41,7 +41,7 @@ public class Continent {
 	/**
 	 * Gets continent name.
 	 * 
-	 * @return The continent name.
+	 * @return continent name.
 	 */
 	public String getName() {
 		return d_name;
@@ -59,8 +59,8 @@ public class Continent {
 	/**
 	 * Adds a country to the set of countries owned by the continent.
 	 * 
-	 * @param p_country country to be added to this continent.
-	 * @return <code>true</code> the country was added.<br>
+	 * @param p_country country to add.
+	 * @return <code>true</code> if the country was added.<br>
 	 *         <code>false</code> if the country already belonged to this continent.
 	 */
 	public boolean addCountry(Country p_country) {
@@ -72,7 +72,7 @@ public class Continent {
 	 * 
 	 * @param p_country name of the country to remove.
 	 * @return <code>true</code> if the country was removed.<br>
-	 *         <code>false</code> if the country did not belong to the continent.
+	 *         <code>false</code> if the country did not belong to this continent.
 	 */
 	public boolean removeCountry(Country p_country) {
 		return d_countries.remove(p_country);

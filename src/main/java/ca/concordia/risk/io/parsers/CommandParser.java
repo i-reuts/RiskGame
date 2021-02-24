@@ -28,7 +28,7 @@ import ca.concordia.risk.io.commands.ShowMapCommand;
 public abstract class CommandParser {
 
 	/**
-	 * A {CommandString, ParserMethod} map containing the mapping of commands to
+	 * A <code>{CommandString, ParserMethod}</code> map containing the mapping of commands to
 	 * their corresponding parsers.
 	 */
 	protected Map<String, ParserMethod> d_commandParsers = new HashMap<String, ParserMethod>();

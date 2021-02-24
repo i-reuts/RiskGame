@@ -4,7 +4,7 @@ import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.orders.Order;
 
 /**
- * Interface for all player order commands.
+ * Interface implemented by all player order commands.
  * <p>
  * Extends the <code>Command</code> interface to provide additional
  * functionality required to support player orders.

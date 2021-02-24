@@ -9,7 +9,7 @@ import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.orders.Order;
 
 /**
- * This class is the representation of the game entity Player.
+ * This class is the representation of the game player.
  * 
  * @author Enrique
  *
@@ -23,7 +23,7 @@ public class Player {
 	/**
 	 * Creates a new player.
 	 * 
-	 * @param p_name player name.
+	 * @param p_name name of the player to create.
 	 */
 	public Player(String p_name) {
 		d_name = p_name;

@@ -15,13 +15,13 @@ public class SaveMapCommand implements Command {
 	/**
 	 * Creates a new <code>SaveMapCommand</code> object.
 	 * 
-	 * @param p_filename filename of the map file to save the active Map into.
+	 * @param p_filename filename of the map file to save the active map into.
 	 */
 	public SaveMapCommand(String p_filename) {
 		d_filename = p_filename;
 	}
 
-	/** Saves the active Map into the requested map file. */
+	/** Saves the active map into the requested map file. */
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();
