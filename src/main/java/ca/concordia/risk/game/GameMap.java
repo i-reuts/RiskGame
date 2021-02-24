@@ -29,6 +29,14 @@ public class GameMap {
 	}
 
 	/**
+	 * Get the amount of countries currently in the map
+	 * @return Number of countries in the map
+	 */
+	public int getNumberOfCountries() {
+		return d_countries.size();
+	}
+	
+	/**
 	 * Gets a list of all countries in the map.
 	 * 
 	 * @return list of map countries.

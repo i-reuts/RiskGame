@@ -84,6 +84,14 @@ public class GameEngine {
 		ChangeMode(GameMode.GAMEPLAY);
 	}
 
+	/** 
+	 * Get the amount of active players
+	 * @return Number of active players
+	 */
+	public static int getNumberOfPlayers() {
+		return d_ActivePlayers.size();
+	}
+	
 	/**
 	 * Gets a player from he list of active players.
 	 * 
