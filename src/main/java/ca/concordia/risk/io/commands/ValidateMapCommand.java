@@ -1,7 +1,5 @@
 package ca.concordia.risk.io.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,8 +11,8 @@ import ca.concordia.risk.io.views.ConsoleView;
 
 /**
  * Command representing <i>"validatemap"</i> operation.
- * @author ishika 
  * 
+ * @author ishika
  */
 public class ValidateMapCommand implements Command {
 
@@ -22,7 +20,6 @@ public class ValidateMapCommand implements Command {
 	@Override
 	public void execute() {
 
-		// TODO Replace with actual implementation
 		ConsoleView l_view = GameEngine.GetView();
 		l_view.display("\nValidating the active map\n");
 
@@ -30,10 +27,16 @@ public class ValidateMapCommand implements Command {
 		if (d_validate == true) {
 			System.out.println("The given map is a valid map");
 		} else {
-			System.out.println("Not a valid map");
+			System.out.println("The given map is not a valid map");
 		}
 	}
 
+	/**
+	 * Checks the validity of a map as a whole and each continent in the map
+	 * 
+	 * @return <code>true</code> if map is a valid map.<br>
+	 *         <code>false</code> if map is not a valid map.
+	 */
 	private boolean validate() {
 		Set<Country> l_countries = new HashSet<Country>(GameEngine.GetMap().getCountries());
 		if (l_countries.isEmpty()) {
@@ -63,6 +66,14 @@ public class ValidateMapCommand implements Command {
 		return true;
 	}
 
+	/**
+	 * 
+	 * Implements the depth first search algorithm using stacks for map validation
+	 * 
+	 * @param p_startNode The start node
+	 * @param p_visited A set of visited nodes
+	 * @param p_included Adjacency list
+	 */
 	private void dfs(Country p_startNode, Set<Country> p_visited, Set<Country> p_included) {
 		Stack<Country> l_stack = new Stack<Country>();
 		l_stack.push(p_startNode);
