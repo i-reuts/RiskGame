@@ -41,8 +41,8 @@ public class GameplayCommandParser extends CommandParser {
 		int l_numberOfArmies;
 		try {
 			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
-			if(l_numberOfArmies < 0) {
-				return new InvalidCommand("number of armies value was negative");
+			if(l_numberOfArmies <= 0) {
+				return new InvalidCommand("number of armies value was negative or zero");
 			}
 		} catch (NumberFormatException l_e) {
 			return new InvalidCommand("number of armies value was not a number");
