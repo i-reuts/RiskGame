@@ -117,8 +117,9 @@ public class MapLoader {
 	 * @param p_sc Scanner object.
 	 * @return HashMap with Continent ID mapped to its corresponding Continent
 	 *         object.
+	 * @throws FileParsingException thrown if an invalid line is encountered.
 	 */
-	private static Map<Integer, Continent> ReadContinents(Scanner p_sc) {
+	private static Map<Integer, Continent> ReadContinents(Scanner p_sc) throws FileParsingException {
 		Map<Integer, Continent> l_continentMap = new HashMap<Integer, Continent>();
 
 		int l_runningID = 1;
@@ -130,12 +131,16 @@ public class MapLoader {
 				break;
 			}
 
-			String[] l_tokens = l_line.split("\\s+");
-			String l_continentName = l_tokens[0].replace('_', ' ');
-			int l_continentValue = Integer.parseInt(l_tokens[1]);
+			try {
+				String[] l_tokens = l_line.split("\\s+");
+				String l_continentName = l_tokens[0].replace('_', ' ');
+				int l_continentValue = Integer.parseInt(l_tokens[1]);
 
-			l_continentMap.put(l_runningID, new Continent(l_continentName, l_continentValue));
-			l_runningID++;
+				l_continentMap.put(l_runningID, new Continent(l_continentName, l_continentValue));
+				l_runningID++;
+			} catch (Exception e) {
+				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
+			}
 		}
 
 		return l_continentMap;
@@ -149,8 +154,10 @@ public class MapLoader {
 	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding
 	 *                       Continent object.
 	 * @return HashMap with Country ID mapped to its corresponding Country object.
+	 * @throws FileParsingException thrown if an invalid line is encountered.
 	 */
-	private static Map<Integer, Country> ReadCountries(Scanner p_sc, Map<Integer, Continent> p_continentMap) {
+	private static Map<Integer, Country> ReadCountries(Scanner p_sc, Map<Integer, Continent> p_continentMap)
+			throws FileParsingException {
 		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
 
 		while (p_sc.hasNextLine()) {
@@ -165,21 +172,25 @@ public class MapLoader {
 				continue;
 			}
 
-			// Parse country data
-			String[] l_tokens = l_line.split("\\s+");
-			int l_countryID = Integer.parseInt(l_tokens[0]);
-			String l_countryName = l_tokens[1].replace('_', ' ');
-			int l_continentID = Integer.parseInt(l_tokens[2]);
+			try {
+				// Parse country data
+				String[] l_tokens = l_line.split("\\s+");
+				int l_countryID = Integer.parseInt(l_tokens[0]);
+				String l_countryName = l_tokens[1].replace('_', ' ');
+				int l_continentID = Integer.parseInt(l_tokens[2]);
 
-			// Get country continent
-			Continent l_continent = p_continentMap.get(l_continentID);
-			// Create country
-			Country l_country = new Country(l_countryName, l_continent);
-			// Add country to continent
-			l_continent.addCountry(l_country);
+				// Get country continent
+				Continent l_continent = p_continentMap.get(l_continentID);
+				// Create country
+				Country l_country = new Country(l_countryName, l_continent);
+				// Add country to continent
+				l_continent.addCountry(l_country);
 
-			// Add country to country map
-			l_countryMap.put(l_countryID, l_country);
+				// Add country to country map
+				l_countryMap.put(l_countryID, l_country);
+			} catch (Exception e) {
+				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
+			}
 		}
 
 		return l_countryMap;
@@ -191,8 +202,9 @@ public class MapLoader {
 	 * @param p_sc         Scanner object.
 	 * @param p_countryMap HashMap with Country ID mapped to its corresponding
 	 *                     Country object.
+	 * @throws FileParsingException thrown if an invalid line is encountered.
 	 */
-	private static void ReadBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) {
+	private static void ReadBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) throws FileParsingException {
 		while (p_sc.hasNextLine()) {
 			String l_line = p_sc.nextLine().trim();
 
@@ -205,13 +217,17 @@ public class MapLoader {
 				continue;
 			}
 
-			// Parse country data
-			String[] l_tokens = l_line.split("\\s+");
-			int l_countryID = Integer.parseInt(l_tokens[0]);
-			for (int i = 1; i < l_tokens.length; i++) {
-				// Add neighbors to country
-				int l_neighborID = Integer.parseInt(l_tokens[i]);
-				p_countryMap.get(l_countryID).addNeighbor(p_countryMap.get(l_neighborID));
+			try {
+				// Parse country data
+				String[] l_tokens = l_line.split("\\s+");
+				int l_countryID = Integer.parseInt(l_tokens[0]);
+				for (int i = 1; i < l_tokens.length; i++) {
+					// Add neighbors to country
+					int l_neighborID = Integer.parseInt(l_tokens[i]);
+					p_countryMap.get(l_countryID).addNeighbor(p_countryMap.get(l_neighborID));
+				}
+			} catch (Exception e) {
+				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
 			}
 		}
 	}

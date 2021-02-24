@@ -10,7 +10,6 @@ import ca.concordia.risk.io.commands.EditNeighborCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
 import ca.concordia.risk.io.commands.LoadMapCommand;
 import ca.concordia.risk.io.commands.SaveMapCommand;
-import ca.concordia.risk.io.commands.ShowMapCommand;
 import ca.concordia.risk.io.commands.ValidateMapCommand;
 
 /**
