@@ -8,17 +8,17 @@ public class AssignCountriesCommand implements Command {
 	/** Assigns countries to Players. */
 	@Override
 	public void execute() {
-		if (GameEngine.getNumberOfPlayers() > GameEngine.GetMap().getNumberOfCountries()){
-			GameEngine.GetView().display("There can not be more players than countries.");
+		if (GameEngine.GetNumberOfPlayers() > GameEngine.GetMap().getCountries().size()) {
+			GameEngine.GetView().display("There can not be more players than countries on the map.");
+			return;
+		} else if (GameEngine.GetNumberOfPlayers() < 2) {
+			GameEngine.GetView().display("At least two players are required to play.");
 			return;
 		}
-		else if (GameEngine.getNumberOfPlayers() < 2) {
-			GameEngine.GetView().display("You need at least two players to play.");
-			return;
-		}
+
 		GameEngine.AssignCountries();
 		GameEngine.SwitchToGameplayMode();
-		
+
 		GameEngine.GetView().display("Countries assigned. The game begins.");
 	}
 

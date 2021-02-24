@@ -29,7 +29,6 @@ public class EditorCommandParser extends CommandParser {
 
 		d_commandParsers.put("editmap", this::parseEditMapCommand);
 		d_commandParsers.put("savemap", this::parseSaveMapCommand);
-		d_commandParsers.put("showmap", this::parseShowMapCommand);
 		d_commandParsers.put("validatemap", this::parseValidateMapCommand);
 		d_commandParsers.put("editcontinent", this::parseEditContinentCommand);
 		d_commandParsers.put("editcountry", this::parseEditCountryCommand);
@@ -67,16 +66,6 @@ public class EditorCommandParser extends CommandParser {
 
 		String l_filename = p_argumentList.remove(0);
 		return new SaveMapCommand(l_filename);
-	}
-
-	/**
-	 * Parses a <i>"showmap"</i> command.
-	 * 
-	 * @param p_argumentList list of command arguments.
-	 * @return <code>ShowMapCommand</code>.
-	 */
-	private Command parseShowMapCommand(List<String> p_argumentList) {
-		return new ShowMapCommand(false);
 	}
 
 	/**

@@ -20,7 +20,7 @@ public class ValidateMapCommand implements Command {
 
 		boolean d_validate = MapValidator.Validate(GameEngine.GetMap());
 		if (d_validate == true) {
-			System.out.println("The map is a valid");
+			System.out.println("The map is valid");
 		} else {
 			System.out.println("The map is not valid: " + MapValidator.getStatus());
 		}

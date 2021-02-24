@@ -85,10 +85,10 @@ public class GameEngine {
 	}
 
 	/** 
-	 * Get the amount of active players
-	 * @return Number of active players
+	 * Gets the number of active players.
+	 * @return number of active players.
 	 */
-	public static int getNumberOfPlayers() {
+	public static int GetNumberOfPlayers() {
 		return d_ActivePlayers.size();
 	}
 	

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.InvalidCommand;
+import ca.concordia.risk.io.commands.ShowMapCommand;
 
 /**
  * This abstract class provides the basic functionality of parsing command
@@ -69,10 +70,12 @@ abstract public class CommandParser {
 	 * Registers default parser methods for each supported user command.
 	 */
 	protected void registerParserMethods() {
+		// Shared commands
+		d_commandParsers.put("showmap", this::parseShowMapCommand);
+		
 		// Editor commands
 		d_commandParsers.put("editmap", this::createUnavailableCommand);
 		d_commandParsers.put("savemap", this::createUnavailableCommand);
-		d_commandParsers.put("showmap", this::createUnavailableCommand);
 		d_commandParsers.put("validatemap", this::createUnavailableCommand);
 		d_commandParsers.put("editcontinent", this::createUnavailableCommand);
 		d_commandParsers.put("editcountry", this::createUnavailableCommand);
@@ -110,6 +113,16 @@ abstract public class CommandParser {
 	 */
 	private Command createUnavailableCommand(List<String> p_argumentList) {
 		return new InvalidCommand("this command is not available in the current mode");
+	}
+	
+	/**
+	 * Parses a <i>"showmap"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>ShowMapCommand</code>.
+	 */
+	private Command parseShowMapCommand(List<String> p_argumentList) {
+		return new ShowMapCommand(false);
 	}
 
 	/** A custom <code>Exception</code> class thrown when a parsing error occurs. */
