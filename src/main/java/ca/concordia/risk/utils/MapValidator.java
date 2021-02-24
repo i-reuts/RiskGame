@@ -15,6 +15,7 @@ public class MapValidator {
 	/**
 	 * Checks the validity of a map as a whole and each continent in the map.
 	 * 
+	 * @param p_map map to validate.
 	 * @return <code>true</code> if map is a valid map.<br>
 	 *         <code>false</code> if map is not a valid map.
 	 */
@@ -51,9 +52,9 @@ public class MapValidator {
 	 * 
 	 * Implements the depth first search algorithm using stacks for map validation.
 	 * 
-	 * @param p_startNode The start node
-	 * @param p_visited   A set of visited nodes
-	 * @param p_included  A set of nodes included in the search
+	 * @param p_startNode The starting node.
+	 * @param p_visited   A set of visited nodes.
+	 * @param p_included  A set of nodes included in the search.
 	 */
 	private static void Dfs(Country p_startNode, Set<Country> p_visited, Set<Country> p_included) {
 		Stack<Country> l_stack = new Stack<Country>();

@@ -37,7 +37,7 @@ public class GameplayCommandParser extends CommandParser {
 			return new InvalidCommand("deploy command expects two arguments");
 		}
 
-		String l_deployCountry = p_argumentList.remove(0);
+		String l_deployCountry = p_argumentList.remove(0).replace('_', ' ');
 		int l_numberOfArmies;
 		try {
 			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
