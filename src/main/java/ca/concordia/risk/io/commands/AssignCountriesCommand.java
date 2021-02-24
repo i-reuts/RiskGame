@@ -12,6 +12,10 @@ public class AssignCountriesCommand implements Command {
 			GameEngine.GetView().display("There can not be more players than countries.");
 			return;
 		}
+		else if (GameEngine.getNumberOfPlayers() < 2) {
+			GameEngine.GetView().display("You need at least two players to play.");
+			return;
+		}
 		GameEngine.AssignCountries();
 		GameEngine.SwitchToGameplayMode();
 		
