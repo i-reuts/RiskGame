@@ -6,6 +6,7 @@ import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 import ca.concordia.risk.utils.MapLoader;
+import ca.concordia.risk.utils.MapValidator;
 
 /** Command representing <i>"loadmap"</i> operation. */
 public class LoadMapCommand implements Command {
@@ -29,8 +30,18 @@ public class LoadMapCommand implements Command {
 		try {
 			l_gameMap = MapLoader.LoadMap(d_filename);
 			l_view.display("Map succesfully loaded from file");
-			GameEngine.SetMap(l_gameMap);
-			GameEngine.SwitchToStartupMode();
+
+			// Validate loaded map
+			l_view.display("Validating the map...");
+			if (MapValidator.Validate(l_gameMap)) {
+				l_view.display("Map is valid");
+				GameEngine.SetMap(l_gameMap);
+				GameEngine.SwitchToStartupMode();
+			} else {
+				// Invalid maps are not allowed in gameplay mode
+				l_view.display("The map loaded is invalid - " + MapValidator.getStatus());
+				l_view.display("Loadmap failed: map has to be valid to play");
+			}
 		} catch (FileNotFoundException l_e) {
 			l_view.display("Map file with filename " + d_filename + " does not exist");
 		} catch (MapLoader.FileParsingException l_e) {

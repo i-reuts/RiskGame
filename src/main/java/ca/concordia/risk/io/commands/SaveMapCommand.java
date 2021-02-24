@@ -6,6 +6,7 @@ import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.io.views.ConsoleView;
 import ca.concordia.risk.utils.MapLoader;
+import ca.concordia.risk.utils.MapValidator;
 
 /** Command representing <i>"savemap"</i> operation. */
 public class SaveMapCommand implements Command {
@@ -29,8 +30,15 @@ public class SaveMapCommand implements Command {
 
 		if (l_gameMap != null) {
 			try {
-				MapLoader.SaveMap(d_filename, l_gameMap);
-				l_view.display("Map saved");
+				l_view.display("Validating the map...");
+				if (MapValidator.Validate(l_gameMap)) {
+					l_view.display("Map is valid. Saving...");
+					MapLoader.SaveMap(d_filename, l_gameMap);
+					l_view.display("Map saved");
+				} else {
+					l_view.display("Map is invalid: " + MapValidator.getStatus());
+					l_view.display("Please fix the map before saving");
+				}
 			} catch (IOException l_e) {
 				l_view.display("Error when saving the map: " + l_e.getMessage());
 			}
