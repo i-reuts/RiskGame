@@ -32,3 +32,4 @@ Command | Description
 `mvnw clean` | Clears the target directory
 `mvnw surefire-report:report` | Generates an HTML test report
 `mvnw javadoc:javadoc` | Generates Javadoc
+`mvnw exec:java` | Executes the application
