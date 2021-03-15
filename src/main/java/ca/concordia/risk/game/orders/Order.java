@@ -7,7 +7,15 @@ package ca.concordia.risk.game.orders;
  *
  */
 public interface Order {
-
+	
+	/**
+	 * Returns the validity of the order.
+	 *  
+	 * @return <code>true</code> if the given condition is valid <br>
+	 *         <code>false</code> if the given condition is not valid
+	 */
+	public boolean isValid();
+	
 	/**
 	 * Executes the order.
 	 */
