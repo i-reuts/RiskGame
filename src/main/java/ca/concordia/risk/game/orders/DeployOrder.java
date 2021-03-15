@@ -31,6 +31,20 @@ public class DeployOrder implements Order {
 	}
 
 	/**
+	 *{@inheritDoc}
+	 * <p>
+	 * Checks if the  if the player still owns the deploy country.
+	 */
+	@Override
+	public boolean isValid() {
+		if (d_player.ownsCountry(d_deployCountry))			
+			return true;
+
+		else 
+			return false;
+	}
+	
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Adds the requested number of armies to the deploy country if the player still
@@ -38,7 +52,7 @@ public class DeployOrder implements Order {
 	 */
 	@Override
 	public void execute() {
-		if (!d_player.ownsCountry(d_deployCountry)) {
+		if (!isValid()) {
 			d_status = "Deployment failed: " + d_deployCountry + " no longer owned by " + d_player.getName();
 			return;
 		}
@@ -46,6 +60,7 @@ public class DeployOrder implements Order {
 		d_status = d_player.getName() + " deployed " + d_armiesToDeploy + " armies to " + d_deployCountry.getName();
 		d_deployCountry.addArmies(d_armiesToDeploy);
 	}
+	
 
 	/**
 	 * {@inheritDoc}
