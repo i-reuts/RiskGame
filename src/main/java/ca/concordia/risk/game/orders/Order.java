@@ -7,7 +7,7 @@ package ca.concordia.risk.game.orders;
  *
  */
 public interface Order {
-	
+
 	/**
 	 * Executes the order.
 	 */

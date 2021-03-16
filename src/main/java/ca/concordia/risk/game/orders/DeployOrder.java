@@ -31,20 +31,6 @@ public class DeployOrder implements Order {
 	}
 
 	/**
-	 * Checks if the player still owns the deploy country.
-	 */
-	public void isValid() {
-		if (d_player.ownsCountry(d_deployCountry))	{
-			return;
-		}		
-
-		else {
-			d_status = "Deployment failed: " + d_deployCountry + " no longer owned by " + d_player.getName();
-			return;	
-		}
-	}
-	
-	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Adds the requested number of armies to the deploy country if the player still
@@ -52,12 +38,11 @@ public class DeployOrder implements Order {
 	 */
 	@Override
 	public void execute() {
-		isValid(); 
-			
-		d_status = d_player.getName() + " deployed " + d_armiesToDeploy + " armies to " + d_deployCountry.getName();
-		d_deployCountry.addArmies(d_armiesToDeploy);
+		if (isValid()) {
+			d_status = d_player.getName() + " deployed " + d_armiesToDeploy + " armies to " + d_deployCountry.getName();
+			d_deployCountry.addArmies(d_armiesToDeploy);
+		}
 	}
-	
 
 	/**
 	 * {@inheritDoc}
@@ -65,5 +50,20 @@ public class DeployOrder implements Order {
 	@Override
 	public String getStatus() {
 		return d_status;
+	}
+
+	/**
+	 * Checks if the player still owns the deploy country.
+	 * 
+	 * @return <code>true</code> if the player owns the target deploy country.<br>
+	 *         <code>false</code> otherwise.
+	 */
+	private boolean isValid() {
+		if (!d_player.ownsCountry(d_deployCountry)) {
+			d_status = "Deployment failed: " + d_deployCountry + " no longer owned by " + d_player.getName();
+			return false;
+		}
+
+		return true;
 	}
 }
