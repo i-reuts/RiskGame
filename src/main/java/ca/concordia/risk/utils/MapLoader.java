@@ -93,6 +93,15 @@ public class MapLoader {
 	}
 
 	/**
+	 * Gets the map folder location.
+	 * 
+	 * @return map folder path.
+	 */
+	public static String getMapFolderPath() {
+		return d_MapFolder;
+	}
+
+	/**
 	 * Skips through the file until it finds a line that starts with
 	 * <code>p_tag</code>.
 	 * <p>
