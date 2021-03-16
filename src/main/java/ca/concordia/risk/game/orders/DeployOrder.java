@@ -31,9 +31,7 @@ public class DeployOrder implements Order {
 	}
 
 	/**
-	 *{@inheritDoc}
-	 * <p>
-	 * Checks if the  if the player still owns the deploy country.
+	 * Checks if the player still owns the deploy country.
 	 */
 	public void isValid() {
 		if (d_player.ownsCountry(d_deployCountry))	{
