@@ -202,14 +202,7 @@ public class GameEngine {
 	/** Executes the main application loop. */
 	private static void RunMainLoop() {
 		while (true) {
-			while (d_ActivePhase.equals(d_MapEditorPhase) || d_ActivePhase.equals(d_StartupPhase)) {
-				d_ActivePhase.execute();
-			}
-
-			while (d_ActivePhase.equals(d_IssueOrderPhase)) {
-				d_ActivePhase.execute();
-				ExecuteOrders();
-			}
+			d_ActivePhase.execute();
 		}
 	}
 
@@ -219,28 +212,6 @@ public class GameEngine {
 	private static void AssignReinforcements() {
 		for (Player l_p : d_ActivePlayers.values()) {
 			l_p.assignReinfocements();
-		}
-	}
-
-	/**
-	 * Asks each player to execute their orders in a round-robin fashion one order
-	 * at a time until no players have orders remaining in their order queue.
-	 */
-	private static void ExecuteOrders() {
-		d_View.display("\nExecuting orders...");
-
-		boolean l_allOrdersExecuted = false;
-		while (!l_allOrdersExecuted) {
-			l_allOrdersExecuted = true;
-			for (Player l_p : d_ActivePlayers.values()) {
-				Order l_order = l_p.nextOrder();
-				if (l_order != null) {
-					l_order.execute();
-					l_allOrdersExecuted = false;
-
-					d_View.display(l_order.getStatus());
-				}
-			}
 		}
 	}
 }
