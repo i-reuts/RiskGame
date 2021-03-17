@@ -20,6 +20,14 @@ public class IssueOrderPhase extends Phase{
 	}
 	
 	public void execute() {
+		issueOrders();
+	}
+	
+	/**
+	 * Asks each player to issue orders in a round-robin fashion one order at a time
+	 * until no players have orders left to give.
+	 */
+	private void issueOrders() {
 		boolean l_allPlayersIssued = false;
 		while (!l_allPlayersIssued) {
 			l_allPlayersIssued = true;
@@ -32,6 +40,14 @@ public class IssueOrderPhase extends Phase{
 		}
 	}
 	
+	/**
+	 * Processes one player order command inputed by user.
+	 * <p>
+	 * Keeps asking user for to provide a command until a valid order is received.
+	 * 
+	 * @param p_player player that is issuing the command.
+	 * @return order representing the order issued by the player.
+	 */
 	private Order issuePlayerOrder(Player p_player) {
 		Order l_order = null;
 		ConsoleView l_view = GameEngine.GetView();

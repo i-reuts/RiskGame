@@ -18,6 +18,7 @@ import ca.concordia.risk.io.parsers.StartupCommandParser;
 import ca.concordia.risk.io.views.ConsoleView;
 import ca.concordia.risk.phases.IssueOrderPhase;
 import ca.concordia.risk.phases.MapEditorPhase;
+import ca.concordia.risk.phases.OrderExecutionPhase;
 import ca.concordia.risk.phases.Phase;
 import ca.concordia.risk.phases.StartupPhase;
 
@@ -36,6 +37,7 @@ public class GameEngine {
 	private static MapEditorPhase d_MapEditorPhase;
 	private static StartupPhase d_StartupPhase;
 	private static IssueOrderPhase d_IssueOrderPhase;
+	private static OrderExecutionPhase d_OrderExecutionPhase;
 	
 	private static ConsoleView d_View;
 	private static GameMode d_ActiveMode;
@@ -92,9 +94,15 @@ public class GameEngine {
 		d_ActivePhase = d_StartupPhase;
 	}
 
-	/** Changes active game mode to Gameplay. */
+	/** Changes active game mode to Issue Order. */
 	public static void SwitchToIssueOrderMode() {
+		AssignReinforcements();
 		d_ActivePhase = d_IssueOrderPhase;
+	}
+	
+	/** Changes active game mode to Order Execution. */
+	public static void SwitchToOrderExecutionMode() {
+		d_ActivePhase = d_OrderExecutionPhase;
 	}
 
 	/**
@@ -159,31 +167,6 @@ public class GameEngine {
 	}
 
 	/**
-	 * Processes one player order command inputed by user.
-	 * <p>
-	 * Keeps asking user for to provide a command until a valid order is received.
-	 * 
-	 * @param p_player player that is issuing the command.
-	 * @return order representing the order issued by the player.
-	 */
-	public static Order ProcessOrderCommand(Player p_player) {
-		Order l_order = null;
-		while (l_order == null) {
-			d_View.display("\n" + p_player.getName() + ", please enter your command ("
-					+ p_player.getRemainingReinforcements() + " reinforcements left):");
-
-			Command l_command = d_ActiveParser.parse(d_View.getInput());
-			if (l_command instanceof OrderCommand) {
-				l_order = ((OrderCommand) l_command).buildOrder(p_player);
-			} else {
-				l_command.execute();
-			}
-		}
-
-		return l_order;
-	}
-
-	/**
 	 * Changes active game mode.
 	 * 
 	 * @param p_newMode mode to change to.
@@ -207,6 +190,7 @@ public class GameEngine {
 		d_MapEditorPhase = new MapEditorPhase(new EditorCommandParser());
 		d_StartupPhase = new StartupPhase(new StartupCommandParser());
 		d_IssueOrderPhase = new IssueOrderPhase(new GameplayCommandParser());
+		d_OrderExecutionPhase = new OrderExecutionPhase(new GameplayCommandParser()); 
 		
 		// Setup initial phase
 		d_ActivePhase = d_MapEditorPhase;
@@ -219,11 +203,10 @@ public class GameEngine {
 	private static void RunMainLoop() {
 		while (true) {
 			while (d_ActivePhase.equals(d_MapEditorPhase) || d_ActivePhase.equals(d_StartupPhase)) {
-				ProcessUserCommand();
+				d_ActivePhase.execute();
 			}
 
 			while (d_ActivePhase.equals(d_IssueOrderPhase)) {
-				AssignReinforcements();
 				d_ActivePhase.execute();
 				ExecuteOrders();
 			}
@@ -236,23 +219,6 @@ public class GameEngine {
 	private static void AssignReinforcements() {
 		for (Player l_p : d_ActivePlayers.values()) {
 			l_p.assignReinfocements();
-		}
-	}
-
-	/**
-	 * Asks each player to issue orders in a round-robin fashion one order at a time
-	 * until no players have orders left to give.
-	 */
-	private static void IssueOrders() {
-		boolean l_allPlayersIssued = false;
-		while (!l_allPlayersIssued) {
-			l_allPlayersIssued = true;
-			for (Player l_p : d_ActivePlayers.values()) {
-				if (!l_p.finishedIssuingOrders()) {
-					l_p.issueOrder();
-					l_allPlayersIssued = false;
-				}
-			}
 		}
 	}
 
@@ -276,10 +242,5 @@ public class GameEngine {
 				}
 			}
 		}
-	}
-
-	/** Processes one general application command inputed by user. */
-	private static void ProcessUserCommand() {
-		d_ActivePhase.execute();
 	}
 }

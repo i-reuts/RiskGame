@@ -78,16 +78,7 @@ public class Player {
 	public void addOrder(Order p_order) {
 		d_orders.add(p_order);
 	}
-	
-	/**
-	 * Issues one player order and adds it to the order queue of the player.
-	 * <p>
-	 * Current implementation asks the user to input the order to be issued.
-	 */
-	public void issueOrder() {
-		Order l_order = GameEngine.ProcessOrderCommand(this);
-		d_orders.add(l_order);
-	}
+
 
 	/**
 	 * Gets the first order in the order queue of the player.
