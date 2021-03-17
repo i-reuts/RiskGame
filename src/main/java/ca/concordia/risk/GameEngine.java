@@ -16,6 +16,8 @@ import ca.concordia.risk.io.parsers.EditorCommandParser;
 import ca.concordia.risk.io.parsers.GameplayCommandParser;
 import ca.concordia.risk.io.parsers.StartupCommandParser;
 import ca.concordia.risk.io.views.ConsoleView;
+import ca.concordia.risk.phases.MapEditorPhase;
+import ca.concordia.risk.phases.Phase;
 
 /**
  * Main game class containing the game loop and acting as the main controller
@@ -28,6 +30,9 @@ public class GameEngine {
 		EDITOR, STARTUP, GAMEPLAY
 	}
 
+	private static Phase d_ActivePhase;
+	private static MapEditorPhase d_MapEditorPhase;
+	
 	private static ConsoleView d_View;
 	private static GameMode d_ActiveMode;
 	private static CommandParser d_ActiveParser;
@@ -189,6 +194,12 @@ public class GameEngine {
 		d_ParserMap.put(GameMode.EDITOR, new EditorCommandParser());
 		d_ParserMap.put(GameMode.STARTUP, new StartupCommandParser());
 		d_ParserMap.put(GameMode.GAMEPLAY, new GameplayCommandParser());
+
+		// Initialize all phases
+		d_MapEditorPhase = new MapEditorPhase(new EditorCommandParser());
+		
+		// Setup initial phase
+		d_ActivePhase = d_MapEditorPhase;
 
 		// Initialize GameMode
 		ChangeMode(GameMode.EDITOR);
