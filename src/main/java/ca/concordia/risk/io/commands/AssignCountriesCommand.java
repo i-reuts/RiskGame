@@ -17,7 +17,7 @@ public class AssignCountriesCommand implements Command {
 		}
 
 		GameEngine.AssignCountries();
-		GameEngine.SwitchToIssueOrderMode();
+		GameEngine.isCountryAssignationDone = true;
 
 		GameEngine.GetView().display("Countries assigned. The game begins.");
 	}

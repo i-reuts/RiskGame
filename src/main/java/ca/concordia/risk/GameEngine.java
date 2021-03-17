@@ -8,10 +8,6 @@ import java.util.TreeMap;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.game.Player;
-import ca.concordia.risk.game.orders.Order;
-import ca.concordia.risk.io.commands.Command;
-import ca.concordia.risk.io.commands.OrderCommand;
-import ca.concordia.risk.io.parsers.CommandParser;
 import ca.concordia.risk.io.parsers.EditorCommandParser;
 import ca.concordia.risk.io.parsers.GameplayCommandParser;
 import ca.concordia.risk.io.parsers.StartupCommandParser;
@@ -32,10 +28,12 @@ public class GameEngine {
 	private static StartupPhase d_StartupPhase;
 	private static IssueOrderPhase d_IssueOrderPhase;
 	private static OrderExecutionPhase d_OrderExecutionPhase;
-	
 	private static ConsoleView d_View;
 	private static GameMap d_ActiveMap;
+	
 	public static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
+	public static boolean isMapLoaded = false;
+	public static boolean isCountryAssignationDone = false;
 
 	/**
 	 * Startup method.

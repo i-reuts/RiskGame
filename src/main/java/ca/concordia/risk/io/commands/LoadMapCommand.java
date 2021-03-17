@@ -36,7 +36,7 @@ public class LoadMapCommand implements Command {
 			if (MapValidator.Validate(l_gameMap)) {
 				l_view.display("Map is valid");
 				GameEngine.SetMap(l_gameMap);
-				GameEngine.SwitchToStartupMode();
+				GameEngine.isMapLoaded = true;
 			} else {
 				// Invalid maps are not allowed in gameplay mode
 				l_view.display("The map loaded is invalid - " + MapValidator.getStatus());

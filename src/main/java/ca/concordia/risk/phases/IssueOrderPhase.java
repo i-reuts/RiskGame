@@ -19,9 +19,15 @@ public class IssueOrderPhase extends Phase{
 		super(p_parser);
 	}
 	
+	@Override
 	public void execute() {
 		this.AssignReinforcements();
 		this.issueOrders();
+	}
+	
+	@Override
+	protected void nextPhase() {
+		GameEngine.SwitchToOrderExecutionMode();
 	}
 	
 	/**
@@ -76,9 +82,4 @@ public class IssueOrderPhase extends Phase{
 
 		return l_order;
 	}
-	
-	private void nextPhase() {
-		GameEngine.SwitchToOrderExecutionMode();
-	}
-
 }
