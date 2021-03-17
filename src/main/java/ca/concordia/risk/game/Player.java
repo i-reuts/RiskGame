@@ -135,13 +135,19 @@ public class Player {
 		return true;
 	}
 	
+	/**
+	 * This method computes the set of continents that are fully captured by the
+	 * player.
+	 * 
+	 * @return set of continents that are fully captured by the player.
+	 */
 	public Set<Continent> getOwnedContinents() {
 		Set<Continent> l_ownedContinents = new HashSet<Continent>();
 		for (Country l_country : d_countries) {
 			Continent l_continent = l_country.getContinent();
 			if (d_countries.containsAll(l_continent.getCountries())) {
-				if(!l_ownedContinents.contains(l_continent)) {
-				l_ownedContinents.add(l_continent);
+				if (!l_ownedContinents.contains(l_continent)) {
+					l_ownedContinents.add(l_continent);
 				}
 			}
 		}
