@@ -20,7 +20,17 @@ public class IssueOrderPhase extends Phase{
 	}
 	
 	public void execute() {
+		this.AssignReinforcements();
 		this.issueOrders();
+	}
+	
+	/**
+	 * Assigns reinforcements to each player.
+	 */
+	private void AssignReinforcements() {
+		for (Player l_p : GameEngine.d_ActivePlayers.values()) {
+			l_p.assignReinfocements();
+		}
 	}
 	
 	/**

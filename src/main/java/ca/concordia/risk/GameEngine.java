@@ -27,12 +27,6 @@ import ca.concordia.risk.phases.StartupPhase;
  * for the game.
  */
 public class GameEngine {
-
-	/** Enumerable representing supported game modes. **/
-	private static enum GameMode {
-		EDITOR, STARTUP, GAMEPLAY
-	}
-
 	private static Phase d_ActivePhase;
 	private static MapEditorPhase d_MapEditorPhase;
 	private static StartupPhase d_StartupPhase;
@@ -40,9 +34,6 @@ public class GameEngine {
 	private static OrderExecutionPhase d_OrderExecutionPhase;
 	
 	private static ConsoleView d_View;
-	private static GameMode d_ActiveMode;
-	private static CommandParser d_ActiveParser;
-	private static Map<GameMode, CommandParser> d_ParserMap = new TreeMap<GameMode, CommandParser>();
 	private static GameMap d_ActiveMap;
 	public static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
 
@@ -96,7 +87,6 @@ public class GameEngine {
 
 	/** Changes active game mode to Issue Order. */
 	public static void SwitchToIssueOrderMode() {
-		AssignReinforcements();
 		d_ActivePhase = d_IssueOrderPhase;
 	}
 	
@@ -166,25 +156,10 @@ public class GameEngine {
 		}
 	}
 
-	/**
-	 * Changes active game mode.
-	 * 
-	 * @param p_newMode mode to change to.
-	 */
-	private static void ChangeMode(GameMode p_newMode) {
-		d_ActiveMode = p_newMode;
-		d_ActiveParser = d_ParserMap.get(d_ActiveMode);
-	}
-
 	/** Initializes the <code>GameEngine</code>. */
 	private static void Initialize() {
 		// Initialize the view
 		d_View = new ConsoleView();
-
-		// Initialize and register Command Parsers
-		d_ParserMap.put(GameMode.EDITOR, new EditorCommandParser());
-		d_ParserMap.put(GameMode.STARTUP, new StartupCommandParser());
-		d_ParserMap.put(GameMode.GAMEPLAY, new GameplayCommandParser());
 
 		// Initialize all phases
 		d_MapEditorPhase = new MapEditorPhase(new EditorCommandParser());
@@ -194,24 +169,12 @@ public class GameEngine {
 		
 		// Setup initial phase
 		d_ActivePhase = d_MapEditorPhase;
-
-		// Initialize GameMode
-		ChangeMode(GameMode.EDITOR);
 	}
 
 	/** Executes the main application loop. */
 	private static void RunMainLoop() {
 		while (true) {
 			d_ActivePhase.execute();
-		}
-	}
-
-	/**
-	 * Assigns reinforcements to each player.
-	 */
-	private static void AssignReinforcements() {
-		for (Player l_p : d_ActivePlayers.values()) {
-			l_p.assignReinfocements();
 		}
 	}
 }
