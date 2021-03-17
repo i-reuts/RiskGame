@@ -3,17 +3,17 @@ package ca.concordia.risk.phases;
 import ca.concordia.risk.io.parsers.CommandParser;
 
 /**
- * Class representing the Map Editor Phase
+ * Class representing the Startup Phase
  * @author Enrique
  *
  */
-public class MapEditorPhase extends Phase{
-
+public class StartupPhase extends Phase{
+	
 	/**
-	 * Constructor for Map Editor Phase
+	 * Constructor for Startup Phase
 	 * @param p_parser parser used by this phase
 	 */
-	public MapEditorPhase(CommandParser p_parser) {
+	public StartupPhase(CommandParser p_parser) {
 		super(p_parser);
 	}
 }
