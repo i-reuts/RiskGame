@@ -1,5 +1,6 @@
 package ca.concordia.risk.phases;
 
+import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.parsers.CommandParser;
 
 public abstract class Phase {
@@ -9,5 +10,8 @@ public abstract class Phase {
 		this.d_parser = p_parser;
 	}
 	
-	abstract void nextPhase();
+	public void executeCommand(String p_userInput) {
+		Command l_command = d_parser.parse(p_userInput);
+		l_command.execute();
+	}
 }

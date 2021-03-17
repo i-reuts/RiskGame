@@ -69,6 +69,10 @@ public class GameEngine {
 	public static GameMap GetMap() {
 		return d_ActiveMap;
 	}
+	
+	public static void Parse() {
+		
+	}
 
 	/**
 	 * Sets the active game map.
@@ -272,7 +276,6 @@ public class GameEngine {
 	private static void ProcessUserCommand() {
 		d_View.display("\nPlease enter your command:");
 		String l_userInput = d_View.getInput();
-		Command l_command = d_ActiveParser.parse(l_userInput);
-		l_command.execute();
+		d_ActivePhase.executeCommand(l_userInput);
 	}
 }
