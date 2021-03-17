@@ -224,7 +224,7 @@ public class GameEngine {
 
 			while (d_ActivePhase.equals(d_IssueOrderPhase)) {
 				AssignReinforcements();
-				IssueOrders();
+				d_ActivePhase.execute();
 				ExecuteOrders();
 			}
 		}
@@ -280,8 +280,6 @@ public class GameEngine {
 
 	/** Processes one general application command inputed by user. */
 	private static void ProcessUserCommand() {
-		d_View.display("\nPlease enter your command:");
-		String l_userInput = d_View.getInput();
-		d_ActivePhase.executeCommand(l_userInput);
+		d_ActivePhase.execute();
 	}
 }
