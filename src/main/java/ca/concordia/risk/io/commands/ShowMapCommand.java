@@ -30,7 +30,7 @@ public class ShowMapCommand implements Command {
 		ConsoleView l_view = GameEngine.GetView();
 		GameMap l_gameMap = GameEngine.GetMap();
 		if (l_gameMap != null) {
-			if (d_showGameplayInfo) {
+			if (GameEngine.IsGameplayMapEnable()) {
 				l_view.display(l_gameMap.buildGameplayMapString());
 			} else {
 				l_view.display(l_gameMap.buildMapString());

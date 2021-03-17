@@ -76,8 +76,8 @@ public class GameEngine {
 		return d_ActiveMap;
 	}
 	
-	public static void Parse() {
-		
+	public static boolean IsGameplayMapEnable() {
+		return !(d_ActivePhase.equals(d_MapEditorPhase) || d_ActivePhase.equals(d_StartupPhase));
 	}
 
 	/**
