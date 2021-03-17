@@ -135,10 +135,18 @@ public class Player {
 		return true;
 	}
 	
-	public void ownsContinent(Continent p_continent) {
-		if (d_countries.containsAll(p_continent.getCountries())) {
-			d_reinforcements += p_continent.getValue();
+	public Set<Continent> getOwnedContinents() {
+		
+		Set<Continent> l_ownedContinents = new HashSet<Continent>();
+		
+		for(Country l_country : d_countries) {
+			Continent l_continent = l_country.getContinent();
+			if(d_countries.containsAll(l_continent.getCountries())) {
+				l_ownedContinents.add(l_continent);
+			}
 		}
+		
+		return l_ownedContinents;
 	}
 
 	/**
@@ -150,18 +158,11 @@ public class Player {
 	public void assignReinfocements() {
 		// Assign base reinforcements based on number of countries owned
 		d_reinforcements = Math.max(3, d_countries.size() / 3);
-
-		// 1. Get all continents that the player has countries in
-		// 2. Find which continents are fully owned by the player (continent countries
-		// must form a subset of the countries owned by the player)
-		// 3. Add fully owned continent bonus values to reinforcements
-		Set<Continent> l_processedContinents = new HashSet<Continent>();
-		for (Country l_country : d_countries) {
-			Continent l_continent = l_country.getContinent();
-			if (!l_processedContinents.contains(l_continent)) {
-				ownsContinent(l_continent);
-				l_processedContinents.add(l_continent);
-			}
+		// Find all continents that the player fully owns
+		Set<Continent> l_ownedContinents = getOwnedContinents();
+		// Add the continent value of fully owned continents to reinforcements
+		for(Continent l_c : l_ownedContinents) {
+		    d_reinforcements += l_c.getValue();
 		}
 	}
 }
