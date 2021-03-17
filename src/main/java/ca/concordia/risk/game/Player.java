@@ -120,11 +120,11 @@ public class Player {
 	 * 
 	 * @param p_numReinforcements number of reinforcements to retrieve.
 	 * @return <code>true</code> if reinforcements were successfully retrieved.<br>
-	 *         <code>false</code> is the requested number of reinforcements was
+	 *         <code>false</code> if the requested number of reinforcements is
 	 *         invalid or the player did not have enough reinforcements.
 	 */
 	public boolean retrieveReinforcements(int p_numReinforcements) {
-		if (p_numReinforcements <= 0 && p_numReinforcements > d_reinforcements) {
+		if (p_numReinforcements <= 0 || p_numReinforcements > d_reinforcements) {
 			return false;
 		}
 
