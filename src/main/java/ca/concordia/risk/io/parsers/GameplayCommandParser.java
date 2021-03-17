@@ -58,6 +58,7 @@ public class GameplayCommandParser extends CommandParser {
 	 * @return <code>ShowMapCommand</code>.
 	 */
 	private Command parseShowMapCommand(List<String> p_argumentList) {
+		System.out.println("true");
 		return new ShowMapCommand(true);
 	}
 

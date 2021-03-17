@@ -122,6 +122,7 @@ public abstract class CommandParser {
 	 * @return <code>ShowMapCommand</code>.
 	 */
 	private Command parseShowMapCommand(List<String> p_argumentList) {
+		System.out.println("false");
 		return new ShowMapCommand(false);
 	}
 

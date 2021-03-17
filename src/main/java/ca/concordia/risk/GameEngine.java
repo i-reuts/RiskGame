@@ -16,6 +16,7 @@ import ca.concordia.risk.io.parsers.EditorCommandParser;
 import ca.concordia.risk.io.parsers.GameplayCommandParser;
 import ca.concordia.risk.io.parsers.StartupCommandParser;
 import ca.concordia.risk.io.views.ConsoleView;
+import ca.concordia.risk.phases.IssueOrderPhase;
 import ca.concordia.risk.phases.MapEditorPhase;
 import ca.concordia.risk.phases.Phase;
 import ca.concordia.risk.phases.StartupPhase;
@@ -34,13 +35,14 @@ public class GameEngine {
 	private static Phase d_ActivePhase;
 	private static MapEditorPhase d_MapEditorPhase;
 	private static StartupPhase d_StartupPhase;
+	private static IssueOrderPhase d_IssueOrderPhase;
 	
 	private static ConsoleView d_View;
 	private static GameMode d_ActiveMode;
 	private static CommandParser d_ActiveParser;
 	private static Map<GameMode, CommandParser> d_ParserMap = new TreeMap<GameMode, CommandParser>();
 	private static GameMap d_ActiveMap;
-	private static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
+	public static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
 
 	/**
 	 * Startup method.
@@ -91,8 +93,8 @@ public class GameEngine {
 	}
 
 	/** Changes active game mode to Gameplay. */
-	public static void SwitchToGameplayMode() {
-		ChangeMode(GameMode.GAMEPLAY);
+	public static void SwitchToIssueOrderMode() {
+		d_ActivePhase = d_IssueOrderPhase;
 	}
 
 	/**
@@ -204,6 +206,7 @@ public class GameEngine {
 		// Initialize all phases
 		d_MapEditorPhase = new MapEditorPhase(new EditorCommandParser());
 		d_StartupPhase = new StartupPhase(new StartupCommandParser());
+		d_IssueOrderPhase = new IssueOrderPhase(new GameplayCommandParser());
 		
 		// Setup initial phase
 		d_ActivePhase = d_MapEditorPhase;
@@ -215,11 +218,11 @@ public class GameEngine {
 	/** Executes the main application loop. */
 	private static void RunMainLoop() {
 		while (true) {
-			while (d_ActiveMode != GameMode.GAMEPLAY) {
+			while (d_ActivePhase.equals(d_MapEditorPhase) || d_ActivePhase.equals(d_StartupPhase)) {
 				ProcessUserCommand();
 			}
 
-			while (d_ActiveMode == GameMode.GAMEPLAY) {
+			while (d_ActivePhase.equals(d_IssueOrderPhase)) {
 				AssignReinforcements();
 				IssueOrders();
 				ExecuteOrders();
