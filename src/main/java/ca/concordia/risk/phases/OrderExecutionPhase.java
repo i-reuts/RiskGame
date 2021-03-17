@@ -13,7 +13,7 @@ public class OrderExecutionPhase extends Phase{
 	}
 
 	public void execute() {
-		executeOrders();
+		this.executeOrders();
 	}
 	
 	/**
@@ -37,5 +37,10 @@ public class OrderExecutionPhase extends Phase{
 				}
 			}
 		}
+		this.nextPhase();
+	}
+	
+	private void nextPhase() {
+		GameEngine.SwitchToIssueOrderMode();
 	}
 }

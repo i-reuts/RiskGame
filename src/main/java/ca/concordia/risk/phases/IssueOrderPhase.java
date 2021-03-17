@@ -20,7 +20,7 @@ public class IssueOrderPhase extends Phase{
 	}
 	
 	public void execute() {
-		issueOrders();
+		this.issueOrders();
 	}
 	
 	/**
@@ -33,11 +33,12 @@ public class IssueOrderPhase extends Phase{
 			l_allPlayersIssued = true;
 			for (Player l_p : GameEngine.d_ActivePlayers.values()) {
 				if (!l_p.finishedIssuingOrders()) {
-					l_p.addOrder(issuePlayerOrder(l_p));
+					l_p.addOrder(this.issuePlayerOrder(l_p));
 					l_allPlayersIssued = false;
 				}
 			}
 		}
+		this.nextPhase();
 	}
 	
 	/**
@@ -64,6 +65,10 @@ public class IssueOrderPhase extends Phase{
 		}
 
 		return l_order;
+	}
+	
+	private void nextPhase() {
+		GameEngine.SwitchToOrderExecutionMode();
 	}
 
 }
