@@ -124,9 +124,7 @@ public class Player {
 	 *         invalid or the player did not have enough reinforcements.
 	 */
 	public boolean retrieveReinforcements(int p_numReinforcements) {
-		if (p_numReinforcements <= 0) {
-			return false;
-		} else if (p_numReinforcements > d_reinforcements) {
+		if (p_numReinforcements <= 0 || p_numReinforcements > d_reinforcements) {
 			return false;
 		}
 
