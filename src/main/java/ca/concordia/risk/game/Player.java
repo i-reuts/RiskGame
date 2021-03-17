@@ -134,6 +134,12 @@ public class Player {
 
 		return true;
 	}
+	
+	public void ownsContinent(Continent p_continent) {
+		if (d_countries.containsAll(p_continent.getCountries())) {
+			d_reinforcements += p_continent.getValue();
+		}
+	}
 
 	/**
 	 * Assigns reinforcements to the player.
@@ -153,9 +159,7 @@ public class Player {
 		for (Country l_country : d_countries) {
 			Continent l_continent = l_country.getContinent();
 			if (!l_processedContinents.contains(l_continent)) {
-				if (d_countries.containsAll(l_continent.getCountries())) {
-					d_reinforcements += l_continent.getValue();
-				}
+				ownsContinent(l_continent);
 				l_processedContinents.add(l_continent);
 			}
 		}
