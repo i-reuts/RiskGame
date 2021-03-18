@@ -1,6 +1,7 @@
 package ca.concordia.risk.game.orders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import ca.concordia.risk.game.Player;
 public class DeployOrderTest {
 
 	@Test
-	public void deployOrdertest() {
+	public void deploymentFailtest() {
 		DeployOrder d_deployorder;
 		// Create sample map with a continent and countries
 				GameMap l_map = new GameMap();
@@ -37,5 +38,10 @@ public class DeployOrderTest {
 
 				// Add 1st country to countries owned by the player
 				l_player.addCountry(l_country1);
+				d_deployorder = new DeployOrder(l_player2, l_country1, 4);
+				d_deployorder.execute();
+				
+				//assertEquals(d_deployorder.getStatus(),"Deployment failed: " + l_country1 + " no longer owned by Player B");
+				assertTrue(d_deployorder.getStatus().startsWith("Deployment failed: "));				
 	}
 }
