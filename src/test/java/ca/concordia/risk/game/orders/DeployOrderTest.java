@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ca.concordia.risk.game.Continent;
@@ -16,6 +17,16 @@ import ca.concordia.risk.game.Player;
  * Unit test class for the <code>DeployOrder</code>.
  */
 public class DeployOrderTest {
+	
+	private GameMap d_map;
+
+	/**
+	 * Initializes the context with an empty map before each test.
+	 */
+	@BeforeEach
+	void SetUp() {
+		d_map = new GameMap();
+	}
 
 	/**
 	 * Tests validating a Deployment order 
@@ -27,13 +38,12 @@ public class DeployOrderTest {
 		DeployOrder d_deployorder;
 		
 		// Create sample map with a continent and countries
-		GameMap l_map = new GameMap();
 		Continent l_continent = new Continent("Test Continent", 10);
-		l_map.addContinent(l_continent);
+		d_map.addContinent(l_continent);
 		for (int l_i = 0; l_i < 5; l_i++) {
-			l_map.addCountry(new Country("Country " + l_i, l_continent));
+			d_map.addCountry(new Country("Country " + l_i, l_continent));
 		}
-		List<Country> l_countries = l_map.getCountries();
+		List<Country> l_countries = d_map.getCountries();
 		Country l_country1 = l_countries.get(0);
 
 		// Create a player
@@ -56,14 +66,12 @@ public class DeployOrderTest {
 	public void deploymentOrderFailtest() {
 		DeployOrder d_deployorder;
 		
-		// Create sample map with a continent and countries
-		GameMap l_map = new GameMap();
 		Continent l_continent = new Continent("Test Continent", 10);
-		l_map.addContinent(l_continent);
+		d_map.addContinent(l_continent);
 		for (int l_i = 0; l_i < 5; l_i++) {
-			l_map.addCountry(new Country("Country " + l_i, l_continent));
+			d_map.addCountry(new Country("Country " + l_i, l_continent));
 		}
-		List<Country> l_countries = l_map.getCountries();
+		List<Country> l_countries = d_map.getCountries();
 		Country l_country1 = l_countries.get(0);
 		
 		// Create a player
