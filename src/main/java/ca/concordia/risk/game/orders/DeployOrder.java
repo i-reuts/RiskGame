@@ -38,7 +38,6 @@ public class DeployOrder implements Order {
 	 */
 	@Override
 	public void execute() {
-		System.out.println("Deploy order execute method");
 		if (isValid()) {
 			d_status = d_player.getName() + " deployed " + d_armiesToDeploy + " armies to " + d_deployCountry.getName();
 			d_deployCountry.addArmies(d_armiesToDeploy);

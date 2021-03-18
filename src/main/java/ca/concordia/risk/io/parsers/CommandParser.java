@@ -104,6 +104,16 @@ public abstract class CommandParser {
 	}
 
 	/**
+	 * Parses a <i>"showmap"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>ShowMapCommand</code>.
+	 */
+	protected Command parseShowMapCommand(List<String> p_argumentList) {
+		return new ShowMapCommand(false);
+	}
+
+	/**
 	 * Creates an <code>InvalidCommand</code> specifying that the given user command
 	 * is currently unavailable.
 	 * 
@@ -115,16 +125,6 @@ public abstract class CommandParser {
 		return new InvalidCommand("this command is not available in the current mode");
 	}
 	
-	/**
-	 * Parses a <i>"showmap"</i> command.
-	 * 
-	 * @param p_argumentList list of command arguments.
-	 * @return <code>ShowMapCommand</code>.
-	 */
-	private Command parseShowMapCommand(List<String> p_argumentList) {
-		return new ShowMapCommand(false);
-	}
-
 	/** A custom <code>Exception</code> class thrown when a parsing error occurs. */
 	@SuppressWarnings("serial")
 	protected static class ParsingException extends Exception {
