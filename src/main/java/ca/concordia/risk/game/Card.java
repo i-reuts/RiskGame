@@ -1,24 +1,19 @@
 package ca.concordia.risk.game;
 
+import java.util.Random;
 
 public class Card 
 {
-	private static int d_cardCount = 0;
 	private enum d_cardType
 	{
-		BOMB, BLOCAKDE, AIRLIFT, NEGOCIATE;
+		BOMB, BLOCKADE, AIRLIFT, NEGOCIATE;
 	}
 	
 	private d_cardType d_type;
-	
-	public Card()
+
+	public void issueRandomCard()
 	{
-		d_cardCount++;	
-	}
-	
-	public int getCardCount()
-	{
-		return d_cardCount;
+		this.d_type = d_cardType.values()[new Random().nextInt(d_cardType.values().length)];		
 	}
 	
 	public d_cardType getCard()
@@ -29,7 +24,8 @@ public class Card
 	public static void main(String[] args)
 	{
 		Card c = new Card();
-		System.out.println(c.getCardCount());
+		c.issueRandomCard();
+		System.out.println(c.getCard());
 		
 	}
 }
