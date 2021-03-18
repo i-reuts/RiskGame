@@ -12,63 +12,65 @@ import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.game.Player;
 
-
 /**
  * Unit test class for the <code>DeployOrder</code>.
  */
 public class DeployOrderTest {
 
+	/**
+	 * Tests validating a Deployment order 
+	 * <p>
+	 * Player must own the country to add the requested number of armies to the deploy country.
+	 */
 	@Test
-	public void deploymentFailtest() {
+	public void deploymentOrderPasstest() {
 		DeployOrder d_deployorder;
+		
 		// Create sample map with a continent and countries
-				GameMap l_map = new GameMap();
-				Continent l_continent = new Continent("Test Continent", 10);
-				l_map.addContinent(l_continent);
-				for (int l_i = 0; l_i < 5; l_i++) {
-					l_map.addCountry(new Country("Country " + l_i, l_continent));
-				}
-				List<Country> l_countries = l_map.getCountries();
-				Country l_country1 = l_countries.get(0);
-				//Country l_country2 = l_countries.get(1);
+		GameMap l_map = new GameMap();
+		Continent l_continent = new Continent("Test Continent", 10);
+		l_map.addContinent(l_continent);
+		for (int l_i = 0; l_i < 5; l_i++) {
+			l_map.addCountry(new Country("Country " + l_i, l_continent));
+		}
+		List<Country> l_countries = l_map.getCountries();
+		Country l_country1 = l_countries.get(0);
 
-				// Create a player
-				Player l_player = new Player("Player A");
-				Player l_player2 = new Player("Player B");
+		// Create a player
+		Player l_player = new Player("Player A");
 
-				// Add 1st country to countries owned by the player
-				l_player.addCountry(l_country1);
-				d_deployorder = new DeployOrder(l_player2, l_country1, 4);
-				d_deployorder.execute();
-				
-				//assertEquals(d_deployorder.getStatus(),"Deployment failed: " + l_country1 + " no longer owned by Player B");
-				assertTrue(d_deployorder.getStatus().startsWith("Deployment failed: "));				
+		// Add 1st country to countries owned by the player A and give an order to deploy any random number of armies: 4
+		l_player.addCountry(l_country1);
+		d_deployorder = new DeployOrder(l_player, l_country1, 4);
+		d_deployorder.execute();
+
+		assertEquals(d_deployorder.getStatus(), "Player A deployed 4 armies to Country 0");
 	}
 	
+
 	@Test
-	public void deploymentPasstest() {
+	public void deploymentOrderFailtest() {
 		DeployOrder d_deployorder;
 		// Create sample map with a continent and countries
-				GameMap l_map = new GameMap();
-				Continent l_continent = new Continent("Test Continent", 10);
-				l_map.addContinent(l_continent);
-				for (int l_i = 0; l_i < 5; l_i++) {
-					l_map.addCountry(new Country("Country " + l_i, l_continent));
-				}
-				List<Country> l_countries = l_map.getCountries();
-				Country l_country1 = l_countries.get(0);
-				//Country l_country2 = l_countries.get(1);
+		GameMap l_map = new GameMap();
+		Continent l_continent = new Continent("Test Continent", 10);
+		l_map.addContinent(l_continent);
+		for (int l_i = 0; l_i < 5; l_i++) {
+			l_map.addCountry(new Country("Country " + l_i, l_continent));
+		}
+		List<Country> l_countries = l_map.getCountries();
+		Country l_country1 = l_countries.get(0);
 
-				// Create a player
-				Player l_player = new Player("Player A");
-				Player l_player2 = new Player("Player B");
+		// Create a player
+		Player l_player = new Player("Player A");
+		Player l_player2 = new Player("Player B");
 
-				// Add 1st country to countries owned by the player
-				l_player.addCountry(l_country1);
-				d_deployorder = new DeployOrder(l_player, l_country1, 4);
-				d_deployorder.execute();
-				
-				assertEquals(d_deployorder.getStatus(),"Player A deployed 4 armies to Country 0");
-				//assertTrue(d_deployorder.getStatus().startsWith("Deployment failed: "));				
+		// Add 1st country to countries owned by the player
+		l_player.addCountry(l_country1);
+		d_deployorder = new DeployOrder(l_player2, l_country1, 4);
+		d_deployorder.execute();
+
+		assertTrue(d_deployorder.getStatus().startsWith("Deployment failed: "));
 	}
+
 }
