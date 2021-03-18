@@ -47,10 +47,15 @@ public class DeployOrderTest {
 		assertEquals(d_deployorder.getStatus(), "Player A deployed 4 armies to Country 0");
 	}
 	
-
+	/**
+	 * Tests validating a Deployment order 
+	 * <p>
+	 * If player no longer owns the country then the deployment should fail
+	 */
 	@Test
 	public void deploymentOrderFailtest() {
 		DeployOrder d_deployorder;
+		
 		// Create sample map with a continent and countries
 		GameMap l_map = new GameMap();
 		Continent l_continent = new Continent("Test Continent", 10);
@@ -60,16 +65,22 @@ public class DeployOrderTest {
 		}
 		List<Country> l_countries = l_map.getCountries();
 		Country l_country1 = l_countries.get(0);
-
+		
 		// Create a player
-		Player l_player = new Player("Player A");
 		Player l_player2 = new Player("Player B");
 
-		// Add 1st country to countries owned by the player
-		l_player.addCountry(l_country1);
-		d_deployorder = new DeployOrder(l_player2, l_country1, 4);
+		// Add 1st country to countries owned by the player B and give an order to deploy any random number of armies: 6
+		l_player2.addCountry(l_country1);
+		d_deployorder = new DeployOrder(l_player2, l_country1, 6);
 		d_deployorder.execute();
-
+		
+		assertEquals(d_deployorder.getStatus(), "Player B deployed 6 armies to Country 0");
+		
+		// Remove the added country from the countries owned by the player B and give an order to deploy any random number of armies: 7
+		l_player2.removeCountry(l_country1);
+		d_deployorder = new DeployOrder(l_player2, l_country1, 7);
+		d_deployorder.execute();
+		
 		assertTrue(d_deployorder.getStatus().startsWith("Deployment failed: "));
 	}
 
