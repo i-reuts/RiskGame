@@ -25,7 +25,8 @@ public class DeployOrderTest {
 	private Country l_country1; 
 	
 	/**
-	 * Initializes the context with an empty map before each test.
+	 * Initializes the context with an empty map, creates a player 
+	 * and adds a country to the player before each test 
 	 */
 	@BeforeEach
 	void SetUp() {
