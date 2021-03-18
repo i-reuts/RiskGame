@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import ca.concordia.risk.game.Continent;
@@ -20,16 +20,16 @@ import ca.concordia.risk.game.Player;
  */
 public class DeployOrderTest {
 
-	private GameMap d_map;
-	private Player l_player;
-	private Country l_country1; 
+	private static GameMap d_map;
+	private static Player l_player;
+	private static Country l_country1; 
 	
 	/**
 	 * Initializes the context with an empty map, creates a player 
-	 * and adds a country to the player before each test 
+	 * and adds a country to the player before all tests 
 	 */
-	@BeforeEach
-	void SetUp() {
+	@BeforeAll
+	public static void SetUp() {
 		d_map = new GameMap();
 
 		// Create sample map with a continent and countries
@@ -48,7 +48,7 @@ public class DeployOrderTest {
 		l_player.addCountry(l_country1);
 
 	}
-
+	
 	/**
 	 * Tests validating a Deployment order
 	 * <p>
@@ -87,5 +87,4 @@ public class DeployOrderTest {
 		d_deployorder.execute();
 		assertTrue(d_deployorder.getStatus().startsWith("Deployment failed: "));
 	}
-
 }
