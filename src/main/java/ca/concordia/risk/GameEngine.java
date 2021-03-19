@@ -121,35 +121,6 @@ public class GameEngine {
 		d_ActivePlayers.remove(p_name);
 	}
 
-	/** Initializes the <code>GameEngine</code>. */
-	private static void Initialize() {
-		// Initialize the view
-		d_View = new ConsoleView();
-
-		// Initialize and connect all phases
-		Phase l_editorPhase = new MapEditorPhase();
-		Phase l_startupPhase = new StartupPhase();
-		Phase l_gameplayPhase = new GameplayPhase();
-
-		l_editorPhase.setNextPhase(l_startupPhase);
-		l_startupPhase.setNextPhase(l_gameplayPhase);
-		l_gameplayPhase.setNextPhase(l_editorPhase);
-
-		// Setup initial phase
-		d_ActivePhase = l_editorPhase;
-	}
-
-	/**
-	 * Executes the main application loop.
-	 * <p>
-	 * The main loop repeatedly executes the currently active phase.
-	 */
-	private static void RunMainLoop() {
-		while (true) {
-			d_ActivePhase.execute();
-		}
-	}
-
 	/** Processes one general application command inputed by user. */
 	public static void ProcessUserCommand() {
 		d_View.display("\nPlease enter your command:");
@@ -181,5 +152,34 @@ public class GameEngine {
 		}
 
 		return l_order;
+	}
+
+	/** Initializes the <code>GameEngine</code>. */
+	protected static void Initialize() {
+		// Initialize the view
+		d_View = new ConsoleView();
+
+		// Initialize and connect all phases
+		Phase l_editorPhase = new MapEditorPhase();
+		Phase l_startupPhase = new StartupPhase();
+		Phase l_gameplayPhase = new GameplayPhase();
+
+		l_editorPhase.setNextPhase(l_startupPhase);
+		l_startupPhase.setNextPhase(l_gameplayPhase);
+		l_gameplayPhase.setNextPhase(l_editorPhase);
+
+		// Setup initial phase
+		d_ActivePhase = l_editorPhase;
+	}
+
+	/**
+	 * Executes the main application loop.
+	 * <p>
+	 * The main loop repeatedly executes the currently active phase.
+	 */
+	private static void RunMainLoop() {
+		while (true) {
+			d_ActivePhase.execute();
+		}
 	}
 }
