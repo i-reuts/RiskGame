@@ -26,7 +26,7 @@ public class DeployOrderTest {
 	
 	/**
 	 * Initializes the context with an empty map, creates a player 
-	 * and adds a country to the player before all tests 
+	 * and adds a country to the player before all tests.
 	 */
 	@BeforeAll
 	public static void SetUp() {
@@ -50,7 +50,7 @@ public class DeployOrderTest {
 	}
 	
 	/**
-	 * Tests validating a Deployment order
+	 * Tests validating a Deployment order.
 	 * <p>
 	 * Player must own the country to add the requested number of armies to the
 	 * deploy country.
@@ -66,9 +66,9 @@ public class DeployOrderTest {
 	}
 
 	/**
-	 * Tests validating a Deployment order
+	 * Tests validating a Deployment order.
 	 * <p>
-	 * If player no longer owns the country then the deployment should fail
+	 * If player no longer owns the country then the deployment should fail.
 	 */
 	@Test
 	public void deploymentOrderFailtest() {

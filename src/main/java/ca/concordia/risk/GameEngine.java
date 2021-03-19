@@ -144,7 +144,7 @@ public class GameEngine {
 			}
 		}
 	}
-
+	
 	/**
 	 * Processes one player order command inputed by user.
 	 * <p>
@@ -169,19 +169,17 @@ public class GameEngine {
 
 		return l_order;
 	}
-
-	/**
-	 * Changes active game mode.
-	 * 
-	 * @param p_newMode mode to change to.
-	 */
-	private static void ChangeMode(GameMode p_newMode) {
-		d_ActiveMode = p_newMode;
-		d_ActiveParser = d_ParserMap.get(d_ActiveMode);
+	
+	/** Processes one general application command inputed by user. */
+	protected static void ProcessUserCommand() {
+		d_View.display("\nPlease enter your command:");
+		String l_userInput = d_View.getInput();
+		Command l_command = d_ActiveParser.parse(l_userInput);
+		l_command.execute();
 	}
-
+	
 	/** Initializes the <code>GameEngine</code>. */
-	private static void Initialize() {
+	protected static void Initialize() {
 		// Initialize the view
 		d_View = new ConsoleView();
 
@@ -192,6 +190,16 @@ public class GameEngine {
 
 		// Initialize GameMode
 		ChangeMode(GameMode.EDITOR);
+	}
+
+	/**
+	 * Changes active game mode.
+	 * 
+	 * @param p_newMode mode to change to.
+	 */
+	private static void ChangeMode(GameMode p_newMode) {
+		d_ActiveMode = p_newMode;
+		d_ActiveParser = d_ParserMap.get(d_ActiveMode);
 	}
 
 	/** Executes the main application loop. */
@@ -255,13 +263,5 @@ public class GameEngine {
 				}
 			}
 		}
-	}
-
-	/** Processes one general application command inputed by user. */
-	private static void ProcessUserCommand() {
-		d_View.display("\nPlease enter your command:");
-		String l_userInput = d_View.getInput();
-		Command l_command = d_ActiveParser.parse(l_userInput);
-		l_command.execute();
 	}
 }
