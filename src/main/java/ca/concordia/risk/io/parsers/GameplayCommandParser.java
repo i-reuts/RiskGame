@@ -26,6 +26,17 @@ public class GameplayCommandParser extends CommandParser {
 	}
 
 	/**
+	 * Parses a <i>"showmap"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>ShowMapCommand</code>.
+	 */
+	@Override
+	protected Command parseShowMapCommand(List<String> p_argumentList) {
+		return new ShowMapCommand(true);
+	}
+
+	/**
 	 * Parses a <i>"deploy"</i> command.
 	 * 
 	 * @param p_argumentList list of command arguments.
@@ -50,15 +61,4 @@ public class GameplayCommandParser extends CommandParser {
 
 		return new DeployOrderCommand(l_deployCountry, l_numberOfArmies);
 	}
-	
-	/**
-	 * Parses a <i>"showmap"</i> command.
-	 * 
-	 * @param p_argumentList list of command arguments.
-	 * @return <code>ShowMapCommand</code>.
-	 */
-	private Command parseShowMapCommand(List<String> p_argumentList) {
-		return new ShowMapCommand(true);
-	}
-
 }

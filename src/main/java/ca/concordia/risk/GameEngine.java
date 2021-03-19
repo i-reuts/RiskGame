@@ -1,20 +1,18 @@
 package ca.concordia.risk;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.orders.Order;
+import ca.concordia.risk.game.phases.Phase;
+import ca.concordia.risk.game.phases.GameplayPhase;
+import ca.concordia.risk.game.phases.MapEditorPhase;
+import ca.concordia.risk.game.phases.StartupPhase;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.OrderCommand;
-import ca.concordia.risk.io.parsers.CommandParser;
-import ca.concordia.risk.io.parsers.EditorCommandParser;
-import ca.concordia.risk.io.parsers.GameplayCommandParser;
-import ca.concordia.risk.io.parsers.StartupCommandParser;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /**
@@ -23,15 +21,8 @@ import ca.concordia.risk.io.views.ConsoleView;
  */
 public class GameEngine {
 
-	/** Enumerable representing supported game modes. **/
-	private static enum GameMode {
-		EDITOR, STARTUP, GAMEPLAY
-	}
-
+	private static Phase d_ActivePhase;
 	private static ConsoleView d_View;
-	private static GameMode d_ActiveMode;
-	private static CommandParser d_ActiveParser;
-	private static Map<GameMode, CommandParser> d_ParserMap = new TreeMap<GameMode, CommandParser>();
 	private static GameMap d_ActiveMap;
 	private static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
 
@@ -45,6 +36,13 @@ public class GameEngine {
 	public static void main(String[] p_args) {
 		Initialize();
 		RunMainLoop();
+	}
+
+	/**
+	 * Transitions to the next phase according to the currently active phase.
+	 */
+	public static void SwitchToNextPhase() {
+		d_ActivePhase = d_ActivePhase.getNextPhase();
 	}
 
 	/**
@@ -74,23 +72,13 @@ public class GameEngine {
 		d_ActiveMap = p_map;
 	}
 
-	/** Changes active game mode to Startup. */
-	public static void SwitchToStartupMode() {
-		ChangeMode(GameMode.STARTUP);
-	}
-
-	/** Changes active game mode to Gameplay. */
-	public static void SwitchToGameplayMode() {
-		ChangeMode(GameMode.GAMEPLAY);
-	}
-
 	/**
-	 * Gets the number of active players.
+	 * Gets the collection of active players.
 	 * 
-	 * @return number of active players.
+	 * @return collection of active players.
 	 */
-	public static int GetNumberOfPlayers() {
-		return d_ActivePlayers.size();
+	public static Collection<Player> GetPlayers() {
+		return d_ActivePlayers.values();
 	}
 
 	/**
@@ -103,6 +91,15 @@ public class GameEngine {
 	 */
 	public static Player GetPlayer(String p_name) {
 		return d_ActivePlayers.get(p_name);
+	}
+
+	/**
+	 * Gets the number of active players.
+	 * 
+	 * @return number of active players.
+	 */
+	public static int GetNumberOfPlayers() {
+		return d_ActivePlayers.size();
 	}
 
 	/**
@@ -124,25 +121,12 @@ public class GameEngine {
 		d_ActivePlayers.remove(p_name);
 	}
 
-	/** Assigns countries randomly to active players. */
-	public static void AssignCountries() {
-		// Get all countries and shuffle them randomly
-		List<Country> l_countryList = d_ActiveMap.getCountries();
-		Collections.shuffle(l_countryList);
-
-		// While there are countries remaining, assign shuffled countries one by one to
-		// players in a round-robin fashion
-		while (!l_countryList.isEmpty()) {
-			for (Player l_player : d_ActivePlayers.values()) {
-				if (l_countryList.isEmpty()) {
-					break;
-				}
-
-				Country l_country = l_countryList.remove(l_countryList.size() - 1);
-				l_player.addCountry(l_country);
-				l_country.setOwner(l_player);
-			}
-		}
+	/** Processes one general application command inputed by user. */
+	public static void ProcessUserCommand() {
+		d_View.display("\nPlease enter your command:");
+		String l_userInput = d_View.getInput();
+		Command l_command = d_ActivePhase.parseCommand(l_userInput);
+		l_command.execute();
 	}
 
 	/**
@@ -159,7 +143,7 @@ public class GameEngine {
 			d_View.display("\n" + p_player.getName() + ", please enter your command ("
 					+ p_player.getRemainingReinforcements() + " reinforcements left):");
 
-			Command l_command = d_ActiveParser.parse(d_View.getInput());
+			Command l_command = d_ActivePhase.parseCommand(d_View.getInput());
 			if (l_command instanceof OrderCommand) {
 				l_order = ((OrderCommand) l_command).buildOrder(p_player);
 			} else {
@@ -170,98 +154,32 @@ public class GameEngine {
 		return l_order;
 	}
 
-	/**
-	 * Changes active game mode.
-	 * 
-	 * @param p_newMode mode to change to.
-	 */
-	private static void ChangeMode(GameMode p_newMode) {
-		d_ActiveMode = p_newMode;
-		d_ActiveParser = d_ParserMap.get(d_ActiveMode);
-	}
-
 	/** Initializes the <code>GameEngine</code>. */
-	private static void Initialize() {
+	protected static void Initialize() {
 		// Initialize the view
 		d_View = new ConsoleView();
 
-		// Initialize and register Command Parsers
-		d_ParserMap.put(GameMode.EDITOR, new EditorCommandParser());
-		d_ParserMap.put(GameMode.STARTUP, new StartupCommandParser());
-		d_ParserMap.put(GameMode.GAMEPLAY, new GameplayCommandParser());
+		// Initialize and connect all phases
+		Phase l_editorPhase = new MapEditorPhase();
+		Phase l_startupPhase = new StartupPhase();
+		Phase l_gameplayPhase = new GameplayPhase();
 
-		// Initialize GameMode
-		ChangeMode(GameMode.EDITOR);
+		l_editorPhase.setNextPhase(l_startupPhase);
+		l_startupPhase.setNextPhase(l_gameplayPhase);
+		l_gameplayPhase.setNextPhase(l_editorPhase);
+
+		// Setup initial phase
+		d_ActivePhase = l_editorPhase;
 	}
 
-	/** Executes the main application loop. */
+	/**
+	 * Executes the main application loop.
+	 * <p>
+	 * The main loop repeatedly executes the currently active phase.
+	 */
 	private static void RunMainLoop() {
 		while (true) {
-			while (d_ActiveMode != GameMode.GAMEPLAY) {
-				ProcessUserCommand();
-			}
-
-			while (d_ActiveMode == GameMode.GAMEPLAY) {
-				AssignReinforcements();
-				IssueOrders();
-				ExecuteOrders();
-			}
+			d_ActivePhase.execute();
 		}
-	}
-
-	/**
-	 * Assigns reinforcements to each player.
-	 */
-	private static void AssignReinforcements() {
-		for (Player l_p : d_ActivePlayers.values()) {
-			l_p.assignReinfocements();
-		}
-	}
-
-	/**
-	 * Asks each player to issue orders in a round-robin fashion one order at a time
-	 * until no players have orders left to give.
-	 */
-	private static void IssueOrders() {
-		boolean l_allPlayersIssued = false;
-		while (!l_allPlayersIssued) {
-			l_allPlayersIssued = true;
-			for (Player l_p : d_ActivePlayers.values()) {
-				if (!l_p.finishedIssuingOrders()) {
-					l_p.issueOrder();
-					l_allPlayersIssued = false;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Asks each player to execute their orders in a round-robin fashion one order
-	 * at a time until no players have orders remaining in their order queue.
-	 */
-	private static void ExecuteOrders() {
-		d_View.display("\nExecuting orders...");
-
-		boolean l_allOrdersExecuted = false;
-		while (!l_allOrdersExecuted) {
-			l_allOrdersExecuted = true;
-			for (Player l_p : d_ActivePlayers.values()) {
-				Order l_order = l_p.nextOrder();
-				if (l_order != null) {
-					l_order.execute();
-					l_allOrdersExecuted = false;
-
-					d_View.display(l_order.getStatus());
-				}
-			}
-		}
-	}
-
-	/** Processes one general application command inputed by user. */
-	private static void ProcessUserCommand() {
-		d_View.display("\nPlease enter your command:");
-		String l_userInput = d_View.getInput();
-		Command l_command = d_ActiveParser.parse(l_userInput);
-		l_command.execute();
 	}
 }
