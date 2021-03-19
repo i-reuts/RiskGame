@@ -171,10 +171,20 @@ public class Player {
 		}
 	}
 	
+	/**
+	 * This method adds the card to the list of cards owned by the Player.
+	 * 
+	 * @param p_card card to be added.
+	 */
 	public void addCard(Card p_card) {
 		d_cards.add(p_card);
 	}
-	
+
+	/**
+	 * This method removes the card from the list of cards owned by the Player.
+	 * 
+	 * @param p_card card to be removed.
+	 */
 	public void removeCard(Card p_card) {
 		d_cards.remove(p_card);
 	}
