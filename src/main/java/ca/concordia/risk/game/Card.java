@@ -15,20 +15,14 @@ public class Card {
 
 	private d_cardType d_type;
 
-	/**
-	 * This constructor creates a random card by using another helper function.
-	 * 
-	 */
-	public Card() {
-		issueRandomCard();
+	
+	private Card() {
 	}
 
-	/**
-	 * This method generates and issues a card at random.
-	 * 
-	 */
-	public void issueRandomCard() {
-		this.d_type = d_cardType.values()[d_random.nextInt(d_cardType.values().length)];
+	public static Card issueCard() {
+		Card l_card = new Card();
+		l_card.d_type = d_cardType.values()[d_random.nextInt(d_cardType.values().length)];
+		return l_card;
 	}
 
 	/**
