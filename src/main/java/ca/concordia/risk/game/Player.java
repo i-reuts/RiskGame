@@ -134,7 +134,7 @@ public class Player {
 
 		return true;
 	}
-	
+
 	/**
 	 * This method computes the set of continents that are fully captured by the
 	 * player.
@@ -166,11 +166,11 @@ public class Player {
 		// Find all continents that the player fully owns
 		Set<Continent> l_ownedContinents = getOwnedContinents();
 		// Add the continent value of fully owned continents to reinforcements
-		for(Continent l_c : l_ownedContinents) {
-		    d_reinforcements += l_c.getValue();
+		for (Continent l_c : l_ownedContinents) {
+			d_reinforcements += l_c.getValue();
 		}
 	}
-	
+
 	/**
 	 * This method adds the card to the list of cards owned by the Player.
 	 * 
