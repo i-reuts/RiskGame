@@ -2,6 +2,7 @@ package ca.concordia.risk.game;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ public class Player {
 	private String d_name;
 	private Queue<Order> d_orders;
 	private Set<Country> d_countries;
+	private List<Card> d_cards;
 
 	/**
 	 * Creates a new player.
@@ -167,5 +169,13 @@ public class Player {
 		for(Continent l_c : l_ownedContinents) {
 		    d_reinforcements += l_c.getValue();
 		}
+	}
+	
+	public void addCard(Card p_card) {
+		d_cards.add(p_card);
+	}
+	
+	public void removeCard(Card p_card) {
+		d_cards.remove(p_card);
 	}
 }
