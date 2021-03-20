@@ -181,11 +181,29 @@ public class Player {
 	}
 
 	/**
-	 * This method removes the card from the list of cards owned by the Player.
+	 * This method removes a specific type of Card from the list of Cards owned by
+	 * the Player.
 	 * 
-	 * @param p_card card to be removed.
+	 * @param p_card Card to be removed.
 	 */
-	public void removeCard(Card p_card) {
-		d_cards.remove(p_card);
-	}		
+	public boolean removeCard(Card p_card) {
+		if (d_cards.size() > 0) {
+			int l_pos = -1;
+			for (int index = 0; index < d_cards.size(); index++) {
+				if (d_cards.get(index).getCardType().equals(p_card.getCardType())) {
+					l_pos = index;
+					break;
+				}
+			}
+
+			if (l_pos == -1) {
+				return false;
+			} else {
+				d_cards.remove(l_pos);
+				return true;
+			}
+		} else {
+			return false;
+		}
+	}
 }

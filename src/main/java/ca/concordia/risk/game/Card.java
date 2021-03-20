@@ -9,7 +9,7 @@ import java.util.Random;
 public class Card {
 	private static Random d_random = new Random();
 
-	private enum d_cardType {
+	enum d_cardType {
 		BOMB, BLOCKADE, AIRLIFT, DIPLOMACY;
 	}
 
@@ -49,18 +49,6 @@ public class Card {
 	 */
 	public void setCardType(d_cardType p_type) {
 		this.d_type = p_type;
-	}
-
-	/**
-	 * This method returns a Card of the type passed.
-	 * 
-	 * @param p_type type of card.
-	 * @return Card of that particular type.
-	 */
-	public Card getCard(d_cardType p_type) {
-		Card l_card = new Card();
-		l_card.setCardType(p_type);
-		return l_card;
 	}
 
 	/**
@@ -105,18 +93,5 @@ public class Card {
 		Card l_card = new Card();
 		l_card.setCardType(d_cardType.values()[3]);
 		return l_card;
-	}
-
-	/**
-	 * This method checks if two Cards are of the same type.
-	 * 
-	 * @param p_card Card to be compared with.
-	 * @return true if of same type else false.
-	 */
-	public boolean equals(Card p_card) {
-		if (p_card.d_type == this.d_type)
-			return true;
-		else
-			return false;
 	}
 }
