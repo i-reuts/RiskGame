@@ -1,32 +1,23 @@
 package ca.concordia.risk.utils;
 
 /**
- * This class keeps a log of all gameplay events.
+ * This class keeps a log entry of the latest gameplay event.
  * <p>
- * Log entries are written to a buffer, which can be periodically cleared if
- * desired.<br>
  * <code>LogEntryBuffer</code> is an Observable, notifying attached observers
- * whenever changes to its internal log buffer occur.
+ * whenever changes to its internal log entry buffer occur.
  */
 public class LogEntryBuffer extends Observable {
 
-	private StringBuilder d_buffer = new StringBuilder();
+	private String d_buffer;
 
 	/**
-	 * Writes a log message to the buffer.
+	 * Sets the buffer to a log message.
 	 * 
-	 * @param p_logMessage log message to write.
+	 * @param p_logMessage log message to set the buffer to.
 	 */
 	public void write(String p_logMessage) {
-		d_buffer.append(p_logMessage);
+		d_buffer = p_logMessage + "\n";
 		notifyObservers();
-	}
-
-	/**
-	 * Clears the buffer.
-	 */
-	public void clear() {
-		d_buffer = new StringBuilder();
 	}
 
 	/**
@@ -35,6 +26,6 @@ public class LogEntryBuffer extends Observable {
 	 * @return string representing the buffer contents.
 	 */
 	public String getBufferContent() {
-		return d_buffer.toString();
+		return d_buffer;
 	}
 }

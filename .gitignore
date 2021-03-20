@@ -1,4 +1,6 @@
 target/
+bin/
+logs/
 .settings/
 .classpath
 .project
@@ -9,5 +11,4 @@ maps/*
 !maps/testmap.map
 !maps/test
 
-/bin/
 checkstyle.xml

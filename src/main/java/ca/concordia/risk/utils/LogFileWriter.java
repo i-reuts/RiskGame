@@ -1,8 +1,12 @@
 package ca.concordia.risk.utils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class represents a log file writer.
@@ -13,6 +17,8 @@ import java.io.PrintWriter;
 public class LogFileWriter implements Observer {
 
 	private static final String d_LogFilePath = "logs/gamelog.log";
+	private static final Charset d_Encoding = StandardCharsets.ISO_8859_1;
+
 	private PrintWriter d_logWriter;
 
 	/**
@@ -23,7 +29,12 @@ public class LogFileWriter implements Observer {
 	 * @throws FileNotFoundException thrown if opening the log file fails.
 	 */
 	public void openLogFile() throws FileNotFoundException {
-		d_logWriter = new PrintWriter(new FileOutputStream(d_LogFilePath, false));
+		File l_logFile = new File(d_LogFilePath);
+		if (!l_logFile.exists()) {
+			l_logFile.getParentFile().mkdirs();
+		}
+
+		d_logWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(l_logFile, false), d_Encoding));
 	}
 
 	/**
@@ -40,6 +51,11 @@ public class LogFileWriter implements Observer {
 	 */
 	@Override
 	public void update(Observable p_observable) {
-		d_logWriter.write(d_LogFilePath);
+		if (p_observable instanceof LogEntryBuffer) {
+			LogEntryBuffer l_entryBuffer = (LogEntryBuffer) p_observable;
+
+			d_logWriter.print(l_entryBuffer.getBufferContent());
+			d_logWriter.flush();
+		}
 	}
 }

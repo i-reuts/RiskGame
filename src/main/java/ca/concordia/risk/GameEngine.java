@@ -42,7 +42,9 @@ public class GameEngine {
 	 * Transitions to the next phase according to the currently active phase.
 	 */
 	public static void SwitchToNextPhase() {
+		d_ActivePhase.executeOnPhaseEnd();
 		d_ActivePhase = d_ActivePhase.getNextPhase();
+		d_ActivePhase.executeOnPhaseStart();
 	}
 
 	/**

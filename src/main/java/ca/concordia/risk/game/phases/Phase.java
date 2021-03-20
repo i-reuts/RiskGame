@@ -56,4 +56,22 @@ public abstract class Phase {
 	public void setNextPhase(Phase p_nextPhase) {
 		d_nextPhase = p_nextPhase;
 	}
+
+	/**
+	 * Callback executed when a phase starts.
+	 * <p>
+	 * Default implementation does nothing.
+	 */
+	public void executeOnPhaseStart() {
+		// Do nothing
+	}
+
+	/**
+	 * Callback executed when a phase ends.
+	 * <p>
+	 * Default implementation does nothing.
+	 */
+	public void executeOnPhaseEnd() {
+		// Do nothing
+	}
 }
