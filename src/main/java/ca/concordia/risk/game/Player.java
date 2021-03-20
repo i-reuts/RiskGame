@@ -187,5 +187,5 @@ public class Player {
 	 */
 	public void removeCard(Card p_card) {
 		d_cards.remove(p_card);
-	}
+	}		
 }
