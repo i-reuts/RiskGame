@@ -191,5 +191,5 @@ public class Player {
 	public boolean removeCard(Card p_card) {
 		return d_cards.remove(p_card);
 	}
-	
+
 }

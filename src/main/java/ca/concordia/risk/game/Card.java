@@ -94,17 +94,17 @@ public class Card {
 		l_card.setCardType(d_cardType.values()[3]);
 		return l_card;
 	}
-	
+
 	/**
 	 * This method compares two cards on the basis of their type.
 	 *
 	 */
 	@Override
 	public boolean equals(Object p_other) {
-		if(!(p_other instanceof Card)) {
+		if (!(p_other instanceof Card)) {
 			return false;
 		}
 		Card l_otherCard = (Card) p_other;
 		return this.d_type.equals(l_otherCard.d_type);
-	}	
+	}
 }
