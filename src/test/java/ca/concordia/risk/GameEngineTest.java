@@ -43,7 +43,7 @@ class GameEngineTest {
 	 * @throws Exception any unexpected exception occurring during set up.
 	 */
 	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+	static void SetUpBeforeClass() throws Exception {
 		assumeTrue(MapFileExists(d_TestMapPath), "Aborting test: test map file does not exist");
 
 		// Save the standard input and output streams
@@ -67,7 +67,7 @@ class GameEngineTest {
 	 * Cleans up the context after the tests complete.
 	 */
 	@AfterAll
-	static void cleanUpAfterClass() {
+	static void CleanUpAfterClass() {
 		// Restore default streams
 		System.setOut(d_DefaultOutputStream);
 		System.setIn(d_DefaultInputStream);

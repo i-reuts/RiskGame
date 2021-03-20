@@ -16,9 +16,9 @@ import ca.concordia.risk.utils.MapLoader.FileParsingException;
  */
 class MapLoaderTest {
 
-	private static String d_validMapPath = "test/valid_map.map";
-	private static String d_invalidSectionMapPath = "test/invalid_section_map.map";
-	private static String d_invalidLineMapPath = "test/invalid_line_map.map";
+	private static String d_ValidMapPath = "test/valid_map.map";
+	private static String d_InvalidSectionMapPath = "test/invalid_section_map.map";
+	private static String d_InvalidLineMapPath = "test/invalid_line_map.map";
 
 	/**
 	 * Tests loading a valid sample map.
@@ -26,10 +26,10 @@ class MapLoaderTest {
 	@Test
 	void testValidMap() {
 		// Assume test map file exists. Abort test if it doesn't
-		assumeTrue(MapFileExists(d_validMapPath), "Aborting test: test map file does not exist");
+		assumeTrue(MapFileExists(d_ValidMapPath), "Aborting test: test map file does not exist");
 		
 		// Assert that no exception is thrown while loading and the resulting map is not null
-		GameMap l_map = assertDoesNotThrow(() -> MapLoader.LoadMap(d_validMapPath));
+		GameMap l_map = assertDoesNotThrow(() -> MapLoader.LoadMap(d_ValidMapPath));
 		assertNotNull(l_map);
 	}
 	
@@ -39,11 +39,11 @@ class MapLoaderTest {
 	@Test
 	void testMissingSectionMap() {
 		// Assume test map file exists. Abort test if it doesn't
-		assumeTrue(MapFileExists(d_invalidSectionMapPath), "Aborting test: test map file does not exist");
+		assumeTrue(MapFileExists(d_InvalidSectionMapPath), "Aborting test: test map file does not exist");
 
 		// Assert an exception is thrown when loading the sample test file
 		FileParsingException l_e = assertThrows(FileParsingException.class,
-				() -> MapLoader.LoadMap(d_invalidSectionMapPath));
+				() -> MapLoader.LoadMap(d_InvalidSectionMapPath));
 
 		// Check if exception thrown matches the expected exception type
 		String l_exceptionMessage = l_e.getMessage();
@@ -56,11 +56,11 @@ class MapLoaderTest {
 	@Test
 	void testInvalidLineMap() {
 		// Assume test map file exists. Abort test if it doesn't
-		assumeTrue(MapFileExists(d_invalidLineMapPath), "Aborting test: test map file does not exist");
+		assumeTrue(MapFileExists(d_InvalidLineMapPath), "Aborting test: test map file does not exist");
 
 		// Assert an exception is thrown when loading the sample test file
 		FileParsingException l_e = assertThrows(FileParsingException.class,
-				() -> MapLoader.LoadMap(d_invalidLineMapPath));
+				() -> MapLoader.LoadMap(d_InvalidLineMapPath));
 
 		// Check if exception thrown matches the expected exception type
 		String l_exceptionMessage = l_e.getMessage();
