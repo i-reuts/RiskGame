@@ -1,5 +1,7 @@
 package ca.concordia.risk.game;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -7,19 +9,37 @@ import java.util.Random;
  *
  */
 public class Card {
-	private static Random d_random = new Random();
 
-	enum d_cardType {
+	/** Represents the type of a card */
+	private enum CardType {
 		BOMB, BLOCKADE, AIRLIFT, DIPLOMACY;
 	}
 
-	private d_cardType d_type;
+	private static Random d_Random = new Random();
+	private static Map<CardType, Card> d_CardMap = new HashMap<>();
 
 	/**
-	 * Default constructor to support factory method.
-	 * 
+	 * Initializes the card table with cards of all available types.
+	 * <p>
+	 * The game will then reuse these cards, ensuring that no new cards are created.
 	 */
-	private Card() {
+	static {
+		d_CardMap.put(CardType.BOMB, new Card(CardType.BOMB));
+		d_CardMap.put(CardType.BLOCKADE, new Card(CardType.BLOCKADE));
+		d_CardMap.put(CardType.AIRLIFT, new Card(CardType.AIRLIFT));
+		d_CardMap.put(CardType.DIPLOMACY, new Card(CardType.DIPLOMACY));
+	}
+
+	private CardType d_type;
+
+	/**
+	 * Constructor that creates a card of a specific type.
+	 * <p>
+	 * The constructor is made private in order to ensure that only one instance of
+	 * the card of each type exists.
+	 */
+	private Card(CardType p_type) {
+		d_type = p_type;
 	}
 
 	/**
@@ -28,27 +48,8 @@ public class Card {
 	 * @return l_card random Card.
 	 */
 	public static Card issueCard() {
-		Card l_card = new Card();
-		l_card.d_type = d_cardType.values()[d_random.nextInt(d_cardType.values().length)];
-		return l_card;
-	}
-
-	/**
-	 * This method returns the card type.
-	 * 
-	 * @return type of card.
-	 */
-	public d_cardType getCardType() {
-		return d_type;
-	}
-
-	/**
-	 * This method sets the type of the card.
-	 * 
-	 * @param p_type type of card.
-	 */
-	public void setCardType(d_cardType p_type) {
-		this.d_type = p_type;
+		CardType l_randomType = CardType.values()[d_Random.nextInt(CardType.values().length)];
+		return d_CardMap.get(l_randomType);
 	}
 
 	/**
@@ -57,20 +58,16 @@ public class Card {
 	 * @return BOMB Card.
 	 */
 	public static Card getBombCard() {
-		Card l_card = new Card();
-		l_card.setCardType(d_cardType.values()[0]);
-		return l_card;
+		return d_CardMap.get(CardType.BOMB);
 	}
 
 	/**
 	 * This method returns a BLOCKADE Card.
 	 * 
-	 * @return BLOCAKDE Card.
+	 * @return BLOCKADE Card.
 	 */
 	public static Card getBlockadeCard() {
-		Card l_card = new Card();
-		l_card.setCardType(d_cardType.values()[1]);
-		return l_card;
+		return d_CardMap.get(CardType.BLOCKADE);
 	}
 
 	/**
@@ -79,9 +76,7 @@ public class Card {
 	 * @return AIRLIFT Card.
 	 */
 	public static Card getAirliftCard() {
-		Card l_card = new Card();
-		l_card.setCardType(d_cardType.values()[2]);
-		return l_card;
+		return d_CardMap.get(CardType.AIRLIFT);
 	}
 
 	/**
@@ -90,14 +85,13 @@ public class Card {
 	 * @return DIPLOMACY Card.
 	 */
 	public static Card getDiplomacyCard() {
-		Card l_card = new Card();
-		l_card.setCardType(d_cardType.values()[3]);
-		return l_card;
+		return d_CardMap.get(CardType.DIPLOMACY);
 	}
 
 	/**
-	 * This method compares two cards on the basis of their type.
-	 *
+	 * {@inheritDoc}
+	 * <p>
+	 * Compares two cards on the basis of their type.
 	 */
 	@Override
 	public boolean equals(Object p_other) {

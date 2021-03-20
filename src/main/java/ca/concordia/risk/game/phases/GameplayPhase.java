@@ -58,7 +58,7 @@ public class GameplayPhase extends Phase {
 	 */
 	@Override
 	public void executeOnPhaseEnd() {
-		d_logBuffer.write("Game Ended");
+		d_logBuffer.write("\nGame Ended");
 
 		d_logBuffer.detach(d_logFileWriter);
 		d_logFileWriter.closeLogFile();

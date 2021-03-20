@@ -2,6 +2,7 @@ package ca.concordia.risk.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -78,4 +79,32 @@ class PlayerTest {
 		assertEquals(l_player.getRemainingReinforcements(), 3);
 	}
 
+	/** Tests the functionality of giving player and picking a card. */
+	@Test
+	void testCards() {
+		// Create a player and give them a blockade card
+		Player l_player = new Player("Player 1");
+		l_player.addCard(Card.getBlockadeCard());
+
+		// Try using the Blockade card
+		assertTrue(l_player.useCard(Card.getBlockadeCard()));
+
+		// Try using the Blockage card again to ensure the player no longer has it
+		assertFalse(l_player.useCard(Card.getBlockadeCard()));
+
+		// Try using a Bomb card which a player does not have
+		assertFalse(l_player.useCard(Card.getBombCard()));
+
+		// Give the player a Bomb card and try using it again
+		l_player.addCard(Card.getBombCard());
+		assertTrue(l_player.useCard(Card.getBombCard()));
+
+		// Give the player two Airlift cards and ensure they can use them exactly twice
+		l_player.addCard(Card.getAirliftCard());
+		l_player.addCard(Card.getAirliftCard());
+
+		assertTrue(l_player.useCard(Card.getAirliftCard()));
+		assertTrue(l_player.useCard(Card.getAirliftCard()));
+		assertFalse(l_player.useCard(Card.getAirliftCard()));
+	}
 }

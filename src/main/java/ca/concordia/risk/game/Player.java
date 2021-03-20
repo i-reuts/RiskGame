@@ -192,12 +192,19 @@ public class Player {
 	}
 
 	/**
-	 * This method removes a specific type of Card from the list of Cards owned by
-	 * the Player.
+	 * This method attempts to pick a specific type of Card from the list of Cards
+	 * owned by the Player.
+	 * <p>
+	 * If card of the target type is found in the player deck, it is removed from
+	 * the deck.
 	 * 
-	 * @param p_card Card to be removed.
+	 * @param p_card card of the type to be picked.
+	 * @return <code>true</code> if the card of the required type was in the player
+	 *         deck and was picked successfully.<br>
+	 *         <code>false</code> if the card was not found in the player deck and
+	 *         thus could not be used.
 	 */
-	public boolean removeCard(Card p_card) {
+	public boolean useCard(Card p_card) {
 		return d_cards.remove(p_card);
 	}
 
