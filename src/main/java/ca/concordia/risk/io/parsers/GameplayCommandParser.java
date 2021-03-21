@@ -2,6 +2,7 @@ package ca.concordia.risk.io.parsers;
 
 import java.util.List;
 
+import ca.concordia.risk.io.commands.AirliftOrderCommand;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.DeployOrderCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
@@ -23,6 +24,7 @@ public class GameplayCommandParser extends CommandParser {
 
 		d_commandParsers.put("showmap", this::parseShowMapCommand);
 		d_commandParsers.put("deploy", this::parseDeployCommand);
+		d_commandParsers.put("airlift", this::parseAirliftCommand);
 	}
 
 	/**
@@ -60,5 +62,33 @@ public class GameplayCommandParser extends CommandParser {
 		}
 
 		return new DeployOrderCommand(l_deployCountry, l_numberOfArmies);
+	}
+	
+	/**
+	 * Parses a <i>"airlift"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>DeployCommand</code> if the command was parsed successfully.
+	 *         <code>InvalidCommand</code> if a parsing error occurred.
+	 */
+	private Command parseAirliftCommand(List<String> p_argumentList) {
+		if (p_argumentList.size() < 3) {
+			return new InvalidCommand("airlift command expects three arguments");
+		}
+
+		String l_sourceCountry = p_argumentList.remove(0).replace('_', ' ');
+		String l_targetCountry = p_argumentList.remove(0).replace('_', ' ');
+		int l_numberOfArmies;
+		try {
+			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
+			if(l_numberOfArmies <= 0) {
+				return new InvalidCommand("number of armies value was negative or zero");
+			}
+			
+		} catch (NumberFormatException l_e) {
+			return new InvalidCommand("number of armies value was not a number");
+		}
+
+		return new AirliftOrderCommand(l_sourceCountry, l_targetCountry, l_numberOfArmies);
 	}
 }

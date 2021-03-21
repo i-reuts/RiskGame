@@ -122,7 +122,7 @@ class GameEngineTest {
 		executeCommand("editcontinent -add Test_Continent_2 5");
 		assertNull(GameEngine.GetMap().getContinent("Test Continent 2"));
 
-		// Add one more player and witch to the gameplay phase by executing the
+		// Add one more player and switch to the gameplay phase by executing the
 		// assigncountries command
 		executeCommand("gameplayer -add Test_Player_2");
 		executeCommand("assigncountries");
