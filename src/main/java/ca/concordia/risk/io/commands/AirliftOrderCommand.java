@@ -1,6 +1,7 @@
 package ca.concordia.risk.io.commands;
 
 import ca.concordia.risk.GameEngine;
+import ca.concordia.risk.game.Card;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.orders.AirliftOrder;
@@ -45,7 +46,13 @@ public class AirliftOrderCommand implements OrderCommand {
 	@Override
 	public Order buildOrder(Player p_player) {
 		ConsoleView l_view = GameEngine.GetView();
-
+		
+		// Validate if the player has an airlift card
+		if (!p_player.useCard(Card.getAirliftCard())) {
+			l_view.display("Invalid order: player " + p_player.getName() + " does not has an airlift card");
+			return null;
+		}
+		
 		// Validate if the source country exists
 		Country l_sourceCountry = GameEngine.GetMap().getCountry(d_sourceCountry);
 		if (l_sourceCountry == null) {
