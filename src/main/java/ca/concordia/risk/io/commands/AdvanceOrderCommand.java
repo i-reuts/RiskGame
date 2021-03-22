@@ -41,8 +41,20 @@ public class AdvanceOrderCommand implements OrderCommand {
 			l_view.display("Invalid order: source country " + d_sourceCountry + " does not exist");
 			return null;
 		}
-		return null;
+		
+		// Validate if player owns the source country
+		if (!p_player.ownsCountry(l_sourceCountry)) {
+			l_view.display("Invalid order: current player does not own the source country " + d_sourceCountry);
+			return null;
+		}
 
+		// Validate if the target country exists
+		Country l_targetCountry = GameEngine.GetMap().getCountry(d_targetCountry);
+			if (l_targetCountry == null) {
+				l_view.display("Invalid order: target country " + d_targetCountry + " does not exist");
+				return null;
+			}
+			return null;
 
 	}
 
