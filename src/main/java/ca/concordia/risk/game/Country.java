@@ -57,10 +57,10 @@ public class Country {
 	
 	
 	/**
-	 * Check if the name of the country is a neighbor of the given country.
+	 * Check if the country is a neighbor of the given country.
 	 * 
-	 * @param p_country name of country to be checked.
-	 * @return <code>true</code> if the given country is a neighbor.<br>
+	 * @param p_country country to be checked.
+	 * @return <code>true</code> if the country is a neighbor of the given country.<br>
 	 *         <code>false</code> if <code>p_country</code> is not a neighbor.
 	 */
 	public boolean isNeighbor(Country p_country) {
