@@ -26,8 +26,8 @@ public class StartupPhaseTest {
 	 * Setup the default map and cleanup the GameEngine and set it up to be in the Startup Phase
 	 */
 	@BeforeEach
-	void SetUpBeforeClass() {
-		System.out.println("======= SetUpBeforeClass =======");
+	void SetUp() {
+		System.out.println("======= SetUp =======");
 		d_defaultMap = new GameMap();
 		Random l_rand = new Random();
 		
@@ -40,8 +40,7 @@ public class StartupPhaseTest {
 		
 		// Generate all the random countries
 		for (int l_i = 0; l_i < l_noOfCountries; l_i++) {
-			Country l_tmp_country = new Country("Country_" + l_i, l_continent);
-			d_defaultMap.addCountry(l_tmp_country);
+			d_defaultMap.addCountry(new Country("Country_" + l_i, l_continent));
 		}
 		
 		// Initialize the GameEngine and set it up to startup phase

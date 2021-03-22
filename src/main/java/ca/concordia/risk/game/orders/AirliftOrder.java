@@ -68,12 +68,17 @@ public class AirliftOrder implements Order{
 		int l_currentNoArmies = d_sourceCountry.getArmies();
 		
 		if (!d_player.ownsCountry(d_sourceCountry)) {
-			d_status = "Deployment failed: " + d_sourceCountry.getName() + " no longer owned by " + d_player.getName();
+			d_status = "Airlift failed: " + d_sourceCountry.getName() + " no longer owned by " + d_player.getName();
 			return false;
 		}
 		
 		if (!d_player.ownsCountry(d_targetCountry)) {
-			d_status = "Deployment failed: " + d_sourceCountry.getName() + " no longer owned by " + d_player.getName();
+			d_status = "Airlift failed: " + d_sourceCountry.getName() + " no longer owned by " + d_player.getName();
+			return false;
+		}
+		
+		if (d_armiesToAirlift < 0) {
+			d_status = "Airlift failed: Can't Airlift negative amounts";
 			return false;
 		}
 		
