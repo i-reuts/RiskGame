@@ -18,6 +18,17 @@ public class AdvanceOrder implements Order{
 	private Player d_target_player;
 	private Country d_source_teritory;
 	private Country d_target_teritory;
+	
+	/**
+	 * Creates a new <code>AdvanceOrder</code>.
+	 * 
+	 * @param p_numArmies 		number of armies to battle.
+	 * @param p_sourceCountry   country which armies are battle from.
+	 * @param p_targetCountry   country where armies are battle to.
+	 * @param p_sourceTeritory  teritory which armies are battle from.
+	 * @param p_targetTeritory  teritory where armies are battle to.
+	 * 
+	 */
 
 	public AdvanceOrder(String d_status, int d_armiesToDeploy, Player d_source_player, Player d_target_player,
 			Country d_source_teritory, Country d_target_teritory) {
@@ -46,6 +57,12 @@ public class AdvanceOrder implements Order{
 		return d_status;
 	}
 	
+	/**
+	 * Checks if the player still owns the deploy country.
+	 * 
+	 * @return <code>true</code> if the player owns the target deploy country.<br>
+	 *         <code>false</code> otherwise.
+	 */
 
 	private boolean isValid() {
 		if (!d_source_player.ownsCountry(d_source_teritory)) {
