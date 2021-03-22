@@ -56,8 +56,8 @@ public class BombOrder implements Order {
 	}
 
 	/**
-	 * Checks if the country to be bombed is owned by the player. Also, it
-	 * checks if it is adjacent to one of the current player’s territories.
+	 * Checks if the country to be bombed is owned by the player. Also, it checks if
+	 * it is adjacent to one of the current player’s territories.
 	 * 
 	 * @return <code>true</code>if the country to be bombed is not owned by the
 	 *         player itself and is adjacent to one of the current player’s

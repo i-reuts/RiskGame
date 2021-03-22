@@ -5,6 +5,7 @@ import java.util.List;
 import ca.concordia.risk.io.commands.AirliftOrderCommand;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.DeployOrderCommand;
+import ca.concordia.risk.io.commands.BombOrderCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
 import ca.concordia.risk.io.commands.ShowMapCommand;
 
@@ -24,6 +25,7 @@ public class GameplayCommandParser extends CommandParser {
 
 		d_commandParsers.put("showmap", this::parseShowMapCommand);
 		d_commandParsers.put("deploy", this::parseDeployCommand);
+		d_commandParsers.put("bomb", this::parseBombCommand);
 		d_commandParsers.put("airlift", this::parseAirliftCommand);
 	}
 
@@ -54,7 +56,7 @@ public class GameplayCommandParser extends CommandParser {
 		int l_numberOfArmies;
 		try {
 			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
-			if(l_numberOfArmies <= 0) {
+			if (l_numberOfArmies <= 0) {
 				return new InvalidCommand("number of armies value was negative or zero");
 			}
 		} catch (NumberFormatException l_e) {
@@ -63,12 +65,29 @@ public class GameplayCommandParser extends CommandParser {
 
 		return new DeployOrderCommand(l_deployCountry, l_numberOfArmies);
 	}
-	
+
+	/**
+	 * Parses a <i>"bomb"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>BombCommand</code> if the command was parsed successfully.
+	 *         <code>InvalidCommand</code> if a parsing error occurred.
+	 */
+	private Command parseBombCommand(List<String> p_argumentList) {
+		if (p_argumentList.size() < 1) {
+			return new InvalidCommand("Bomb command expects one argument");
+		}
+
+		String l_bombCountry = p_argumentList.remove(0).replace('_', ' ');
+
+		return new BombOrderCommand(l_bombCountry);
+	}
+
 	/**
 	 * Parses a <i>"airlift"</i> command.
 	 * 
 	 * @param p_argumentList list of command arguments.
-	 * @return <code>DeployCommand</code> if the command was parsed successfully.
+	 * @return <code>AirliftCommand</code> if the command was parsed successfully.
 	 *         <code>InvalidCommand</code> if a parsing error occurred.
 	 */
 	private Command parseAirliftCommand(List<String> p_argumentList) {
@@ -81,10 +100,10 @@ public class GameplayCommandParser extends CommandParser {
 		int l_numberOfArmies;
 		try {
 			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
-			if(l_numberOfArmies <= 0) {
+			if (l_numberOfArmies <= 0) {
 				return new InvalidCommand("number of armies value was negative or zero");
 			}
-			
+
 		} catch (NumberFormatException l_e) {
 			return new InvalidCommand("number of armies value was not a number");
 		}
