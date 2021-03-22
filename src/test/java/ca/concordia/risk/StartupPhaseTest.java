@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -22,8 +23,8 @@ public class StartupPhaseTest {
 	/**
 	 * Setup the default map and initilize the GameEngine to Strtup Phase
 	 */
-	@BeforeAll
-	static void SetUpBeforeClass() {
+	@BeforeEach
+	void SetUpBeforeClass() {
 		d_defaultMap = new GameMap();
 		
 		Continent l_continent = new Continent("Continent", 5);
@@ -38,15 +39,15 @@ public class StartupPhaseTest {
 		d_defaultMap.addCountry(l_country_3);
 		d_defaultMap.addCountry(l_country_4);
 		
-		GameEngine.SetMap(d_defaultMap);
 		GameEngine.Initialize();
+		GameEngine.SetMap(d_defaultMap);
 		GameEngine.SwitchToNextPhase();
 	}
 	
 	@Test
 	@Order(1)
 	void testGameplayerCommand() {
-		
+		System.out.println("======= testGameplayerCommand =======");
 		// Try to add the same player twice
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
 		l_gameplayerCommand.addPlayer("Player_1");
@@ -72,6 +73,7 @@ public class StartupPhaseTest {
 	
 	@Test
 	void testStartGameOnePlayer() {
+		System.out.println("======= testStartGameOnePlayer =======");
 		// Add just one player
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
 		l_gameplayerCommand.addPlayer("Player_0");
@@ -88,7 +90,7 @@ public class StartupPhaseTest {
 	@Test
 	@Order(3)
 	void testStartGameMorePlayersThanCountries() {
-
+		System.out.println("======= testStartGameMorePlayersThanCountries =======");
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
 		// Add more players than countries
 		for (int i = 0; i == d_defaultMap.getCountries().size(); i++) {
