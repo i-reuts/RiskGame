@@ -64,6 +64,14 @@ public class GameEngine {
 	public static GameMap GetMap() {
 		return d_ActiveMap;
 	}
+	
+	/**
+	 * Get the active phase of the game
+	 * @return active phase
+	 */
+	public static Phase GetActivePhase() {
+		return d_ActivePhase;
+	}
 
 	/**
 	 * Sets the active game map.
