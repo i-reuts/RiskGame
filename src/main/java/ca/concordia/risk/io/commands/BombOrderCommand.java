@@ -74,7 +74,7 @@ public class BombOrderCommand implements OrderCommand {
 			}
 		}
 
-		if (!l_existNeighbor) {
+		if (l_existNeighbor==false) {
 			l_view.display("Invalid order: country " + d_bombCountry + " is not adjacent to the player's territories");
 			return null;
 		}
