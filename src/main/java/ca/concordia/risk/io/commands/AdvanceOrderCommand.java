@@ -54,15 +54,32 @@ public class AdvanceOrderCommand implements OrderCommand {
 				l_view.display("Invalid order: target country " + d_targetCountry + " does not exist");
 				return null;
 			}
-			return null;
+			Player t_player = GameEngine.GetPlayer(d_targetPlayer);
+			if (t_player == null) {
+				l_view.display("Invalid order: target player " + d_targetPlayer + " does not exist");
+				return null;
+			}
+			if (!t_player.ownsCountry(l_targetCountry)) {
+				l_view.display("Invalid order: target player does not own the target country " + d_targetCountry);
+				return null;
+			}
 
-	}
+			if (!p_player.retrieveReinforcements(d_numberOfArmies)) {
+				l_view.display("Invalid order: can't move " + d_numberOfArmies + " armies. Only "
+						+ p_player.getRemainingReinforcements() + " reinforcements left");
+				return null;
+			}
+
+			Order l_order = new AdvanceOrder(d_numberOfArmies, p_player, t_player, l_sourceCountry, l_targetCountry);
+			return l_order;
+		}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
-	}	
-	
+		ConsoleView l_view = GameEngine.GetView();
+		l_view.display("\nAdvancecommand to move " + d_numberOfArmies + " armies from country " + d_sourceCountry
+				+ " to country " + d_targetCountry + "\n");
+
+	}
 
 }
