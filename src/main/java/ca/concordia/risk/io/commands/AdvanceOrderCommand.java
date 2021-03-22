@@ -12,7 +12,8 @@ import ca.concordia.risk.io.views.ConsoleView;
 
 /**
  * This Class represents an Advance Order Command
- * 
+4
+\7 * 
  * @author Sindu
  *
  */
@@ -81,7 +82,7 @@ public class AdvanceOrderCommand implements OrderCommand {
 		}
 
 		// Build and return the order
-		Order l_order = new AdvanceOrder(d_numberOfArmies, p_player, t_player, l_sourceCountry, l_targetCountry);
+		Order l_order = new AdvanceOrder(d_sourceCountry, d_numberOfArmies, p_player, t_player, l_sourceCountry, l_targetCountry);
 		return l_order;
 	}
 
