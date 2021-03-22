@@ -3,6 +3,8 @@ package ca.concordia.risk;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Random;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
@@ -21,29 +23,34 @@ public class StartupPhaseTest {
 
 	
 	/**
-	 * Setup the default map and initilize the GameEngine to Strtup Phase
+	 * Setup the default map and cleanup the GameEngine and set it up to be in the Startup Phase
 	 */
 	@BeforeEach
 	void SetUpBeforeClass() {
+		System.out.println("======= SetUpBeforeClass =======");
 		d_defaultMap = new GameMap();
+		Random l_rand = new Random();
 		
+		// Random number of countries
+		int l_noOfCountries = l_rand.nextInt(17) + 3;
+		
+		// Create a continent
 		Continent l_continent = new Continent("Continent", 5);
-		Country l_country_1 = new Country("Country_1", l_continent);
-		Country l_country_2 = new Country("Country_2", l_continent);
-		Country l_country_3 = new Country("Country_3", l_continent);
-		Country l_country_4 = new Country("Country_4", l_continent);
-		
 		d_defaultMap.addContinent(l_continent);
-		d_defaultMap.addCountry(l_country_1);
-		d_defaultMap.addCountry(l_country_2);
-		d_defaultMap.addCountry(l_country_3);
-		d_defaultMap.addCountry(l_country_4);
 		
+		// Generate all the random countries
+		for (int l_i = 0; l_i < l_noOfCountries; l_i++) {
+			Country l_tmp_country = new Country("Country_" + l_i, l_continent);
+			d_defaultMap.addCountry(l_tmp_country);
+		}
+		
+		// Initialize the GameEngine and set it up to startup phase
 		GameEngine.Initialize();
 		GameEngine.SetMap(d_defaultMap);
 		GameEngine.SwitchToNextPhase();
 	}
 	
+	/** Tests adding and removing players to the game */
 	@Test
 	@Order(1)
 	void testGameplayerCommand() {
@@ -71,6 +78,7 @@ public class StartupPhaseTest {
 		assertEquals(GameEngine.GetNumberOfPlayers(), 0);
 	}
 	
+	/** Tests condition to not start the game with just one player */
 	@Test
 	void testStartGameOnePlayer() {
 		System.out.println("======= testStartGameOnePlayer =======");
@@ -87,22 +95,53 @@ public class StartupPhaseTest {
 		assertTrue(GameEngine.GetActivePhase() instanceof StartupPhase);
 	}
 	
+	/** Tests condition to not start the game with more players than countries */
 	@Test
 	@Order(3)
 	void testStartGameMorePlayersThanCountries() {
 		System.out.println("======= testStartGameMorePlayersThanCountries =======");
-		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
+		
 		// Add more players than countries
-		for (int i = 0; i == d_defaultMap.getCountries().size(); i++) {
-			l_gameplayerCommand.addPlayer("Player_" + i);
+		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
+		for (int l_i = 0; l_i < d_defaultMap.getCountries().size()+1; l_i++) {
+			l_gameplayerCommand.addPlayer("Player_" + l_i);
 		}
 		l_gameplayerCommand.execute();
 		
-		// Try to start the game with one player
+		// Try to start the game with more players than countries
 		AssignCountriesCommand l_assignCountriesCommand = new AssignCountriesCommand();
 		l_assignCountriesCommand.execute();
 		
-		// Not possible to start a game with just one player
+		// Not possible to start a game with more players than countries
 		assertTrue(GameEngine.GetActivePhase() instanceof StartupPhase);
+	}
+	
+	/** Tests all countries are assigned to a player */
+	@Test
+	@Order(4)
+	void testAssignCountries() {
+		System.out.println("======= testAssignCountries =======");
+		Random l_rand = new Random();
+		
+		// Random number of players
+		int l_noOfPlayers = l_rand.nextInt(3) + 2;
+		
+		// Add more players than countries
+		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
+		for (int l_i = 0; l_i < l_noOfPlayers; l_i++) {
+			l_gameplayerCommand.addPlayer("Player_" + l_i);
+		}
+		l_gameplayerCommand.execute();
+		
+		// Start the game 
+		AssignCountriesCommand l_assignCountriesCommand = new AssignCountriesCommand();
+		l_assignCountriesCommand.execute();
+		
+		// Assert that every country has a player as an owner
+		GameEngine.GetMap().getCountries().forEach((l_country) -> {
+			if(!GameEngine.GetPlayers().contains(l_country.getOwner())){
+				assertTrue(false);
+			}
+		});
 	}
 }
