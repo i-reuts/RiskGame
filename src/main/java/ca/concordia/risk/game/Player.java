@@ -150,6 +150,16 @@ public class Player {
 	}
 
 	/**
+	 * This method returns the set of countries that are owned by the
+	 * player.
+	 * 
+	 * @return set of countries that are owned by the player.
+	 */
+	public Set<Country> getCountries() {
+		return d_countries;
+	}
+	
+	/**
 	 * This method computes the set of continents that are fully captured by the
 	 * player.
 	 * 
