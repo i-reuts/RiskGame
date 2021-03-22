@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -13,11 +12,15 @@ import org.junit.jupiter.api.Test;
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
-import ca.concordia.risk.game.phases.Phase;
 import ca.concordia.risk.game.phases.StartupPhase;
 import ca.concordia.risk.io.commands.AssignCountriesCommand;
 import ca.concordia.risk.io.commands.GamePlayerCommand;
 
+/**
+ * Unit test class for the <code>StartupPhase</code> class.
+ * <p>
+ * Tests the correct parse and execution of the commands allowed during startup phase.
+ */
 public class StartupPhaseTest {
 	private static GameMap d_defaultMap;
 

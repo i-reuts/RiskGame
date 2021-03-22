@@ -11,6 +11,7 @@ import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.game.Player;
 
+/** Unit test class for the <code>Airlift Order</code>. */
 public class AirliftOrderTest {
 	private GameMap d_defaultMap;
 	private Player d_player1;
