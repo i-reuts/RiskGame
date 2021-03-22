@@ -31,17 +31,25 @@ public class AdvanceOrderCommand implements OrderCommand {
 		this.d_targetPlayer = d_targetPlayer;
 		this.d_numberOfArmies = d_numberOfArmies;
 	}
+	
+	public Order buildOrder(Player p_player) {
+		ConsoleView l_view = GameEngine.GetView();
+
+		// Validate if the source country exists
+		Country l_sourceCountry = GameEngine.GetMap().getCountry(d_sourceCountry);
+		if (l_sourceCountry == null) {
+			l_view.display("Invalid order: source country " + d_sourceCountry + " does not exist");
+			return null;
+		}
+		return null;
+
+
+	}
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public Order buildOrder(Player p_player) {
-		// TODO Auto-generated method stub
-		return null;
 	}	
 	
 
