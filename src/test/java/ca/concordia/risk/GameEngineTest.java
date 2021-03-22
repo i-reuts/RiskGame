@@ -14,12 +14,15 @@ import java.io.PrintWriter;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
+import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.utils.MapLoader;
 
@@ -36,6 +39,8 @@ class GameEngineTest {
 
 	private static PrintStream d_DefaultOutputStream;
 	private static InputStream d_DefaultInputStream;
+	
+	private GameMap d_defaultMap;
 
 	/**
 	 * Sets up the shared context for all test cases.
@@ -58,9 +63,30 @@ class GameEngineTest {
 
 		// Redirect standard output to a null stream
 		System.setOut(new PrintStream(PrintStream.nullOutputStream()));
-
-		// Initialize game engine
+	}
+	
+	/**
+	 * Setup the default map and initilize the GameEngine to Strtup Phase
+	 */
+	@BeforeEach
+	void setUp() {
+		d_defaultMap = new GameMap();
+		
+		Continent l_continent = new Continent("Continent", 5);
+		Country l_country_1 = new Country("Country_1", l_continent);
+		Country l_country_2 = new Country("Country_2", l_continent);
+		Country l_country_3 = new Country("Country_3", l_continent);
+		Country l_country_4 = new Country("Country_4", l_continent);
+		
+		d_defaultMap.addContinent(l_continent);
+		d_defaultMap.addCountry(l_country_1);
+		d_defaultMap.addCountry(l_country_2);
+		d_defaultMap.addCountry(l_country_3);
+		d_defaultMap.addCountry(l_country_4);
+		
+		GameEngine.SetMap(d_defaultMap);
 		GameEngine.Initialize();
+		GameEngine.SwitchToNextPhase();
 	}
 
 	/**

@@ -8,6 +8,7 @@ import ca.concordia.risk.game.orders.AirliftOrder;
 import ca.concordia.risk.game.orders.Order;
 import ca.concordia.risk.io.views.ConsoleView;
 
+/** Command representing <i>"airlift"</i> operation. */
 public class AirliftOrderCommand implements OrderCommand {
 
 	private String d_sourceCountry;
@@ -17,8 +18,8 @@ public class AirliftOrderCommand implements OrderCommand {
 	/**
 	 * Creates a new <code>AirliftOrderCommand</code>.
 	 * 
-	 * @param l_sourceCountry  source country which armies are airlift from.
-	 * @param l_targetCountry  target country where armies are airlift to.
+	 * @param p_sourceCountry  source country which armies are airlift from.
+	 * @param p_targetCountry  target country where armies are airlift to.
 	 * @param p_numberOfArmies number of armies to deploy.
 	 */
 	public AirliftOrderCommand(String p_sourceCountry, String p_targetCountry, int p_numberOfArmies) {

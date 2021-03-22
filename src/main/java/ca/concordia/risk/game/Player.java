@@ -98,6 +98,9 @@ public class Player {
 	/**
 	 * Gets the first order in the order queue of the player without removing it
 	 * from the queue.
+	 * 
+	 * @return <code>Order</code> top order in the player's queue.<br>
+	 *         <code>null</code> if the queue is empty.
 	 */
 	public Order peekNextOrder() {
 		return d_orders.peek();
