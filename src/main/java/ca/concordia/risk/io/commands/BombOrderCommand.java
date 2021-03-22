@@ -1,6 +1,5 @@
 package ca.concordia.risk.io.commands;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import ca.concordia.risk.GameEngine;
@@ -11,12 +10,18 @@ import ca.concordia.risk.game.orders.BombOrder;
 import ca.concordia.risk.game.orders.Order;
 import ca.concordia.risk.io.views.ConsoleView;
 
-/** Command representing <i>"bomb"</i> operation. */
+/**
+ * Command representing <i>"bomb"</i> operation.
+ * 
+ * @author ishika
+ *
+ */
 public class BombOrderCommand implements OrderCommand {
 
 	private String d_bombCountry;
 
 	/**
+	 * Creates a new <code>BombOrderCommand</code>.
 	 * 
 	 * @param p_bombCountry
 	 */
@@ -35,9 +40,9 @@ public class BombOrderCommand implements OrderCommand {
 	 * {@inheritDoc}
 	 * <p>
 	 * Builds a bomb order using the data provided by the user. The order is
-	 * considered invalid if the bomb country does not exist, the opponent’s
-	 * territory is not adjacent to one of the current player’s territories or if
-	 * the player does not have the bomb card.
+	 * considered invalid if the player does not have the bomb card, bomb country
+	 * does not exist, or if the opponent’s territory is not adjacent to one of the
+	 * current player’s territories
 	 * 
 	 */
 	@Override
@@ -65,6 +70,7 @@ public class BombOrderCommand implements OrderCommand {
 		for (Country l_ownedCountry : l_ownedCountries) {
 			if (l_ownedCountry.isNeighbor(l_bombCountry)) {
 				l_existNeighbor = true;
+				break;
 			}
 		}
 
