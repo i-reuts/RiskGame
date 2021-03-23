@@ -36,7 +36,7 @@ public class BombOrder implements Order {
 	 * {@inheritDoc}
 	 * <p>
 	 * Bomb the chosen country if the player is adjacent to it and the chosen
-	 * country is not owned by the player Does nothing otherwise.
+	 * country is not owned by the player. Does nothing otherwise.
 	 */
 	@Override
 	public void execute() {
@@ -85,7 +85,7 @@ public class BombOrder implements Order {
 		}
 
 		if (l_validator1 == true) {
-			d_status = "Bombing failed: Player " + d_player.getName() + " owns the country to be bombed";
+			d_status = "Bombing failed: Player: " + d_player.getName() + " owns the country to be bombed";
 			return false;
 		}
 

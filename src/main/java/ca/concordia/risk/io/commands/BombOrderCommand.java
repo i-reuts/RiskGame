@@ -10,12 +10,7 @@ import ca.concordia.risk.game.orders.BombOrder;
 import ca.concordia.risk.game.orders.Order;
 import ca.concordia.risk.io.views.ConsoleView;
 
-/**
- * Command representing <i>"bomb"</i> operation.
- * 
- * @author ishika
- *
- */
+/** Command representing <i>"bomb"</i> operation. */
 public class BombOrderCommand implements OrderCommand {
 
 	private String d_bombCountry;

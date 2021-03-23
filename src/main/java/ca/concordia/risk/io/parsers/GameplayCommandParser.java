@@ -117,7 +117,7 @@ public class GameplayCommandParser extends CommandParser {
 	 * Parses a <i>"advance"</i> command.
 	 * 
 	 * @param p_argumentList list of command arguments.
-	 * @return <code>DeployCommand</code> if the command was parsed successfully.
+	 * @return <code>AdvanceCommand</code> if the command was parsed successfully.
 	 *         <code>InvalidCommand</code> if a parsing error occurred.
 	 */
 	private Command parseAdvanceCommand(List<String> p_argumentList) {
