@@ -36,8 +36,8 @@ public class DeployOrderCommand implements OrderCommand {
 	 * {@inheritDoc}
 	 * <p>
 	 * Builds a deploy order using the data provided by the user. The order is
-	 * considered invalid if the deploy country does not exist, is not owned by the
-	 * player or the player does not have enough reinforcements to deploy.
+	 * considered invalid if the deploy country does not exist or the player does
+	 * not have enough reinforcements to deploy.
 	 */
 	@Override
 	public Order buildOrder(Player p_player) {
@@ -47,12 +47,6 @@ public class DeployOrderCommand implements OrderCommand {
 		Country l_deployCountry = GameEngine.GetMap().getCountry(d_deployCountry);
 		if (l_deployCountry == null) {
 			l_view.display("Invalid order: country " + d_deployCountry + " does not exist");
-			return null;
-		}
-
-		// Validate if player owns the deploy country
-		if (!p_player.ownsCountry(l_deployCountry)) {
-			l_view.display("Invalid order: current player does not own country " + d_deployCountry);
 			return null;
 		}
 
