@@ -59,7 +59,7 @@ public class BombOrderTest {
 		d_bomborder = new BombOrder(d_player1, l_country1);
 		d_bomborder.execute();
 
-		assertTrue(d_bomborder.getStatus().startsWith("Bombing failed: Player "));
+		assertTrue(d_bomborder.getStatus().startsWith("Bombing failed: Player: "));
 	}
 
 	/**
