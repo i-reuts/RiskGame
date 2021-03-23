@@ -21,7 +21,6 @@ public class BlockadeOrder implements Order {
 	 *                          executed.
 	 */
 	public BlockadeOrder(Player p_player, Country p_blockadeCountry) {
-
 		d_player = p_player;
 		d_blockadeCountry = p_blockadeCountry;
 		d_status = "Blockade " + d_blockadeCountry.getArmies() + " armies in " + p_blockadeCountry.getName();
@@ -42,28 +41,28 @@ public class BlockadeOrder implements Order {
 	 */
 	@Override
 	public void execute() {
-
 		if (isValid()) {
 			// triples no. of armies to the respective country.
 			d_blockadeCountry.addArmies(d_blockadeCountry.getArmies() * 2);
 			// makes the respective country as a neutral territory.
 			d_player.removeCountry(d_blockadeCountry);
-			d_status = d_player.getName() + " performed the blockade order on " + d_blockadeCountry.getName();
+			d_blockadeCountry.setOwner(null);
+
+			d_status = d_player.getName() + " blockaded " + d_blockadeCountry.getName();
 		}
 	}
 
 	/**
 	 * This method checks if the Player is eligible to give the Blockade Order. It
 	 * checks if the Player owns the territory on which the order needs to be
-	 * execute and if the very same has some positive number of armies.
+	 * executed.
 	 * 
 	 * @return <code>true</code> if the player owns the target country and has
 	 *         armies.<br>
 	 *         <code>false</code> otherwise.
 	 */
 	private boolean isValid() {
-
-		if (!d_player.ownsCountry(d_blockadeCountry) || d_blockadeCountry.getArmies() == 0) {
+		if (!d_player.ownsCountry(d_blockadeCountry)) {
 			d_status = "Blockade failed: " + d_blockadeCountry.getName() + " is not owned by " + d_player.getName();
 			return false;
 		}

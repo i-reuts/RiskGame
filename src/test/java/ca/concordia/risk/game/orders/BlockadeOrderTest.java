@@ -2,6 +2,7 @@ package ca.concordia.risk.game.orders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -78,8 +79,12 @@ public class BlockadeOrderTest {
 		BlockadeOrder l_blockadeOrder = new BlockadeOrder(d_player1, d_country1);
 		l_blockadeOrder.execute();
 
-		assertTrue(l_blockadeOrder.getStatus().equals("Player A performed the blockade order on Country 0"));
+		// Ensure number of armies tripled and player no longer owns the country
+		assertTrue(l_blockadeOrder.getStatus().equals("Player A blockaded Country 0"));
 		assertEquals((l_armiesBefore * 3), d_country1.getArmies());
 		assertFalse(d_player1.ownsCountry(d_country1));
+
+		// Ensure country is neutral (has no owner)
+		assertNull(d_country1.getOwner());
 	}
 }
