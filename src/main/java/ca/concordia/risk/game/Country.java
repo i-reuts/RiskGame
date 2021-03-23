@@ -55,23 +55,6 @@ public class Country {
 		return d_neighbors;
 	}
 	
-	
-	/**
-	 * Check if the country is a neighbor of the given country.
-	 * 
-	 * @param p_country country to be checked.
-	 * @return <code>true</code> if the country is a neighbor of the given country.<br>
-	 *         <code>false</code> if <code>p_country</code> is not a neighbor.
-	 */
-	public boolean isNeighbor(Country p_country) {
-		for(Country d_neighbor : d_neighbors){
-			if(p_country.equals(d_neighbor)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	/**
 	 * Gets the player owning this country.
 	 * 
@@ -110,6 +93,17 @@ public class Country {
 	 */
 	public boolean removeNeighbor(Country p_country) {
 		return d_neighbors.remove(p_country);
+	}
+	
+	/**
+	 * Check if the country is a neighbor of the given country.
+	 * 
+	 * @param p_country country to be checked.
+	 * @return <code>true</code> if the country is a neighbor of the given country.<br>
+	 *         <code>false</code> if <code>p_country</code> is not a neighbor.
+	 */
+	public boolean isNeighbor(Country p_country) {
+		return d_neighbors.contains(p_country);
 	}
 
 	/**
