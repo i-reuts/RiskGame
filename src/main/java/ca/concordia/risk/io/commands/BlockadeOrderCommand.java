@@ -63,7 +63,7 @@ public class BlockadeOrderCommand implements OrderCommand {
 			l_view.display("Invalid order: current player does not own " + d_blockadeCountry);
 			return null;
 		}
-
+		// Build and return the order
 		Order l_order = new BlockadeOrder(p_player, l_blockadeCountry);
 		return l_order;
 

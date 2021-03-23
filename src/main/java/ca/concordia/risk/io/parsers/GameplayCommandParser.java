@@ -28,8 +28,8 @@ public class GameplayCommandParser extends CommandParser {
 		d_commandParsers.put("showmap", this::parseShowMapCommand);
 		d_commandParsers.put("deploy", this::parseDeployCommand);
 		d_commandParsers.put("advance", this::parseAdvanceCommand);
-		d_commandParsers.put("bomb", this::parseBombCommand);
 		d_commandParsers.put("blockade", this::parseBlockadeCommand);
+		d_commandParsers.put("bomb", this::parseBombCommand);
 		d_commandParsers.put("airlift", this::parseAirliftCommand);
 	}
 
@@ -78,14 +78,13 @@ public class GameplayCommandParser extends CommandParser {
 	 *         <code>InvalidCommand</code> if a parsing error occurred.
 	 */
 	private Command parseAdvanceCommand(List<String> p_argumentList) {
-		if (p_argumentList.size() < 4) {
+		if (p_argumentList.size() < 3) {
 			return new InvalidCommand("advance command expects three arguments");
 		}
-
-		String l_targetPlayer = p_argumentList.remove(0).replace('_', ' ');
+		
 		String l_sourceCountry = p_argumentList.remove(0).replace('_', ' ');
 		String l_targetCountry = p_argumentList.remove(0).replace('_', ' ');
-
+		
 		int l_numberOfArmies;
 		try {
 			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
@@ -97,7 +96,7 @@ public class GameplayCommandParser extends CommandParser {
 			return new InvalidCommand("number of armies value was not a number");
 		}
 
-		return new AdvanceOrderCommand(l_sourceCountry, l_targetCountry, l_targetPlayer, l_numberOfArmies);
+		return new AdvanceOrderCommand(l_sourceCountry, l_targetCountry, l_numberOfArmies);
 	}
 
 	/**
@@ -132,7 +131,7 @@ public class GameplayCommandParser extends CommandParser {
 		String l_blockadeCountry = p_argumentList.remove(0).replace('_', ' ');
 		return new BlockadeOrderCommand(l_blockadeCountry);
 	}
-
+	
 	/**
 	 * Parses a <i>"airlift"</i> command.
 	 * 
