@@ -9,6 +9,7 @@ import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.DeployOrderCommand;
 import ca.concordia.risk.io.commands.BombOrderCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
+import ca.concordia.risk.io.commands.PassCommand;
 import ca.concordia.risk.io.commands.ShowCardsCommand;
 import ca.concordia.risk.io.commands.ShowMapCommand;
 
@@ -32,6 +33,7 @@ public class GameplayCommandParser extends CommandParser {
 		d_commandParsers.put("blockade", this::parseBlockadeCommand);
 		d_commandParsers.put("bomb", this::parseBombCommand);
 		d_commandParsers.put("airlift", this::parseAirliftCommand);
+		d_commandParsers.put("pass", this::parsePassCommand);
 		
 		d_commandParsers.put("showcards", this::parseShowCardsCommand);
 	}
@@ -172,4 +174,16 @@ public class GameplayCommandParser extends CommandParser {
 	private Command parseShowCardsCommand(List<String> p_argumentList) {
 		return new ShowCardsCommand();
 	}
+	
+	/**
+	 * Parses a <i>"pass"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>PassCommand</code>.
+	 */
+	private Command parsePassCommand(List<String> p_argumentList) {
+		return new PassCommand();
+	}
+	
+	
 }

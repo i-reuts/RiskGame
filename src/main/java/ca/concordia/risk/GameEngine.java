@@ -13,6 +13,7 @@ import ca.concordia.risk.game.phases.MapEditorPhase;
 import ca.concordia.risk.game.phases.StartupPhase;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.OrderCommand;
+import ca.concordia.risk.io.commands.PassCommand;
 import ca.concordia.risk.io.commands.ShowCardsCommand;
 import ca.concordia.risk.io.views.ConsoleView;
 
@@ -26,6 +27,7 @@ public class GameEngine {
 	private static ConsoleView d_View;
 	private static GameMap d_ActiveMap;
 	private static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
+	private static Player d_neutralPlayer = new Player("Neutral");
 
 	/**
 	 * Startup method.
@@ -133,6 +135,15 @@ public class GameEngine {
 		d_ActivePlayers.remove(p_name);
 	}
 
+	/**
+	 * Gets the neutral player.
+	 * 
+	 * @return neutral player.
+	 */
+	public static Player GetNeutralPlayer() {
+		return d_neutralPlayer;
+	}
+
 	/** Processes one general application command inputed by user. */
 	public static void ProcessUserCommand() {
 		d_View.display("\nPlease enter your command:");
@@ -151,18 +162,20 @@ public class GameEngine {
 	 */
 	public static Order ProcessOrderCommand(Player p_player) {
 		Order l_order = null;
-		while (l_order == null) {
+		while (l_order == null && !p_player.getFinishedIssuingOrders()) {
 			d_View.display("\n" + p_player.getName() + ", please enter your command ("
 					+ p_player.getRemainingReinforcements() + " reinforcements left):");
 
 			Command l_command = d_ActivePhase.parseCommand(d_View.getInput());
 			if (l_command instanceof OrderCommand) {
 				l_order = ((OrderCommand) l_command).buildOrder(p_player);
-			} else if(l_command instanceof ShowCardsCommand) {
+			} else if (l_command instanceof ShowCardsCommand) {
 				((ShowCardsCommand) l_command).setPlayer(p_player);
 				l_command.execute();
-			}
-			else {
+			} else if (l_command instanceof PassCommand) {
+				((PassCommand) l_command).setPlayer(p_player);
+				l_command.execute();
+			} else {
 				l_command.execute();
 			}
 		}

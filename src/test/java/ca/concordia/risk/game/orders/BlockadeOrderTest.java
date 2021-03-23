@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
@@ -84,7 +85,7 @@ public class BlockadeOrderTest {
 		assertEquals((l_armiesBefore * 3), d_country1.getArmies());
 		assertFalse(d_player1.ownsCountry(d_country1));
 
-		// Ensure country is neutral (has no owner)
-		assertNull(d_country1.getOwner());
+		// Ensure country is neutral
+		assertEquals(d_country1.getOwner(), GameEngine.GetNeutralPlayer());
 	}
 }

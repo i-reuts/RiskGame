@@ -24,6 +24,7 @@ public class Player {
 	private Set<Country> d_countries;
 	private List<Card> d_cards;
 	private boolean d_earnedCard;
+	private boolean d_finishedIssuingOrders;
 
 	/**
 	 * Creates a new player.
@@ -105,7 +106,7 @@ public class Player {
 	public void setEarnedCard(boolean p_value) {
 		d_earnedCard = p_value;
 	}
-	
+
 	/**
 	 * Gets the collection of cards the player currently possesses.
 	 * 
@@ -122,7 +123,9 @@ public class Player {
 	 */
 	public void issueOrder() {
 		Order l_order = GameEngine.ProcessOrderCommand(this);
-		d_orders.add(l_order);
+		if (l_order != null) {
+			d_orders.add(l_order);
+		}
 	}
 
 	/**
@@ -148,16 +151,24 @@ public class Player {
 	}
 
 	/**
-	 * Checks if the player finished issuing orders for the current turn.
-	 * <p>
-	 * Current implementation considers a player to finish issuing orders whenever
-	 * they have no more reinforcements to deploy.
+	 * Gets the flag signifying if the player finished issuing orders for the
+	 * current turn.
 	 * 
 	 * @return <code>true</code> if the player finished issuing orders.<br>
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean finishedIssuingOrders() {
-		return d_reinforcements == 0;
+	public boolean getFinishedIssuingOrders() {
+		return d_finishedIssuingOrders;
+	}
+
+	/**
+	 * Set the flag signifying if the player finished issuing orders for the current
+	 * turn.
+	 * 
+	 * @param p_value value of the flag to set.
+	 */
+	public void setFinishedIssuingOrder(boolean p_value) {
+		d_finishedIssuingOrders = p_value;
 	}
 
 	/**

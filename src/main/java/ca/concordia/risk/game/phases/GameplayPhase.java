@@ -101,7 +101,7 @@ public class GameplayPhase extends Phase {
 		d_logBuffer.write("\nIssuing cards...");
 
 		for (Player l_p : GameEngine.GetPlayers()) {
-			if(l_p.getEarnedCard()) {
+			if (l_p.getEarnedCard()) {
 				Card l_card = Card.issueCard();
 				l_p.addCard(l_card);
 				l_p.setEarnedCard(false);
@@ -118,15 +118,26 @@ public class GameplayPhase extends Phase {
 	private void issueOrders() {
 		d_logBuffer.write("\nIssuing orders...");
 
+		// Clear the issued order flag for all players
+		for (Player l_p : GameEngine.GetPlayers()) {
+			l_p.setFinishedIssuingOrder(false);
+		}
+
+		// Issue orders until none of the players has orders left to give
 		boolean l_allPlayersIssued = false;
 		while (!l_allPlayersIssued) {
 			l_allPlayersIssued = true;
 			for (Player l_p : GameEngine.GetPlayers()) {
-				if (!l_p.finishedIssuingOrders()) {
+				if (!l_p.getFinishedIssuingOrders()) {
 					l_p.issueOrder();
 					l_allPlayersIssued = false;
 
-					d_logBuffer.write("Player " + l_p.getName() + " issued order: " + l_p.peekNextOrder().getStatus());
+					Order l_issuedOrder = l_p.peekNextOrder();
+					if(l_issuedOrder == null) {
+						d_logBuffer.write("Player " + l_p.getName() + " passed"); 
+					} else {
+						d_logBuffer.write("Player " + l_p.getName() + " issued order: " + l_issuedOrder.getStatus());
+					}		
 				}
 			}
 		}

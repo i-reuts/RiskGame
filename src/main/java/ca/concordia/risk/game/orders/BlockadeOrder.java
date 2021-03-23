@@ -1,5 +1,6 @@
 package ca.concordia.risk.game.orders;
 
+import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.Player;
 
@@ -46,7 +47,7 @@ public class BlockadeOrder implements Order {
 			d_blockadeCountry.addArmies(d_blockadeCountry.getArmies() * 2);
 			// makes the respective country as a neutral territory.
 			d_player.removeCountry(d_blockadeCountry);
-			d_blockadeCountry.setOwner(null);
+			d_blockadeCountry.setOwner(GameEngine.GetNeutralPlayer());
 
 			d_status = d_player.getName() + " blockaded " + d_blockadeCountry.getName();
 		}
