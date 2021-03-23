@@ -77,11 +77,10 @@ public class GameplayCommandParser extends CommandParser {
 	 *         <code>InvalidCommand</code> if a parsing error occurred.
 	 */
 	private Command parseAdvanceCommand(List<String> p_argumentList) {
-		if (p_argumentList.size() < 4) {
+		if (p_argumentList.size() < 3) {
 			return new InvalidCommand("advance command expects three arguments");
 		}
 		
-		String l_targetPlayer = p_argumentList.remove(0).replace('_', ' ');
 		String l_sourceCountry = p_argumentList.remove(0).replace('_', ' ');
 		String l_targetCountry = p_argumentList.remove(0).replace('_', ' ');
 		
@@ -96,7 +95,7 @@ public class GameplayCommandParser extends CommandParser {
 			return new InvalidCommand("number of armies value was not a number");
 		}
 
-		return new AdvanceOrderCommand(l_sourceCountry, l_targetCountry, l_targetPlayer, l_numberOfArmies);
+		return new AdvanceOrderCommand(l_sourceCountry, l_targetCountry, l_numberOfArmies);
 	}
 
 	/**
