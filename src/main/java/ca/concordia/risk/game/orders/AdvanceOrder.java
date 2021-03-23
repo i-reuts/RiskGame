@@ -35,7 +35,13 @@ public class AdvanceOrder implements Order{
 		this.d_source_teritory = d_source_teritory;
 		this.d_target_teritory = d_target_teritory;
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Deploys armies from source teritory to target teritory or does nothing
+	 * otherwise.
+	 */
 	@Override
 	public void execute() {
 		if (isValid()) {
