@@ -19,8 +19,8 @@ public class BombOrderTest {
 
 	private static GameMap d_map;
 	private static Player d_player1;
-	private static Country l_country1;
-	private static Country l_country2;
+	private static Country d_country1;
+	private static Country d_country2;
 
 	/**
 	 * Initializes the context with an empty map, creates a player and adds a
@@ -38,12 +38,16 @@ public class BombOrderTest {
 			d_map.addCountry(new Country("Country " + l_i, l_continent));
 		}
 		List<Country> l_countries = d_map.getCountries();
-		l_country1 = l_countries.get(0);
-		l_country2 = l_countries.get(1);
+		d_country1 = l_countries.get(0);
+		d_country2 = l_countries.get(1);
+		
+		// Deploy some armies to countries
+		d_country1.addArmies(8);
+		d_country2.addArmies(8);
 
 		// Create a player: Player A and add country1 to countries owned by it
 		d_player1 = new Player("Player A");
-		d_player1.addCountry(l_country1);
+		d_player1.addCountry(d_country1);
 	}
 
 	/**
@@ -52,14 +56,17 @@ public class BombOrderTest {
 	 * Country to be bombed should not be one of player's owned countries.
 	 */
 	@Test
-	public void bombOrderFailOwnCountrytest() {
-		BombOrder d_bomborder;
-
+	public void bombOrderFailOwnCountryTest() {
+		// Get the number of armies before bombing
+		int l_armiesBefore = d_country1.getArmies();
+		
 		// Give an order to bomb the country that is owned by the player itself
-		d_bomborder = new BombOrder(d_player1, l_country1);
-		d_bomborder.execute();
+		BombOrder l_bombOrder = new BombOrder(d_player1, d_country1);
+		l_bombOrder.execute();
 
-		assertTrue(d_bomborder.getStatus().startsWith("Bombing failed: Player: "));
+		// Ensure bombing fails and armies were not affected
+		assertTrue(l_bombOrder.getStatus().startsWith("Bombing failed:"));
+		assertEquals(l_armiesBefore, d_country1.getArmies());
 	}
 
 	/**
@@ -69,15 +76,17 @@ public class BombOrderTest {
 	 * territories.
 	 */
 	@Test
-	public void bombOrderFailNotAdjacenttest() {
-		BombOrder d_bomborder;
-
+	public void bombOrderFailNotAdjacentTest() {
+		// Get the number of armies before bombing
+		int l_armiesBefore = d_country2.getArmies();
+		
 		// Give an order to bomb the country that is not adjacent to the player
-		d_bomborder = new BombOrder(d_player1, l_country2);
-		d_bomborder.execute();
+		BombOrder l_bombOrder = new BombOrder(d_player1, d_country2);
+		l_bombOrder.execute();
 
-		assertEquals(d_bomborder.getStatus(),
-				"Bombing failed: None of the current player’s territories is adjacent to the opponent");
+		// Ensure bombing fails and armies were not affected
+		assertTrue(l_bombOrder.getStatus().startsWith("Bombing failed: country"));
+		assertEquals(l_armiesBefore, d_country2.getArmies());
 	}
 
 	/**
@@ -87,16 +96,20 @@ public class BombOrderTest {
 	 * able to bomb the mentioned country.
 	 */
 	@Test
-	public void bombOrderPasstest() {
-		BombOrder d_bomborder;
-
-		l_country1.addNeighbor(l_country2);
+	public void bombOrderPassTest() {
+		// Make country two adjacent to country 1
+		d_country1.addNeighbor(d_country2);
+		
+		// Get the number of armies before bombing
+		int l_armiesBefore = d_country1.getArmies();
 
 		// Give an order to bomb the country that is not owned by the player and is
 		// adjacent to the its territory
-		d_bomborder = new BombOrder(d_player1, l_country2);
-		d_bomborder.execute();
+		BombOrder l_bomborder = new BombOrder(d_player1, d_country2);
+		l_bomborder.execute();
 
-		assertEquals(d_bomborder.getStatus(), d_player1.getName() + " bombed the country " + l_country2.getName());
+		// Ensure bombing succeeds and armies are halfed
+		assertEquals(l_bomborder.getStatus(), d_player1.getName() + " bombed the country " + d_country2.getName());
+		assertEquals(l_armiesBefore/2, d_country2.getArmies());
 	}
 }

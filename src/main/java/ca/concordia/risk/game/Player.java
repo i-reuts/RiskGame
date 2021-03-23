@@ -73,6 +73,16 @@ public class Player {
 	public boolean ownsCountry(Country p_country) {
 		return d_countries.contains(p_country);
 	}
+	
+	/**
+	 * Gets the set of countries that are owned by the
+	 * player.
+	 * 
+	 * @return set of countries that are owned by the player.
+	 */
+	public Set<Country> getCountries() {
+		return d_countries;
+	}
 
 	/**
 	 * Issues one player order and adds it to the order queue of the player.
@@ -147,16 +157,6 @@ public class Player {
 		d_reinforcements -= p_numReinforcements;
 
 		return true;
-	}
-
-	/**
-	 * This method returns the set of countries that are owned by the
-	 * player.
-	 * 
-	 * @return set of countries that are owned by the player.
-	 */
-	public Set<Country> getCountries() {
-		return d_countries;
 	}
 	
 	/**

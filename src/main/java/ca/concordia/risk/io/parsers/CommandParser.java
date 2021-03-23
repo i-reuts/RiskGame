@@ -88,6 +88,9 @@ public abstract class CommandParser {
 
 		// Gameplay commands
 		d_commandParsers.put("deploy", this::createUnavailableCommand);
+		d_commandParsers.put("advance", this::createUnavailableCommand);
+		d_commandParsers.put("bomb", this::createUnavailableCommand);
+		d_commandParsers.put("airlift", this::createUnavailableCommand);
 	}
 
 	/**
