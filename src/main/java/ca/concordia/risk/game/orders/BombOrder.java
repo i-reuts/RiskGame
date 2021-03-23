@@ -71,7 +71,7 @@ public class BombOrder implements Order {
 		// Check if the target country is adjacent to one of the player's countries
 		boolean l_isAdjacent = false;
 		for (Country l_ownedCountry : d_player.getCountries()) {
-			if (l_ownedCountry.isNeighbor(d_bombCountry)) {
+			if (l_ownedCountry.hasNeighbor(d_bombCountry)) {
 				l_isAdjacent = true;
 				break;
 			}

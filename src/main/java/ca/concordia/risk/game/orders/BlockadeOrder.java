@@ -45,7 +45,7 @@ public class BlockadeOrder implements Order {
 
 		if (isValid()) {
 			// triples no. of armies to the respective country.
-			d_blockadeCountry.addArmies(d_blockadeCountry.getArmies()*2);
+			d_blockadeCountry.addArmies(d_blockadeCountry.getArmies() * 2);
 			// makes the respective country as a neutral territory.
 			d_player.removeCountry(d_blockadeCountry);
 			d_status = d_player.getName() + " performed the blockade order on " + d_blockadeCountry.getName();
@@ -63,15 +63,11 @@ public class BlockadeOrder implements Order {
 	 */
 	private boolean isValid() {
 
-		if (!d_player.ownsCountry(d_blockadeCountry)) {
+		if (!d_player.ownsCountry(d_blockadeCountry) || d_blockadeCountry.getArmies() == 0) {
 			d_status = "Blockade failed: " + d_blockadeCountry.getName() + " is not owned by " + d_player.getName();
 			return false;
 		}
 
-		if (d_blockadeCountry.getArmies() < 0) {
-			d_status = "Blockade failed: Cannot blockade zero or negative amounts";
-			return false;
-		}
 		return true;
 	}
 }

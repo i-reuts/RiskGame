@@ -54,7 +54,7 @@ public class Country {
 	public Set<Country> getNeighbors() {
 		return d_neighbors;
 	}
-	
+
 	/**
 	 * Gets the player owning this country.
 	 * 
@@ -94,15 +94,16 @@ public class Country {
 	public boolean removeNeighbor(Country p_country) {
 		return d_neighbors.remove(p_country);
 	}
-	
+
 	/**
-	 * Check if the country is a neighbor of the given country.
+	 * Check if the a country is a neighbor of this country.
 	 * 
 	 * @param p_country country to be checked.
-	 * @return <code>true</code> if the country is a neighbor of the given country.<br>
+	 * @return <code>true</code> if the <code>p_country</code> is a neighbor of the
+	 *         this country.<br>
 	 *         <code>false</code> if <code>p_country</code> is not a neighbor.
 	 */
-	public boolean isNeighbor(Country p_country) {
+	public boolean hasNeighbor(Country p_country) {
 		return d_neighbors.contains(p_country);
 	}
 
