@@ -98,7 +98,5 @@ public class AdvanceOrderCommand implements OrderCommand {
 		ConsoleView l_view = GameEngine.GetView();
 		l_view.display("\nAdvancecommand to move " + d_numberOfArmies + " armies from country " + d_sourceCountry
 				+ " to country " + d_targetCountry + "\n");
-
 	}
-
 }

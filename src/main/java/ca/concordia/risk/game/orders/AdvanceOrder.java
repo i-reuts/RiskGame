@@ -20,7 +20,6 @@ public class AdvanceOrder implements Order{
 	/**
 	 * Creates a new <code>AdvanceOrder</code>.
 	 * 
-	 * @param p_numArmies 		number of armies to battle.
 	 * @param p_sourceCountry   country which armies are battle from.
 	 * @param p_targetCountry   country where armies are battle to.
 	 * @param p_sourceTeritory  teritory which armies are battle from.
