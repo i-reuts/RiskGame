@@ -4,6 +4,7 @@ import java.util.List;
 
 import ca.concordia.risk.io.commands.AdvanceOrderCommand;
 import ca.concordia.risk.io.commands.AirliftOrderCommand;
+import ca.concordia.risk.io.commands.BlockadeOrderCommand;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.DeployOrderCommand;
 import ca.concordia.risk.io.commands.BombOrderCommand;
@@ -25,9 +26,9 @@ public class GameplayCommandParser extends CommandParser {
 		super.registerParserMethods();
 
 		d_commandParsers.put("showmap", this::parseShowMapCommand);
-
 		d_commandParsers.put("deploy", this::parseDeployCommand);
 		d_commandParsers.put("advance", this::parseAdvanceCommand);
+		d_commandParsers.put("blockade", this::parseBlockadeCommand);
 		d_commandParsers.put("bomb", this::parseBombCommand);
 		d_commandParsers.put("airlift", this::parseAirliftCommand);
 	}
@@ -115,6 +116,22 @@ public class GameplayCommandParser extends CommandParser {
 		return new BombOrderCommand(l_bombCountry);
 	}
 
+	/**
+	 * Parses a <i>"blockade"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>BlockadeCommand</code> if the command was parsed successfully.
+	 *         <code>InvalidCommand</code> if a parsing error occurred.
+	 */
+	private Command parseBlockadeCommand(List<String> p_argumentList) {
+		if (p_argumentList.size() < 1) {
+			return new InvalidCommand("Blockade command expects one argument");
+		}
+
+		String l_blockadeCountry = p_argumentList.remove(0).replace('_', ' ');
+		return new BlockadeOrderCommand(l_blockadeCountry);
+	}
+	
 	/**
 	 * Parses a <i>"airlift"</i> command.
 	 * 
