@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,9 +24,10 @@ public class BlockadeOrderTest {
 	private Player d_player1;
 	private Country d_country1;
 	private Country d_country2;
-	
+
 	/**
-	 * 
+	 * Initializes the context with an empty map, creates a player and adds a
+	 * country to the player before each tests.
 	 */
 	@BeforeEach
 	public void SetUp() {
@@ -41,7 +41,7 @@ public class BlockadeOrderTest {
 		List<Country> l_countries = d_map.getCountries();
 		d_country1 = l_countries.get(0);
 		d_country2 = l_countries.get(1);
-		
+
 		// Deploy some armies to countries
 		d_country1.addArmies(5);
 		d_country2.addArmies(10);
@@ -49,30 +49,37 @@ public class BlockadeOrderTest {
 		// Create a player: Player A and add country1 to countries owned by it
 		d_player1 = new Player("Player A");
 		d_player1.addCountry(d_country1);
-		
 	}
-	
+
+	/**
+	 * Tests validating a Blockade order.
+	 * <p>
+	 * Player must own the country that has to be blockade.
+	 */
 	@Test
 	public void blockadeOrderCountryNotOwnTest() {
 		int l_armiesBefore = d_country2.getArmies();
 		BlockadeOrder l_blockadeOrder = new BlockadeOrder(d_player1, d_country2);
 		l_blockadeOrder.execute();
-		
+
 		assertTrue(l_blockadeOrder.getStatus().startsWith("Blockade failed:"));
 		assertEquals(l_armiesBefore, d_country2.getArmies());
 	}
-	
+
+	/**
+	 * Tests validating a Blockade order.
+	 * <p>
+	 * This method tests tripling of armies on the blockade country and tests that
+	 * blockade country must become a neutral territory.
+	 */
 	@Test
 	public void blockadeOrderPassTest() {
-		// Get the number of armies before blockade
 		int l_armiesBefore = d_country1.getArmies();
-		
-		// Give an order to blockade the country that is owned by the player.
 		BlockadeOrder l_blockadeOrder = new BlockadeOrder(d_player1, d_country1);
 		l_blockadeOrder.execute();
+
 		assertTrue(l_blockadeOrder.getStatus().equals("Player A performed the blockade order on Country 0"));
-		assertEquals( (l_armiesBefore*3), d_country1.getArmies());
+		assertEquals((l_armiesBefore * 3), d_country1.getArmies());
 		assertFalse(d_player1.ownsCountry(d_country1));
 	}
-
 }
