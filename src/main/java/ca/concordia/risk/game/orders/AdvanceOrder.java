@@ -20,19 +20,20 @@ public class AdvanceOrder implements Order{
 	/**
 	 * Creates a new <code>AdvanceOrder</code>.
 	 * 
+	 * @param p_status
 	 * @param p_sourceCountry   country which armies are battle from.
 	 * @param p_targetCountry   country where armies are battle to.
 	 * @param p_sourceTeritory  teritory which armies are battle from.
 	 * @param p_targetTeritory  teritory where armies are battle to.
 	 */
-	public AdvanceOrder(String d_status, int d_armiesToDeploy, Player d_source_player, Player d_target_player,
-			Country d_source_teritory, Country d_target_teritory) {
-		this.d_status = d_status;
-		this.d_armiesToDeploy = d_armiesToDeploy;
-		this.d_source_player = d_source_player;
-		this.d_target_player = d_target_player;
-		this.d_source_teritory = d_source_teritory;
-		this.d_target_teritory = d_target_teritory;
+	public AdvanceOrder(String p_status, int p_armiesToDeploy, Player p_source_player, Player p_target_player,
+			Country p_source_teritory, Country p_target_teritory) {
+		this.d_status = p_status;
+		this.d_armiesToDeploy = p_armiesToDeploy;
+		this.d_source_player = p_source_player;
+		this.d_target_player = p_target_player;
+		this.d_source_teritory = p_source_teritory;
+		this.d_target_teritory = p_target_teritory;
 	}
 	
 	/**
