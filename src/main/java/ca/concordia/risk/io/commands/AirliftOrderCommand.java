@@ -32,28 +32,27 @@ public class AirliftOrderCommand implements OrderCommand {
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();
-		l_view.display(
-				"\nAirlift command to airlift " + d_numberOfArmies + " armies from country " + d_sourceCountry + " to country " + d_targetCountry + "\n");
+		l_view.display("\nAirlift command to airlift " + d_numberOfArmies + " armies from country " + d_sourceCountry
+				+ " to country " + d_targetCountry + "\n");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Builds a airlift order using the data provided by the user. The order is
-	 * considered invalid if the airlift source of target country does not exist, 
-	 * is not owned by the player, the player does not have enough reinforcements to deploy
-	 * or it doesn't have a airlift card.
+	 * Builds an airlift order using the data provided by the user. The order is
+	 * considered invalid if the airlift source of target country does not exist or
+	 * the player doesn't have an airlift card.
 	 */
 	@Override
 	public Order buildOrder(Player p_player) {
 		ConsoleView l_view = GameEngine.GetView();
-		
+
 		// Validate if the player has an airlift card
 		if (!p_player.useCard(Card.getAirliftCard())) {
-			l_view.display("Invalid order: player " + p_player.getName() + " does not has an airlift card");
+			l_view.display("Invalid order: player " + p_player.getName() + " does not have an airlift card");
 			return null;
 		}
-		
+
 		// Validate if the source country exists
 		Country l_sourceCountry = GameEngine.GetMap().getCountry(d_sourceCountry);
 		if (l_sourceCountry == null) {
@@ -61,29 +60,10 @@ public class AirliftOrderCommand implements OrderCommand {
 			return null;
 		}
 
-		// Validate if player owns the source country
-		if (!p_player.ownsCountry(l_sourceCountry)) {
-			l_view.display("Invalid order: current player does not own the source country " + d_sourceCountry);
-			return null;
-		}
-
 		// Validate if the target country exists
 		Country l_targetCountry = GameEngine.GetMap().getCountry(d_targetCountry);
 		if (l_targetCountry == null) {
 			l_view.display("Invalid order: target country " + d_targetCountry + " does not exist");
-			return null;
-		}
-
-		// Validate if player owns the target country
-		if (!p_player.ownsCountry(l_targetCountry)) {
-			l_view.display("Invalid order: current player does not own the target country " + d_targetCountry);
-			return null;
-		}
-		
-		// Validate if player has enough reinforcements. If so, retrieve reinforcements
-		if (!p_player.retrieveReinforcements(d_numberOfArmies)) {
-			l_view.display("Invalid order: can't airlift " + d_numberOfArmies + " armies. Only "
-					+ p_player.getRemainingReinforcements() + " reinforcements left");
 			return null;
 		}
 
