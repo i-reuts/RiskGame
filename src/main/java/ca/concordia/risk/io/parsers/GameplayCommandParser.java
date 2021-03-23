@@ -113,6 +113,13 @@ public class GameplayCommandParser extends CommandParser {
 		return new AirliftOrderCommand(l_sourceCountry, l_targetCountry, l_numberOfArmies);
 	}
 	
+	/**
+	 * Parses a <i>"advance"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>DeployCommand</code> if the command was parsed successfully.
+	 *         <code>InvalidCommand</code> if a parsing error occurred.
+	 */
 	private Command parseAdvanceCommand(List<String> p_argumentList) {
 		if (p_argumentList.size() < 4) {
 			return new InvalidCommand("advance command expects three arguments");
@@ -133,6 +140,4 @@ public class GameplayCommandParser extends CommandParser {
 
 		return new AdvanceOrderCommand(l_sourceCountry, l_targetCountry, l_targetPlayer,l_numberOfArmies);
 	}
-}
-	
 }
