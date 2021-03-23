@@ -15,7 +15,7 @@ public class BlockadeOrder implements Order{
 		d_player = p_player;
 		d_blockadeCountry = p_blockadeCountry;
 		d_armies = p_armies;
-		d_status = "blockade " + d_armies + " armies at " + p_blockadeCountry.getName();
+		d_status = "blockade " + d_armies + " armies in " + p_blockadeCountry.getName();
 	}
 	
 	@Override
@@ -23,12 +23,16 @@ public class BlockadeOrder implements Order{
 		
 		if(isValid()) {
 			
+			d_status = d_player.getName() + " performed the blockade order on " + d_blockadeCountry.getName();
+			d_armies = d_armies*3;
+			d_player.removeCountry(d_blockadeCountry);
+			
 		}
 		
 	}
 
 	private boolean isValid() {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 	
