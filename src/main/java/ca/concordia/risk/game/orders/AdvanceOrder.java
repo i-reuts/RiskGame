@@ -10,7 +10,6 @@ import ca.concordia.risk.game.Player;
  */
 public class AdvanceOrder implements Order{
 	
-	
 	private String d_status;
 	private int d_armiesToDeploy;
 	private Player d_source_player;
@@ -26,7 +25,6 @@ public class AdvanceOrder implements Order{
 	 * @param p_targetCountry   country where armies are battle to.
 	 * @param p_sourceTeritory  teritory which armies are battle from.
 	 * @param p_targetTeritory  teritory where armies are battle to.
-	 * 
 	 */
 	public AdvanceOrder(String d_status, int d_armiesToDeploy, Player d_source_player, Player d_target_player,
 			Country d_source_teritory, Country d_target_teritory) {
@@ -49,7 +47,9 @@ public class AdvanceOrder implements Order{
 		}
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getStatus() {
 		return d_status;
