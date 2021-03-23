@@ -64,10 +64,11 @@ public class GameEngine {
 	public static GameMap GetMap() {
 		return d_ActiveMap;
 	}
-	
+
 	/**
-	 * Get the active phase of the game
-	 * @return active phase
+	 * Gets the active phase of the game.
+	 * 
+	 * @return active phase.
 	 */
 	public static Phase GetActivePhase() {
 		return d_ActivePhase;
@@ -165,16 +166,16 @@ public class GameEngine {
 	}
 
 	/** Initializes the <code>GameEngine</code>. */
-	protected static void Initialize() {
+	public static void Initialize() {
 		// Initialize the view
 		d_View = new ConsoleView();
 
 		// Cleanup active GameMap
 		d_ActiveMap = null;
-		
+
 		// Cleanup active players
 		d_ActivePlayers = new TreeMap<String, Player>();
-		
+
 		// Initialize and connect all phases
 		Phase l_editorPhase = new MapEditorPhase();
 		Phase l_startupPhase = new StartupPhase();
