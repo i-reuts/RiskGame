@@ -12,8 +12,7 @@ import ca.concordia.risk.io.views.ConsoleView;
 
 /**
  * This Class represents an Advance Order Command
-4
-\7 * 
+ * 
  * @author Sindu
  *
  */
@@ -40,6 +39,13 @@ public class AdvanceOrderCommand implements OrderCommand {
 		this.d_numberOfArmies = d_numberOfArmies;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Builds an Advance order using the data provided by the user. The order is
+	 * considered invalid if the source or target country does not exist, 
+	 * or if it is not owned by the player.
+	 */
 	@Override
 	public Order buildOrder(Player p_player) {
 		ConsoleView l_view = GameEngine.GetView();
@@ -86,6 +92,7 @@ public class AdvanceOrderCommand implements OrderCommand {
 		return l_order;
 	}
 
+	/** Displays information about the order. */
 	@Override
 	public void execute() {
 		ConsoleView l_view = GameEngine.GetView();
