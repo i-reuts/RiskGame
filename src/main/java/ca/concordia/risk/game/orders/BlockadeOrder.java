@@ -11,7 +11,6 @@ public class BlockadeOrder implements Order {
 
 	private Player d_player;
 	private Country d_blockadeCountry;
-	private int d_armies;
 	private String d_status;
 
 	/**
@@ -25,8 +24,7 @@ public class BlockadeOrder implements Order {
 
 		d_player = p_player;
 		d_blockadeCountry = p_blockadeCountry;
-		d_armies = d_blockadeCountry.getArmies();
-		d_status = "Blockade " + d_armies + " armies in " + p_blockadeCountry.getName();
+		d_status = "Blockade " + d_blockadeCountry.getArmies() + " armies in " + p_blockadeCountry.getName();
 	}
 
 	/**
@@ -46,9 +44,8 @@ public class BlockadeOrder implements Order {
 	public void execute() {
 
 		if (isValid()) {
-			int l_armiesToAdd = d_armies * 2;
-			// assign triple no. of armies to the respective country.
-			d_blockadeCountry.addArmies(l_armiesToAdd);
+			// triples no. of armies to the respective country.
+			d_blockadeCountry.addArmies(d_blockadeCountry.getArmies()*2);
 			// makes the respective country as a neutral territory.
 			d_player.removeCountry(d_blockadeCountry);
 			d_status = d_player.getName() + " performed the blockade order on " + d_blockadeCountry.getName();
@@ -71,7 +68,7 @@ public class BlockadeOrder implements Order {
 			return false;
 		}
 
-		if (d_armies < 0) {
+		if (d_blockadeCountry.getArmies() < 0) {
 			d_status = "Blockade failed: Cannot blockade zero or negative amounts";
 			return false;
 		}
