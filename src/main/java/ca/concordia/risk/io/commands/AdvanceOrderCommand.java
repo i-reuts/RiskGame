@@ -27,16 +27,16 @@ public class AdvanceOrderCommand implements OrderCommand {
 	 * 
 	 * @param p_sourceCountry  source country which armies are moved from.
 	 * @param p_targetCountry  target country where armies are moved to.
-	 * @param d_targetPlayer   target player whose territory armies are moved to.
+	 * @param p_targetPlayer   target player whose territory armies are moved to.
 	 * @param p_numberOfArmies number of armies to deploy.
 	 */
-	public AdvanceOrderCommand(String d_sourceCountry, String d_targetCountry, String d_targetPlayer,
-			int d_numberOfArmies) {
+	public AdvanceOrderCommand(String p_sourceCountry, String p_targetCountry, String p_targetPlayer,
+			int p_numberOfArmies) {
 		super();
-		this.d_sourceCountry = d_sourceCountry;
-		this.d_targetCountry = d_targetCountry;
-		this.d_targetPlayer = d_targetPlayer;
-		this.d_numberOfArmies = d_numberOfArmies;
+		this.d_sourceCountry = p_sourceCountry;
+		this.d_targetCountry = p_targetCountry;
+		this.d_targetPlayer = p_targetPlayer;
+		this.d_numberOfArmies = p_numberOfArmies;
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class AdvanceOrderCommand implements OrderCommand {
 		}
 
 		// Build and return the order
-		Order l_order = new AdvanceOrder(d_sourceCountry, d_numberOfArmies, p_player, t_player, l_sourceCountry, l_targetCountry);
+		Order l_order = new AdvanceOrder(d_numberOfArmies, p_player, t_player, l_sourceCountry, l_targetCountry);
 		return l_order;
 	}
 
