@@ -29,14 +29,14 @@ public class BombOrder implements Order {
 		d_player = p_player;
 		d_bombCountry = p_country;
 		d_armiesToBeDestroyed = d_bombCountry.getArmies();
-		d_status = d_player + " wants to bomb the country " + d_bombCountry.getName();
+		d_status = d_player.getName() + " wants to bomb the country " + d_bombCountry.getName();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Bomb the chosen country if the player is adjacent to it Does nothing
-	 * otherwise.
+	 * Bomb the chosen country if the player is adjacent to it and the chosen
+	 * country is not owned by the player Does nothing otherwise.
 	 */
 	@Override
 	public void execute() {
@@ -85,10 +85,12 @@ public class BombOrder implements Order {
 		}
 
 		if (l_validator1 == true) {
+			d_status = "Bombing failed: Player " + d_player.getName() + " owns the country to be bombed";
 			return false;
 		}
 
 		if (l_validator2 == false) {
+			d_status = "Bombing failed: None of the current player’s territories is adjacent to the opponent";
 			return false;
 		}
 
