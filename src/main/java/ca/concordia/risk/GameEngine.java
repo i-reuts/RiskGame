@@ -169,6 +169,12 @@ public class GameEngine {
 		// Initialize the view
 		d_View = new ConsoleView();
 
+		// Cleanup active GameMap
+		d_ActiveMap = null;
+		
+		// Cleanup active players
+		d_ActivePlayers = new TreeMap<String, Player>();
+		
 		// Initialize and connect all phases
 		Phase l_editorPhase = new MapEditorPhase();
 		Phase l_startupPhase = new StartupPhase();
