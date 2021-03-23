@@ -91,6 +91,8 @@ public abstract class CommandParser {
 		d_commandParsers.put("advance", this::createUnavailableCommand);
 		d_commandParsers.put("bomb", this::createUnavailableCommand);
 		d_commandParsers.put("airlift", this::createUnavailableCommand);
+		
+		d_commandParsers.put("showcards", this::createUnavailableCommand);
 	}
 
 	/**

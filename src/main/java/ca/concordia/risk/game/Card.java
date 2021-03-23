@@ -101,4 +101,25 @@ public class Card {
 		Card l_otherCard = (Card) p_other;
 		return this.d_type.equals(l_otherCard.d_type);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Return a string representing the card type.
+	 */
+	@Override
+	public String toString() {
+		switch (d_type) {
+		case AIRLIFT:
+			return "Airlift Card";
+		case BLOCKADE:
+			return "Blockade Card";
+		case BOMB:
+			return "Bomb Card";
+		case DIPLOMACY:
+			return "Diplomacy Card";
+		default:
+			return d_type.toString();
+		}
+	}
 }

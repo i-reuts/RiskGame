@@ -47,12 +47,6 @@ public class AirliftOrderCommand implements OrderCommand {
 	public Order buildOrder(Player p_player) {
 		ConsoleView l_view = GameEngine.GetView();
 
-		// Validate if the player has an airlift card
-		if (!p_player.useCard(Card.getAirliftCard())) {
-			l_view.display("Invalid order: player " + p_player.getName() + " does not have an airlift card");
-			return null;
-		}
-
 		// Validate if the source country exists
 		Country l_sourceCountry = GameEngine.GetMap().getCountry(d_sourceCountry);
 		if (l_sourceCountry == null) {
@@ -64,6 +58,13 @@ public class AirliftOrderCommand implements OrderCommand {
 		Country l_targetCountry = GameEngine.GetMap().getCountry(d_targetCountry);
 		if (l_targetCountry == null) {
 			l_view.display("Invalid order: target country " + d_targetCountry + " does not exist");
+			return null;
+		}
+		
+
+		// Validate if the player has an airlift card
+		if (!p_player.useCard(Card.getAirliftCard())) {
+			l_view.display("Invalid order: player " + p_player.getName() + " does not have an airlift card");
 			return null;
 		}
 

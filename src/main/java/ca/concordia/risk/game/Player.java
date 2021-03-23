@@ -1,6 +1,7 @@
 package ca.concordia.risk.game;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Player {
 	private Queue<Order> d_orders;
 	private Set<Country> d_countries;
 	private List<Card> d_cards;
+	private boolean d_earnedCard;
 
 	/**
 	 * Creates a new player.
@@ -73,15 +75,44 @@ public class Player {
 	public boolean ownsCountry(Country p_country) {
 		return d_countries.contains(p_country);
 	}
-	
+
 	/**
-	 * Gets the set of countries that are owned by the
-	 * player.
+	 * Gets the set of countries that are owned by the player.
 	 * 
 	 * @return set of countries that are owned by the player.
 	 */
 	public Set<Country> getCountries() {
 		return d_countries;
+	}
+
+	/**
+	 * Gets the flag signifying if this player earned a card that hasn't been issued
+	 * yet.
+	 * 
+	 * @return <code>true</code> if the player earned a card.<br>
+	 *         <code>false</code> if the player hasn't earned a card.
+	 */
+	public boolean getEarnedCard() {
+		return d_earnedCard;
+	}
+
+	/**
+	 * Sets the flag signifying if this player earned a card that hasn't been issued
+	 * yet.
+	 * 
+	 * @param p_value flag value to set.
+	 */
+	public void setEarnedCard(boolean p_value) {
+		d_earnedCard = p_value;
+	}
+	
+	/**
+	 * Gets the collection of cards the player currently possesses.
+	 * 
+	 * @return collection of owned cards.
+	 */
+	public Collection<Card> getCards() {
+		return d_cards;
 	}
 
 	/**
@@ -158,7 +189,7 @@ public class Player {
 
 		return true;
 	}
-	
+
 	/**
 	 * This method computes the set of continents that are fully captured by the
 	 * player.

@@ -61,7 +61,7 @@ public class DeployOrder implements Order {
 	 */
 	private boolean isValid() {
 		if (!d_player.ownsCountry(d_deployCountry)) {
-			d_status = "Deployment failed: " + d_deployCountry + " not owned by " + d_player.getName();
+			d_status = "Deployment failed: " + d_deployCountry.getName() + " not owned by " + d_player.getName();
 			return false;
 		}
 

@@ -3,6 +3,7 @@ package ca.concordia.risk.game.phases;
 import java.io.FileNotFoundException;
 
 import ca.concordia.risk.GameEngine;
+import ca.concordia.risk.game.Card;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.orders.Order;
 import ca.concordia.risk.io.parsers.GameplayCommandParser;
@@ -72,6 +73,7 @@ public class GameplayPhase extends Phase {
 		d_logBuffer.write("\nTurn " + d_turnNumber + " begins");
 
 		assignReinforcements();
+		issueCards();
 		issueOrders();
 		executeOrders();
 
@@ -89,6 +91,23 @@ public class GameplayPhase extends Phase {
 
 			d_logBuffer.write(
 					"Player " + l_p.getName() + " assigned " + l_p.getRemainingReinforcements() + " reinforcements");
+		}
+	}
+
+	/**
+	 * Issues a random card to each player that conquered a country last turn.
+	 */
+	private void issueCards() {
+		d_logBuffer.write("\nIssuing cards...");
+
+		for (Player l_p : GameEngine.GetPlayers()) {
+			if(l_p.getEarnedCard()) {
+				Card l_card = Card.issueCard();
+				l_p.addCard(l_card);
+				l_p.setEarnedCard(false);
+
+				d_logBuffer.write("Player " + l_p.getName() + " issued " + l_card.toString());
+			}
 		}
 	}
 

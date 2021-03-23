@@ -13,6 +13,7 @@ import ca.concordia.risk.game.phases.MapEditorPhase;
 import ca.concordia.risk.game.phases.StartupPhase;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.OrderCommand;
+import ca.concordia.risk.io.commands.ShowCardsCommand;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /**
@@ -157,7 +158,11 @@ public class GameEngine {
 			Command l_command = d_ActivePhase.parseCommand(d_View.getInput());
 			if (l_command instanceof OrderCommand) {
 				l_order = ((OrderCommand) l_command).buildOrder(p_player);
-			} else {
+			} else if(l_command instanceof ShowCardsCommand) {
+				((ShowCardsCommand) l_command).setPlayer(p_player);
+				l_command.execute();
+			}
+			else {
 				l_command.execute();
 			}
 		}

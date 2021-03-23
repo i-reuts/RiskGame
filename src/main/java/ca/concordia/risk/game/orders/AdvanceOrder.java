@@ -89,17 +89,11 @@ public class AdvanceOrder implements Order {
 	private boolean isValid() {
 		// Validate that player owns source country
 		if (!d_player.ownsCountry(d_sourceCountry)) {
-			d_status = "Advance failed: " + d_sourceCountry.getName() + " no longer owned by " + d_player.getName();
+			d_status = "Advance failed: " + d_sourceCountry.getName() + " not owned by " + d_player.getName();
 			return false;
 		}
 
-		// Validate that player owns target country
-		if (!d_player.ownsCountry(d_sourceCountry)) {
-			d_status = "Advance failed: " + d_targetCountry.getName() + " no longer owned by " + d_player.getName();
-			return false;
-		}
-
-		// Validate that source country has no armies
+		// Validate that source country has armies deployed in it
 		if (d_sourceCountry.getArmies() == 0) {
 			d_status = "Advance failed: " + d_sourceCountry.getName() + " has no armies";
 			return false;
@@ -169,7 +163,10 @@ public class AdvanceOrder implements Order {
 
 			d_targetCountry.addArmies(l_attackerArmies);
 
-			d_status += "Country conquered succesfully " + " with " + l_attackerArmies + " armies remaining.";
+			d_status += "Country conquered succesfully with " + l_attackerArmies + " armies remaining";
+			
+			// Set the flag indicated that the player conquered a country
+			d_player.setEarnedCard(true);
 		} else {
 			// Otherwise return remaining armies back to their respective countries
 			d_sourceCountry.addArmies(l_attackerArmies);
