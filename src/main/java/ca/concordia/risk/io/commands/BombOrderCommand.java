@@ -18,7 +18,7 @@ public class BombOrderCommand implements OrderCommand {
 	/**
 	 * Creates a new <code>BombOrderCommand</code>.
 	 * 
-	 * @param p_bombCountry
+	 * @param p_bombCountry Country to be bombed
 	 */
 	public BombOrderCommand(String p_bombCountry) {
 		d_bombCountry = p_bombCountry;
