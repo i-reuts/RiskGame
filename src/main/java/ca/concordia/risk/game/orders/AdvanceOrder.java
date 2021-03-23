@@ -4,11 +4,10 @@ import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.Player;
 
 /**
- * Class to represent AdvanceOrder command
+ * This Class represents Advance Order
  * @author Sindu
  *
  */
-
 public class AdvanceOrder implements Order{
 	
 	
@@ -29,7 +28,6 @@ public class AdvanceOrder implements Order{
 	 * @param p_targetTeritory  teritory where armies are battle to.
 	 * 
 	 */
-
 	public AdvanceOrder(String d_status, int d_armiesToDeploy, Player d_source_player, Player d_target_player,
 			Country d_source_teritory, Country d_target_teritory) {
 		this.d_status = d_status;
@@ -63,7 +61,6 @@ public class AdvanceOrder implements Order{
 	 * @return <code>true</code> if the player owns the target deploy country.<br>
 	 *         <code>false</code> otherwise.
 	 */
-
 	private boolean isValid() {
 		if (!d_source_player.ownsCountry(d_source_teritory)) {
 			d_status = "Deployment failed: " + d_source_teritory + " no longer owned by " + d_source_player.getName();
