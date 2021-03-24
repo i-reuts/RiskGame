@@ -37,21 +37,21 @@ public class AdvanceOrderTest {
 
 		// Generate all the countries
 		for (int l_i = 0; l_i < d_noOfCountries; l_i++) {
-			Country l_tmp_country = new Country("Country_" + l_i, l_continent);
-			d_defaultMap.addCountry(l_tmp_country);
+			Country l_tmpCountry = new Country("Country_" + l_i, l_continent);
+			d_defaultMap.addCountry(l_tmpCountry);
 
 			/*
 			 * Country_0 will be owned by player2 and the rest by player1. All countries
 			 * will have 4 armies.
 			 */
 			if (l_i == 0) {
-				d_player2.addCountry(l_tmp_country);
-				l_tmp_country.setOwner(d_player2);
-				l_tmp_country.addArmies(4);
+				d_player2.addCountry(l_tmpCountry);
+				l_tmpCountry.setOwner(d_player2);
+				l_tmpCountry.addArmies(4);
 			} else {
-				d_player1.addCountry(l_tmp_country);
-				l_tmp_country.setOwner(d_player1);
-				l_tmp_country.addArmies(4);
+				d_player1.addCountry(l_tmpCountry);
+				l_tmpCountry.setOwner(d_player1);
+				l_tmpCountry.addArmies(4);
 			}
 		}
 	}
@@ -69,19 +69,19 @@ public class AdvanceOrderTest {
 		int l_reducedAmount = 2;
 		
 		// Get an array of armies
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
-		Country[] l_countries_2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
 
 		// Create the advance order to an enemy country
-		AdvanceOrder d_advanceorder = new AdvanceOrder(d_player1, l_countries_1[0], l_countries_2[0], l_originalAmount);
+		AdvanceOrder l_advanceOrder = new AdvanceOrder(d_player1, l_countries1[0], l_countries2[0], l_originalAmount);
 		
 		// Reduce source country armies
-		l_countries_1[0].removeArmies(l_reducedAmount);
+		l_countries1[0].removeArmies(l_reducedAmount);
 		
 		// Execute advance order
-		d_advanceorder.execute();
+		l_advanceOrder.execute();
 
-		assertTrue(d_advanceorder.getStatus().contains("Attacker armies: " + (l_originalAmount - l_reducedAmount) + " (out of "+ l_originalAmount +" requested)"));
+		assertTrue(l_advanceOrder.getStatus().contains("Attacker armies: " + (l_originalAmount - l_reducedAmount) + " (out of "+ l_originalAmount +" requested)"));
 	}
 	
 	/**
@@ -94,16 +94,15 @@ public class AdvanceOrderTest {
 		int l_amount = 4;
 		
 		// Get an array of enemy countries
-		Country[] l_countries_2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
+		Country[] l_countries2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
 
 		// Create the advance order from an enemy country to an enemy country
-		AdvanceOrder d_advanceorder = new AdvanceOrder(d_player1, l_countries_2[0], l_countries_2[0], l_amount);
+		AdvanceOrder l_advanceOrder = new AdvanceOrder(d_player1, l_countries2[0], l_countries2[0], l_amount);
 		
 		// Execute advance order
-		d_advanceorder.execute();
+		l_advanceOrder.execute();
 
-		//System.out.println(d_advanceorder.getStatus());
-		assertTrue(d_advanceorder.getStatus().contains("Advance failed: " + l_countries_2[0].getName() + " not owned by " + d_player1.getName()));
+		assertTrue(l_advanceOrder.getStatus().contains("Advance failed: " + l_countries2[0].getName() + " not owned by " + d_player1.getName()));
 	}
 	
 	/**
@@ -117,19 +116,19 @@ public class AdvanceOrderTest {
 		int l_originalArmySize;
 		
 		// Get an array of owned countries
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
 
 		// Create the advance order from an owned country to another owned country
-		AdvanceOrder d_advanceorder = new AdvanceOrder(d_player1, l_countries_1[0], l_countries_1[1], l_amount);
+		AdvanceOrder l_advanceOrder = new AdvanceOrder(d_player1, l_countries1[0], l_countries1[1], l_amount);
 		
 		// Get original Army size
-		l_originalArmySize = l_countries_1[1].getArmies();
+		l_originalArmySize = l_countries1[1].getArmies();
 		
 		// Execute advance order
-		d_advanceorder.execute();
+		l_advanceOrder.execute();
 
 		// Assert target Country has the new amount of armies
-		assertEquals(l_countries_1[1].getArmies(), l_originalArmySize+l_amount);
+		assertEquals(l_countries1[1].getArmies(), l_originalArmySize+l_amount);
 	}
 	
 	/**
@@ -142,23 +141,23 @@ public class AdvanceOrderTest {
 		int l_amount = 4;
 		
 		// Get an array of enemy countries
-		Country[] l_countries_2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
+		Country[] l_countries2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
 		
 		// Get an array of owned countries
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
 		
 		// Create a negotiation between the players
-		NegotiateOrder d_negotiateOrder = new NegotiateOrder(d_player1, d_player2);
-		d_negotiateOrder.execute();
+		NegotiateOrder l_negotiateOrder = new NegotiateOrder(d_player1, d_player2);
+		l_negotiateOrder.execute();
 
 		// Create the advance order from an owned country to an "friendly" enemy country
-		AdvanceOrder d_advanceorder = new AdvanceOrder(d_player1, l_countries_1[0], l_countries_2[0], l_amount);
+		AdvanceOrder l_advanceOrder = new AdvanceOrder(d_player1, l_countries1[0], l_countries2[0], l_amount);
 		
 		// Execute advance order
-		d_advanceorder.execute();
+		l_advanceOrder.execute();
 
 		// Assert there is no advance between negotiating players
-		assertTrue(d_advanceorder.getStatus().contains("are currently negotiating"));
+		assertTrue(l_advanceOrder.getStatus().contains("are currently negotiating"));
 	}
 	
 	/**
@@ -172,19 +171,19 @@ public class AdvanceOrderTest {
 
 		
 		// Get an array of countries
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
-		Country[] l_countries_2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
 
 		// Create the advance order to an enemy country
-		AdvanceOrder d_advanceorder = new AdvanceOrder(d_player1, l_countries_1[0], l_countries_2[0], l_originalAmount);
+		AdvanceOrder l_advanceOrder = new AdvanceOrder(d_player1, l_countries1[0], l_countries2[0], l_originalAmount);
 		
 		// Reduce source country armies
-		l_countries_1[0].removeArmies(l_countries_1[0].getArmies());
+		l_countries1[0].removeArmies(l_countries1[0].getArmies());
 		
 		// Execute advance order
-		d_advanceorder.execute();
+		l_advanceOrder.execute();
 
 		// Assert nothing happens if source country is empty
-		assertTrue(d_advanceorder.getStatus().contains("Advance failed: " + l_countries_1[0].getName() + " has no armies"));
+		assertTrue(l_advanceOrder.getStatus().contains("Advance failed: " + l_countries1[0].getName() + " has no armies"));
 	}
 }

@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Card {
 
-	/** Represents the type of a card */
+	/** Represents the type of a card. */
 	private enum CardType {
 		BOMB, BLOCKADE, AIRLIFT, DIPLOMACY;
 	}
@@ -18,7 +18,7 @@ public class Card {
 	private static Random d_Random = new Random();
 	private static Map<CardType, Card> d_CardMap = new HashMap<>();
 
-	/**
+	/*
 	 * Initializes the card table with cards of all available types.
 	 * <p>
 	 * The game will then reuse these cards, ensuring that no new cards are created.
@@ -37,6 +37,8 @@ public class Card {
 	 * <p>
 	 * The constructor is made private in order to ensure that only one instance of
 	 * the card of each type exists.
+	 * 
+	 * @param p_type type of the card to create.
 	 */
 	private Card(CardType p_type) {
 		d_type = p_type;

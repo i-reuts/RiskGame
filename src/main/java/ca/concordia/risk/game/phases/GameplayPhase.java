@@ -47,7 +47,7 @@ public class GameplayPhase extends Phase {
 			d_logBuffer.attach(d_logFileWriter);
 
 			d_logBuffer.write("Game started");
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException l_e) {
 			GameEngine.GetView().display("\nError: Failed to open the log file");
 		}
 	}
@@ -75,13 +75,12 @@ public class GameplayPhase extends Phase {
 		assignReinforcements();
 		issueCards();
 		clearNegotiations();
-		
+
 		issueOrders();
 		executeOrders();
 
 		d_turnNumber++;
 	}
-
 
 	/**
 	 * Assigns reinforcements to each player.
@@ -113,12 +112,12 @@ public class GameplayPhase extends Phase {
 			}
 		}
 	}
-	
+
 	/**
 	 * Clears all active negotiations from the previous turn.
 	 */
 	private void clearNegotiations() {
-		for(Player l_p : GameEngine.GetPlayers()) {
+		for (Player l_p : GameEngine.GetPlayers()) {
 			l_p.clearActiveNegotiations();
 		}
 	}
@@ -145,11 +144,11 @@ public class GameplayPhase extends Phase {
 					l_allPlayersIssued = false;
 
 					Order l_issuedOrder = l_p.peekNextOrder();
-					if(l_issuedOrder == null) {
-						d_logBuffer.write("Player " + l_p.getName() + " passed"); 
+					if (l_issuedOrder == null) {
+						d_logBuffer.write("Player " + l_p.getName() + " passed");
 					} else {
 						d_logBuffer.write("Player " + l_p.getName() + " issued order: " + l_issuedOrder.getStatus());
-					}		
+					}
 				}
 			}
 		}

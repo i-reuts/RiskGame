@@ -46,7 +46,7 @@ public class BombOrderCommand implements OrderCommand {
 			l_view.display("Invalid order: country " + d_bombCountry + " does not exist");
 			return null;
 		}
-		
+
 		// Validate if the player has a bomb card
 		if (!p_player.useCard(Card.getBombCard())) {
 			l_view.display("Invalid order: player " + p_player.getName() + " does not have a bomb card");

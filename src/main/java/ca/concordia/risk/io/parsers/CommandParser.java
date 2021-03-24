@@ -28,8 +28,8 @@ import ca.concordia.risk.io.commands.ShowMapCommand;
 public abstract class CommandParser {
 
 	/**
-	 * A <code>{CommandString, ParserMethod}</code> map containing the mapping of commands to
-	 * their corresponding parsers.
+	 * A <code>{CommandString, ParserMethod}</code> map containing the mapping of
+	 * commands to their corresponding parsers.
 	 */
 	protected Map<String, ParserMethod> d_commandParsers = new HashMap<String, ParserMethod>();
 
@@ -72,7 +72,7 @@ public abstract class CommandParser {
 	protected void registerParserMethods() {
 		// Shared commands
 		d_commandParsers.put("showmap", this::parseShowMapCommand);
-		
+
 		// Editor commands
 		d_commandParsers.put("editmap", this::createUnavailableCommand);
 		d_commandParsers.put("savemap", this::createUnavailableCommand);
@@ -92,7 +92,7 @@ public abstract class CommandParser {
 		d_commandParsers.put("bomb", this::createUnavailableCommand);
 		d_commandParsers.put("airlift", this::createUnavailableCommand);
 		d_commandParsers.put("negotiate", this::createUnavailableCommand);
-		
+
 		d_commandParsers.put("pass", this::createUnavailableCommand);
 		d_commandParsers.put("showcards", this::createUnavailableCommand);
 	}
@@ -131,7 +131,7 @@ public abstract class CommandParser {
 	private Command createUnavailableCommand(List<String> p_argumentList) {
 		return new InvalidCommand("this command is not available in the current mode");
 	}
-	
+
 	/** A custom <code>Exception</code> class thrown when a parsing error occurs. */
 	@SuppressWarnings("serial")
 	protected static class ParsingException extends Exception {

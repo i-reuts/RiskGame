@@ -27,7 +27,7 @@ public class GameEngine {
 	private static ConsoleView d_View;
 	private static GameMap d_ActiveMap;
 	private static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
-	private static Player d_neutralPlayer = new Player("Neutral");
+	private static Player d_NeutralPlayer = new Player("Neutral");
 
 	/**
 	 * Startup method.
@@ -141,7 +141,7 @@ public class GameEngine {
 	 * @return neutral player.
 	 */
 	public static Player GetNeutralPlayer() {
-		return d_neutralPlayer;
+		return d_NeutralPlayer;
 	}
 
 	/** Processes one general application command inputed by user. */

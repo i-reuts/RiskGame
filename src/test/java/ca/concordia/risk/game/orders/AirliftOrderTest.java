@@ -34,21 +34,21 @@ public class AirliftOrderTest {
 
 		// Generate all the countries
 		for (int l_i = 0; l_i < d_noOfCountries; l_i++) {
-			Country l_tmp_country = new Country("Country_" + l_i, l_continent);
-			d_defaultMap.addCountry(l_tmp_country);
+			Country l_tmpCountry = new Country("Country_" + l_i, l_continent);
+			d_defaultMap.addCountry(l_tmpCountry);
 
 			/*
 			 * Country_0 will be owned by player2 and the rest by player1. All countries
 			 * will have 4 armies.
 			 */
 			if (l_i == 0) {
-				d_player2.addCountry(l_tmp_country);
-				l_tmp_country.setOwner(d_player2);
-				l_tmp_country.addArmies(4);
+				d_player2.addCountry(l_tmpCountry);
+				l_tmpCountry.setOwner(d_player2);
+				l_tmpCountry.addArmies(4);
 			} else {
-				d_player1.addCountry(l_tmp_country);
-				l_tmp_country.setOwner(d_player1);
-				l_tmp_country.addArmies(4);
+				d_player1.addCountry(l_tmpCountry);
+				l_tmpCountry.setOwner(d_player1);
+				l_tmpCountry.addArmies(4);
 			}
 		}
 	}
@@ -62,13 +62,13 @@ public class AirliftOrderTest {
 	@Order(1)
 	public void testAirlift() {
 		// Get an array of armies
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
 
 		// Create the airlift order to an enemy country
-		AirliftOrder d_dairliftorder = new AirliftOrder(d_player1, l_countries_1[0], l_countries_1[1], 4);
-		d_dairliftorder.execute();
+		AirliftOrder l_airliftOrder = new AirliftOrder(d_player1, l_countries1[0], l_countries1[1], 4);
+		l_airliftOrder.execute();
 
-		assertTrue(d_dairliftorder.getStatus().startsWith("Player1 airlift 4 armies"));
+		assertTrue(l_airliftOrder.getStatus().startsWith("Player1 airlift 4 armies"));
 	}
 
 	/**
@@ -80,14 +80,14 @@ public class AirliftOrderTest {
 	@Order(2)
 	public void testAirliftToEnemyCountry() {
 		// Get an array of armies
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
-		Country[] l_countries_2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
 
 		// Create the airlift order to an enemy country
-		AirliftOrder d_dairliftorder = new AirliftOrder(d_player1, l_countries_1[0], l_countries_2[0], 4);
-		d_dairliftorder.execute();
+		AirliftOrder l_airliftOrder = new AirliftOrder(d_player1, l_countries1[0], l_countries2[0], 4);
+		l_airliftOrder.execute();
 
-		assertTrue(d_dairliftorder.getStatus().startsWith("Airlift failed: "));
+		assertTrue(l_airliftOrder.getStatus().startsWith("Airlift failed: "));
 	}
 
 	/**
@@ -99,14 +99,14 @@ public class AirliftOrderTest {
 	@Order(3)
 	public void testAirliftFromEnemyCountry() {
 		// Get an array of armies
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
-		Country[] l_countries_2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries2 = (Country[]) d_player2.getCountries().toArray(Country[]::new);
 
 		// Create the airlift order to an enemy country
-		AirliftOrder d_dairliftorder = new AirliftOrder(d_player1, l_countries_2[0], l_countries_1[0], 4);
-		d_dairliftorder.execute();
+		AirliftOrder l_airliftOrder = new AirliftOrder(d_player1, l_countries2[0], l_countries1[0], 4);
+		l_airliftOrder.execute();
 
-		assertTrue(d_dairliftorder.getStatus().startsWith("Airlift failed: "));
+		assertTrue(l_airliftOrder.getStatus().startsWith("Airlift failed: "));
 	}
 
 	/**
@@ -119,12 +119,12 @@ public class AirliftOrderTest {
 	@Order(4)
 	public void testAirliftMoreArmies() {
 		// Get an array of armies
-		Country[] l_countries_1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
+		Country[] l_countries1 = (Country[]) d_player1.getCountries().toArray(Country[]::new);
 
 		// Create the airlift order to an enemy country
-		AirliftOrder d_dairliftorder = new AirliftOrder(d_player1, l_countries_1[0], l_countries_1[1], 5);
-		d_dairliftorder.execute();
+		AirliftOrder l_airliftOrder = new AirliftOrder(d_player1, l_countries1[0], l_countries1[1], 5);
+		l_airliftOrder.execute();
 
-		assertTrue(d_dairliftorder.getStatus().startsWith("Player1 airlift 4 armies"));
+		assertTrue(l_airliftOrder.getStatus().startsWith("Player1 airlift 4 armies"));
 	}
 }

@@ -27,12 +27,13 @@ class MapLoaderTest {
 	void testValidMap() {
 		// Assume test map file exists. Abort test if it doesn't
 		assumeTrue(MapFileExists(d_ValidMapPath), "Aborting test: test map file does not exist");
-		
-		// Assert that no exception is thrown while loading and the resulting map is not null
+
+		// Assert that no exception is thrown while loading and the resulting map is not
+		// null
 		GameMap l_map = assertDoesNotThrow(() -> MapLoader.LoadMap(d_ValidMapPath));
 		assertNotNull(l_map);
 	}
-	
+
 	/**
 	 * Tests loading a sample map that has missing or incorrectly ordered sections.
 	 */

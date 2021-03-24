@@ -36,7 +36,7 @@ public class GameplayCommandParser extends CommandParser {
 		d_commandParsers.put("airlift", this::parseAirliftCommand);
 		d_commandParsers.put("negotiate", this::parseNegotiateCommand);
 		d_commandParsers.put("pass", this::parsePassCommand);
-		
+
 		d_commandParsers.put("showcards", this::parseShowCardsCommand);
 	}
 
@@ -88,10 +88,10 @@ public class GameplayCommandParser extends CommandParser {
 		if (p_argumentList.size() < 3) {
 			return new InvalidCommand("advance command expects three arguments");
 		}
-		
+
 		String l_sourceCountry = p_argumentList.remove(0).replace('_', ' ');
 		String l_targetCountry = p_argumentList.remove(0).replace('_', ' ');
-		
+
 		int l_numberOfArmies;
 		try {
 			l_numberOfArmies = Integer.parseInt(p_argumentList.remove(0));
@@ -138,7 +138,7 @@ public class GameplayCommandParser extends CommandParser {
 		String l_blockadeCountry = p_argumentList.remove(0).replace('_', ' ');
 		return new BlockadeOrderCommand(l_blockadeCountry);
 	}
-	
+
 	/**
 	 * Parses a <i>"airlift"</i> command.
 	 * 
@@ -166,7 +166,7 @@ public class GameplayCommandParser extends CommandParser {
 
 		return new AirliftOrderCommand(l_sourceCountry, l_targetCountry, l_numberOfArmies);
 	}
-	
+
 	/**
 	 * Parses a <i>"negotiate"</i> command.
 	 * 
@@ -182,7 +182,7 @@ public class GameplayCommandParser extends CommandParser {
 		String l_targetPlayer = p_argumentList.remove(0).replace('_', ' ');
 		return new NegotiateOrderCommand(l_targetPlayer);
 	}
-	
+
 	/**
 	 * Parses a <i>"showcards"</i> command.
 	 * 
@@ -192,7 +192,7 @@ public class GameplayCommandParser extends CommandParser {
 	private Command parseShowCardsCommand(List<String> p_argumentList) {
 		return new ShowCardsCommand();
 	}
-	
+
 	/**
 	 * Parses a <i>"pass"</i> command.
 	 * 
@@ -202,6 +202,5 @@ public class GameplayCommandParser extends CommandParser {
 	private Command parsePassCommand(List<String> p_argumentList) {
 		return new PassCommand();
 	}
-	
-	
+
 }

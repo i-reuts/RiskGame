@@ -158,10 +158,10 @@ class GameEngineTest {
 	/**
 	 * Writes a command to the mock input stream and asks the engine to process it.
 	 * 
-	 * @param d_commandInput raw command string to process.
+	 * @param p_commandInput raw command string to process.
 	 */
-	private void executeCommand(String d_commandInput) {
-		d_MockInputStreamWriter.println(d_commandInput);
+	private void executeCommand(String p_commandInput) {
+		d_MockInputStreamWriter.println(p_commandInput);
 		GameEngine.ProcessUserCommand();
 	}
 
@@ -169,11 +169,12 @@ class GameEngineTest {
 	 * Writes an order command to the mock input stream, asks the engine to process
 	 * it and executes the resulting order, if any.
 	 * 
-	 * @param d_commandInput raw command string to process.
+	 * @param p_commandInput raw command string to process.
+	 * @param p_player player to execute command for.
 	 */
-	private void executeOrderCommand(String d_commandInput, Player d_player) {
-		d_MockInputStreamWriter.println(d_commandInput);
-		ca.concordia.risk.game.orders.Order l_order = GameEngine.ProcessOrderCommand(d_player);
+	private void executeOrderCommand(String p_commandInput, Player p_player) {
+		d_MockInputStreamWriter.println(p_commandInput);
+		ca.concordia.risk.game.orders.Order l_order = GameEngine.ProcessOrderCommand(p_player);
 		if (l_order != null) {
 			l_order.execute();
 		}

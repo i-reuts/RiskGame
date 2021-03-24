@@ -47,6 +47,13 @@ public class NegotiateOrderCommand implements OrderCommand {
 		Player l_targetPlayer = GameEngine.GetPlayer(d_playerName);
 		if (l_targetPlayer == null) {
 			l_view.display("Invalid order: player " + d_playerName + " does not exist");
+			return null;
+		}
+		
+		// Ensure not negotiating with themself
+		if (d_playerName.equals(p_player.getName())) {
+			l_view.display("Invalid order: player " + d_playerName + " cannot negotiate with themself");
+			return null;
 		}
 		
 		// Validate if the player has a diplomacy card

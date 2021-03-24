@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Continent;
@@ -26,6 +28,7 @@ import ca.concordia.risk.io.commands.GamePlayerCommand;
  * Tests the correct parse and execution of the commands allowed during startup
  * phase.
  */
+@TestMethodOrder(OrderAnnotation.class)
 public class StartupPhaseTest {
 
 	private static PrintStream d_DefaultOutputStream;
@@ -55,7 +58,7 @@ public class StartupPhaseTest {
 
 	/**
 	 * Setup the default map and cleanup the GameEngine and set it up to be in the
-	 * Startup Phase
+	 * Startup Phase.
 	 */
 	@BeforeEach
 	void SetUp() {
@@ -80,7 +83,7 @@ public class StartupPhaseTest {
 		GameEngine.SwitchToNextPhase();
 	}
 
-	/** Tests adding and removing players to the game */
+	/** Tests adding and removing players to the game. */
 	@Test
 	@Order(1)
 	void testGameplayerCommand() {
@@ -107,8 +110,9 @@ public class StartupPhaseTest {
 		assertEquals(GameEngine.GetNumberOfPlayers(), 0);
 	}
 
-	/** Tests condition to not start the game with just one player */
+	/** Tests condition to not start the game with just one player. */
 	@Test
+	@Order(2)
 	void testStartGameOnePlayer() {
 		// Add just one player
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
@@ -123,7 +127,7 @@ public class StartupPhaseTest {
 		assertTrue(GameEngine.GetActivePhase() instanceof StartupPhase);
 	}
 
-	/** Tests condition to not start the game with more players than countries */
+	/** Tests condition to not start the game with more players than countries. */
 	@Test
 	@Order(3)
 	void testStartGameMorePlayersThanCountries() {
@@ -142,7 +146,7 @@ public class StartupPhaseTest {
 		assertTrue(GameEngine.GetActivePhase() instanceof StartupPhase);
 	}
 
-	/** Tests all countries are assigned to a player */
+	/** Tests all countries are assigned to a player. */
 	@Test
 	@Order(4)
 	void testAssignCountries() {

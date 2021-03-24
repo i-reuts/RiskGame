@@ -60,7 +60,6 @@ public class AirliftOrderCommand implements OrderCommand {
 			l_view.display("Invalid order: target country " + d_targetCountry + " does not exist");
 			return null;
 		}
-		
 
 		// Validate if the player has an airlift card
 		if (!p_player.useCard(Card.getAirliftCard())) {

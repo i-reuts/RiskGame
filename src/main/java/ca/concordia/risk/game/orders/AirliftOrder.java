@@ -91,13 +91,13 @@ public class AirliftOrder implements Order {
 
 		// Check if the player owns the target country
 		if (!d_player.ownsCountry(d_targetCountry)) {
-			d_status = "Airlift failed: " + d_sourceCountry.getName() + " not owned by " + d_player.getName();
+			d_status = "Airlift failed: " + d_targetCountry.getName() + " not owned by " + d_player.getName();
 			return false;
 		}
 
 		// Check if the source country has armies
 		if (d_sourceCountry.getArmies() == 0) {
-			d_status = "Airlift failed: " + d_sourceCountry.getName() + " not owned by " + d_player.getName();
+			d_status = "Airlift failed: " + d_sourceCountry.getName() + " has no armies";
 			return false;
 		}
 

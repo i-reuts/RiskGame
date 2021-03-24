@@ -4,7 +4,7 @@ import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.Player;
 
 /**
- * This Class represents Advance Order
+ * This Class represents Advance Order.
  * 
  * @author Sindu
  *
@@ -135,7 +135,7 @@ public class AdvanceOrder implements Order {
 
 		// Calculate the number of defenders defeated
 		int l_defendersDefeated = 0;
-		for (int i = 0; i < l_attackerArmies; i++) {
+		for (int l_i = 0; l_i < l_attackerArmies; l_i++) {
 			if (Math.random() <= 0.6) {
 				l_defendersDefeated++;
 			}
@@ -143,7 +143,7 @@ public class AdvanceOrder implements Order {
 
 		// Calculate the number of attackers defeated
 		int l_attackersDefeated = 0;
-		for (int i = 0; i < l_defenderArmies; i++) {
+		for (int l_i = 0; l_i < l_defenderArmies; l_i++) {
 			if (Math.random() <= 0.7) {
 				l_attackersDefeated++;
 			}
