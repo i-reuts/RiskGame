@@ -74,11 +74,14 @@ public class GameplayPhase extends Phase {
 
 		assignReinforcements();
 		issueCards();
+		clearNegotiations();
+		
 		issueOrders();
 		executeOrders();
 
 		d_turnNumber++;
 	}
+
 
 	/**
 	 * Assigns reinforcements to each player.
@@ -108,6 +111,15 @@ public class GameplayPhase extends Phase {
 
 				d_logBuffer.write("Player " + l_p.getName() + " issued " + l_card.toString());
 			}
+		}
+	}
+	
+	/**
+	 * Clears all active negotiations from the previous turn.
+	 */
+	private void clearNegotiations() {
+		for(Player l_p : GameEngine.GetPlayers()) {
+			l_p.clearActiveNegotiations();
 		}
 	}
 
