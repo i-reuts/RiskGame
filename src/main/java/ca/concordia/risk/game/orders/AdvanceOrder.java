@@ -46,7 +46,7 @@ public class AdvanceOrder implements Order {
 			if (!d_player.ownsCountry(d_targetCountry)) {
 				// Check if the source country has enough armies to attack with.
 				// If not, attack with the amount of armies available.
-				d_status = d_player.getName() + " attacked " + d_targetCountry.getName() + " beloging to "
+				d_status = d_player.getName() + " attacked " + d_targetCountry.getName() + " belonging to "
 						+ d_targetCountry.getOwner().getName() + " from " + d_sourceCountry.getName() + ". ";
 
 				performAttack();
