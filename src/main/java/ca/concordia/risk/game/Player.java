@@ -25,6 +25,7 @@ public class Player {
 	private List<Card> d_cards;
 	private boolean d_earnedCard;
 	private boolean d_finishedIssuingOrders;
+	private Set<Player> d_activeNegotiations;
 
 	/**
 	 * Creates a new player.
@@ -37,6 +38,7 @@ public class Player {
 		d_orders = new LinkedList<Order>();
 		d_countries = new HashSet<Country>();
 		d_cards = new ArrayList<>();
+		d_activeNegotiations = new HashSet<Player>();
 	}
 
 	/**
@@ -114,6 +116,35 @@ public class Player {
 	 */
 	public Collection<Card> getCards() {
 		return d_cards;
+	}
+
+	/**
+	 * Adds a player to the set of players negotiated with.
+	 * 
+	 * @param p_player player negotiated with.
+	 */
+	public void addActiveNegotiation(Player p_player) {
+		d_activeNegotiations.add(p_player);
+	}
+
+	/**
+	 * Gets the flag signifying if this player is negotiating with a given player.
+	 * 
+	 * @param p_player player to check negotiation status for.
+	 * @return <code>true</code> if currently negotiating with with target
+	 *         player.<br>
+	 *         <code>false</code> otherwise.
+	 * 
+	 */
+	public boolean isNegotiating(Player p_player) {
+		return d_activeNegotiations.contains(p_player);
+	}
+
+	/**
+	 * Clears all active negotiations.
+	 */
+	public void clearActiveNegotiations() {
+		d_activeNegotiations.clear();
 	}
 
 	/**

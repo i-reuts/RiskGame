@@ -81,6 +81,13 @@ public class BombOrder implements Order {
 					+ " is not adjacent to any country owned by " + d_player.getName();
 			return false;
 		}
+		
+		// Validate that there is no negotiation in place
+		if (d_player.isNegotiating(d_bombCountry.getOwner())) {
+			d_status = "Bombing failed: players " + d_player + " and " + d_bombCountry.getOwner()
+					+ " are currently negotiating";
+			return false;
+		}
 
 		return true;
 	}

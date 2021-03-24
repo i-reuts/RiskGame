@@ -93,6 +93,13 @@ public class AdvanceOrder implements Order {
 			return false;
 		}
 
+		// Validate that there is no negotiation in place
+		if (d_player.isNegotiating(d_targetCountry.getOwner())) {
+			d_status = "Advance failed: players " + d_player.getName() + " and " + d_targetCountry.getOwner().getName()
+					+ " are currently negotiating";
+			return false;
+		}
+
 		// Validate that source country has armies deployed in it
 		if (d_sourceCountry.getArmies() == 0) {
 			d_status = "Advance failed: " + d_sourceCountry.getName() + " has no armies";
@@ -164,7 +171,7 @@ public class AdvanceOrder implements Order {
 			d_targetCountry.addArmies(l_attackerArmies);
 
 			d_status += "Country conquered succesfully with " + l_attackerArmies + " armies remaining";
-			
+
 			// Set the flag indicated that the player conquered a country
 			d_player.setEarnedCard(true);
 		} else {
