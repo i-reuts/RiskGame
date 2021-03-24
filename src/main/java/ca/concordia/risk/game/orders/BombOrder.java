@@ -84,7 +84,7 @@ public class BombOrder implements Order {
 		
 		// Validate that there is no negotiation in place
 		if (d_player.isNegotiating(d_bombCountry.getOwner())) {
-			d_status = "Bombing failed: players " + d_player + " and " + d_bombCountry.getOwner()
+			d_status = "Bombing failed: players " + d_player.getName() + " and " + d_bombCountry.getOwner().getName()
 					+ " are currently negotiating";
 			return false;
 		}
