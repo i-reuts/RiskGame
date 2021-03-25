@@ -24,7 +24,7 @@ public class BlockadeOrder implements Order {
 	public BlockadeOrder(Player p_player, Country p_blockadeCountry) {
 		d_player = p_player;
 		d_blockadeCountry = p_blockadeCountry;
-		d_status = "Blockade " + d_blockadeCountry.getArmies() + " armies in " + p_blockadeCountry.getName();
+		d_status = "blockade " + p_blockadeCountry.getName();
 	}
 
 	/**

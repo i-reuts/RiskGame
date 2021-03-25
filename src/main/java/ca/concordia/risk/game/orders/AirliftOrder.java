@@ -31,7 +31,7 @@ public class AirliftOrder implements Order {
 		d_targetCountry = p_targetCountry;
 		d_armiesToAirlift = p_numArmies;
 
-		d_status = "Airlift " + d_armiesToAirlift + " armies from " + d_sourceCountry.getName() + " to "
+		d_status = "airlift " + d_armiesToAirlift + " armies from " + d_sourceCountry.getName() + " to "
 				+ d_targetCountry.getName();
 	}
 

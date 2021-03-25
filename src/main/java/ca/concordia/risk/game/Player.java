@@ -2,10 +2,10 @@ package ca.concordia.risk.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 
 import ca.concordia.risk.GameEngine;
@@ -20,7 +20,7 @@ import ca.concordia.risk.game.orders.Order;
 public class Player {
 	private int d_reinforcements;
 	private String d_name;
-	private Queue<Order> d_orders;
+	private Deque<Order> d_orders;
 	private Set<Country> d_countries;
 	private List<Card> d_cards;
 	private boolean d_earnedCard;
@@ -171,14 +171,14 @@ public class Player {
 	}
 
 	/**
-	 * Gets the first order in the order queue of the player without removing it
+	 * Gets the last order in the order queue of the player without removing it
 	 * from the queue.
 	 * 
-	 * @return <code>Order</code> top order in the player's queue.<br>
+	 * @return <code>Order</code> last order in the player's queue.<br>
 	 *         <code>null</code> if the queue is empty.
 	 */
-	public Order peekNextOrder() {
-		return d_orders.peek();
+	public Order peekLastOrder() {
+		return d_orders.peekLast(); 
 	}
 
 	/**

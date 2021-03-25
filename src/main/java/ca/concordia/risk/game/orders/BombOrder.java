@@ -24,7 +24,7 @@ public class BombOrder implements Order {
 	public BombOrder(Player p_player, Country p_country) {
 		d_player = p_player;
 		d_bombCountry = p_country;
-		d_status = "bomb country " + d_bombCountry.getName();
+		d_status = "bomb " + d_bombCountry.getName();
 	}
 
 	/**

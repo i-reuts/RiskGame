@@ -143,10 +143,10 @@ public class GameplayPhase extends Phase {
 					l_p.issueOrder();
 					l_allPlayersIssued = false;
 
-					Order l_issuedOrder = l_p.peekNextOrder();
-					if (l_issuedOrder == null) {
+					if (l_p.getFinishedIssuingOrders()) {
 						d_logBuffer.write("Player " + l_p.getName() + " passed");
 					} else {
+						Order l_issuedOrder = l_p.peekLastOrder();
 						d_logBuffer.write("Player " + l_p.getName() + " issued order: " + l_issuedOrder.getStatus());
 					}
 				}

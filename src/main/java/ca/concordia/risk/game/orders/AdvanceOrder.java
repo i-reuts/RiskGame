@@ -31,7 +31,8 @@ public class AdvanceOrder implements Order {
 		d_targetCountry = p_targetCountry;
 		d_player = p_player;
 
-		d_status = "advance " + d_armiesToAdvance + " armies from " + p_sourceCountry + " to " + p_targetCountry;
+		d_status = "advance " + d_armiesToAdvance + " armies from " + p_sourceCountry.getName() + " to "
+				+ p_targetCountry.getName();
 	}
 
 	/**
