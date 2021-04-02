@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.concordia.risk.GameEngine;
+import ca.concordia.risk.game.Player;
+import ca.concordia.risk.game.strategies.HumanStrategy;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /** Command representing <i>"gameplayer"</i> operation. */
@@ -22,7 +24,10 @@ public class GamePlayerCommand implements Command {
 			if (GameEngine.GetPlayer(l_playerName) != null) {
 				l_view.display("Add failed: player named " + l_playerName + " already exists");
 			} else {
-				GameEngine.AddPlayer(l_playerName);
+				Player l_player = new Player(l_playerName);
+				l_player.SetStrategy(new HumanStrategy(l_player));
+				
+				GameEngine.AddPlayer(l_player);
 				l_view.display("Player " + l_playerName + " added");
 			}
 		}

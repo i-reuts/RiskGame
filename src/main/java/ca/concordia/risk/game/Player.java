@@ -1,6 +1,5 @@
 package ca.concordia.risk.game;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashSet;
@@ -8,8 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.orders.Order;
+import ca.concordia.risk.game.strategies.HumanStrategy;
+import ca.concordia.risk.game.strategies.PlayerStrategy;
 
 /**
  * This class is the representation of the game player.
@@ -18,27 +18,26 @@ import ca.concordia.risk.game.orders.Order;
  *
  */
 public class Player {
-	private int d_reinforcements;
 	private String d_name;
-	private Deque<Order> d_orders;
-	private Set<Country> d_countries;
-	private List<Card> d_cards;
+	private PlayerStrategy d_strategy;
+	private int d_reinforcements;
 	private boolean d_earnedCard;
 	private boolean d_finishedIssuingOrders;
-	private Set<Player> d_activeNegotiations;
+	private Deque<Order> d_orders = new LinkedList<Order>();;
+	private Set<Country> d_countries = new HashSet<Country>();;
+	private List<Card> d_cards = new LinkedList<Card>();;
+	private Set<Player> d_activeNegotiations = new HashSet<Player>();;
 
+	
 	/**
-	 * Creates a new player.
+	 * Creates a new player with a default <i>human</i> strategy.
 	 * 
 	 * @param p_name name of the player to create.
 	 */
 	public Player(String p_name) {
 		d_name = p_name;
+		d_strategy = new HumanStrategy(this);
 		d_reinforcements = 0;
-		d_orders = new LinkedList<Order>();
-		d_countries = new HashSet<Country>();
-		d_cards = new ArrayList<>();
-		d_activeNegotiations = new HashSet<Player>();
 	}
 
 	/**
@@ -48,6 +47,15 @@ public class Player {
 	 */
 	public String getName() {
 		return d_name;
+	}
+
+	/**
+	 * Sets the current player strategy to a new strategy.
+	 * 
+	 * @param p_strategy new strategy to adopt.
+	 */
+	public void SetStrategy(PlayerStrategy p_strategy) {
+		d_strategy = p_strategy;
 	}
 
 	/**
@@ -150,10 +158,10 @@ public class Player {
 	/**
 	 * Issues one player order and adds it to the order queue of the player.
 	 * <p>
-	 * Current implementation asks the user to input the order to be issued.
+	 * Uses the currently active player strategy to issue the order.
 	 */
 	public void issueOrder() {
-		Order l_order = GameEngine.ProcessOrderCommand(this);
+		Order l_order = d_strategy.issueOrder();
 		if (l_order != null) {
 			d_orders.add(l_order);
 		}
@@ -171,14 +179,14 @@ public class Player {
 	}
 
 	/**
-	 * Gets the last order in the order queue of the player without removing it
-	 * from the queue.
+	 * Gets the last order in the order queue of the player without removing it from
+	 * the queue.
 	 * 
 	 * @return <code>Order</code> last order in the player's queue.<br>
 	 *         <code>null</code> if the queue is empty.
 	 */
 	public Order peekLastOrder() {
-		return d_orders.peekLast(); 
+		return d_orders.peekLast();
 	}
 
 	/**
@@ -243,7 +251,7 @@ public class Player {
 		for (Country l_country : d_countries) {
 			Continent l_continent = l_country.getContinent();
 			if (d_countries.containsAll(l_continent.getCountries())) {
-					l_ownedContinents.add(l_continent);
+				l_ownedContinents.add(l_continent);
 			}
 		}
 		return l_ownedContinents;

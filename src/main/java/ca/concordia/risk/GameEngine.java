@@ -119,11 +119,10 @@ public class GameEngine {
 	/**
 	 * Adds a new player to the list of active players.
 	 * 
-	 * @param p_name name of the player to add.
+	 * @param p_player player to add.
 	 */
-	public static void AddPlayer(String p_name) {
-		Player l_player = new Player(p_name);
-		d_ActivePlayers.put(p_name, l_player);
+	public static void AddPlayer(Player p_player) {
+		d_ActivePlayers.put(p_player.getName(), p_player);
 	}
 
 	/**
