@@ -89,9 +89,9 @@ public class StartupPhaseTest {
 	void testGameplayerCommand() {
 		// Try to add the same player twice
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
-		l_gameplayerCommand.addPlayer("Player_1");
-		l_gameplayerCommand.addPlayer("Player_1");
-		l_gameplayerCommand.addPlayer("Player_2");
+		l_gameplayerCommand.addPlayer("Player_1", "human");
+		l_gameplayerCommand.addPlayer("Player_1", "human");
+		l_gameplayerCommand.addPlayer("Player_2","human");
 		l_gameplayerCommand.execute();
 
 		// Player with the same name cannot be added twice
@@ -116,7 +116,7 @@ public class StartupPhaseTest {
 	void testStartGameOnePlayer() {
 		// Add just one player
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
-		l_gameplayerCommand.addPlayer("Player_0");
+		l_gameplayerCommand.addPlayer("Player_0","human");
 		l_gameplayerCommand.execute();
 
 		// Try to start the game with one player
@@ -134,7 +134,7 @@ public class StartupPhaseTest {
 		// Add more players than countries
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
 		for (int l_i = 0; l_i < d_defaultMap.getCountries().size() + 1; l_i++) {
-			l_gameplayerCommand.addPlayer("Player_" + l_i);
+			l_gameplayerCommand.addPlayer("Player_" + l_i, "human");
 		}
 		l_gameplayerCommand.execute();
 
@@ -155,7 +155,7 @@ public class StartupPhaseTest {
 		int l_noOfPlayers = l_rand.nextInt(3) + 2;
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
 		for (int l_i = 0; l_i < l_noOfPlayers; l_i++) {
-			l_gameplayerCommand.addPlayer("Player_" + l_i);
+			l_gameplayerCommand.addPlayer("Player_" + l_i, "human");
 		}
 		l_gameplayerCommand.execute();
 

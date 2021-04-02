@@ -11,7 +11,7 @@ import ca.concordia.risk.io.views.ConsoleView;
 /** Command representing <i>"gameplayer"</i> operation. */
 public class GamePlayerCommand implements Command {
 
-	private List<String> d_playersToAdd = new ArrayList<String>();
+	private List<NewPlayerData> d_playersToAdd = new ArrayList<NewPlayerData>();
 	private List<String> d_playersToRemove = new ArrayList<String>();
 
 	/** Adds or removes requested players. */
@@ -20,15 +20,17 @@ public class GamePlayerCommand implements Command {
 		ConsoleView l_view = GameEngine.GetView();
 
 		// Add players
-		for (String l_playerName : d_playersToAdd) {
-			if (GameEngine.GetPlayer(l_playerName) != null) {
-				l_view.display("Add failed: player named " + l_playerName + " already exists");
+		for (NewPlayerData l_playerData : d_playersToAdd) {
+			if (GameEngine.GetPlayer(l_playerData.d_playerName) != null) {
+				l_view.display("Add failed: player named " + l_playerData.d_playerName + " already exists");
 			} else {
-				Player l_player = new Player(l_playerName);
-				l_player.SetStrategy(new HumanStrategy(l_player));
-				
-				GameEngine.AddPlayer(l_player);
-				l_view.display("Player " + l_playerName + " added");
+				Player l_player = createPlayer(l_playerData);
+				if (l_player != null) {
+					GameEngine.AddPlayer(l_player);
+					l_view.display("Player " + l_playerData.d_playerName + " added");
+				} else {
+					l_view.display("Add failed: player type " + l_playerData.d_playerType + " does not exist");
+				}
 			}
 		}
 
@@ -47,9 +49,10 @@ public class GamePlayerCommand implements Command {
 	 * Adds a player to the list of players to be added.
 	 * 
 	 * @param p_playerName name of the player to add.
+	 * @param p_playerType type of the player to add.
 	 */
-	public void addPlayer(String p_playerName) {
-		d_playersToAdd.add(p_playerName);
+	public void addPlayer(String p_playerName, String p_playerType) {
+		d_playersToAdd.add(new NewPlayerData(p_playerName, p_playerType));
 	}
 
 	/**
@@ -59,6 +62,49 @@ public class GamePlayerCommand implements Command {
 	 */
 	public void removePlayer(String p_playerName) {
 		d_playersToRemove.add(p_playerName);
+	}
+
+	/**
+	 * Creates a new player with a strategy corresponding to specified player type.
+	 * 
+	 * @param p_playerData player data containing the player name and type.
+	 * @return a new <code>Player</code> with the strategy corresponding to the
+	 *         requested type.<br>
+	 *         <code>null</code> if the requested player type does not exist.
+	 * 
+	 */
+	private Player createPlayer(NewPlayerData p_playerData) {
+		Player l_player = new Player(p_playerData.d_playerName);
+
+		switch (p_playerData.d_playerType) {
+		case "human":
+			l_player.SetStrategy(new HumanStrategy(l_player));
+			return l_player;
+		default:
+			return null;
+		}
+	}
+
+	/**
+	 * Helper class representing {PlayerName, PlayerType} tuple.
+	 * <p>
+	 * Used for storing players to be added.
+	 */
+	private static class NewPlayerData {
+
+		public String d_playerName;
+		public String d_playerType;
+
+		/**
+		 * Creates a new <code>NewPlayerData</code> tuple.
+		 * 
+		 * @param p_playerName name of the player to add.
+		 * @param p_playerType player type representing the player strategy.
+		 */
+		public NewPlayerData(String p_playerName, String p_playerType) {
+			d_playerName = p_playerName;
+			d_playerType = p_playerType;
+		}
 	}
 
 }

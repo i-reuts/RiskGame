@@ -80,13 +80,14 @@ public class StartupCommandParser extends CommandParser {
 	 *                          invalid.
 	 */
 	private void parseAddPlayerBlock(List<String> p_argumentList, GamePlayerCommand p_command) throws ParsingException {
-		if (p_argumentList.size() < 1) {
-			throw new ParsingException("-add command expects one parameter");
+		if (p_argumentList.size() < 2) {
+			throw new ParsingException("-add command expects two parameters");
 		}
 
 		String l_playerName = p_argumentList.remove(0).replace('_', ' ');
+		String l_playerType = p_argumentList.remove(0).replace('_', ' ');
 
-		p_command.addPlayer(l_playerName);
+		p_command.addPlayer(l_playerName, l_playerType);
 	}
 
 	/**

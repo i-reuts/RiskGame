@@ -96,7 +96,7 @@ class GameEngineTest {
 
 		// Use a gameplayer command, not supported in the Editor Phase and ensure that
 		// it is rejected
-		executeCommand("gameplayer -add Test_Player");
+		executeCommand("gameplayer -add Test_Player human");
 		assertNull(GameEngine.GetPlayer("Test Player"));
 
 		// Switch to the startup phase by executing the loadmap command
@@ -114,7 +114,7 @@ class GameEngineTest {
 	void testStartupPhase() {
 		// Use a gameplayer command exclusive to the Startup Phase and ensure it
 		// runs
-		executeCommand("gameplayer -add Test_Player");
+		executeCommand("gameplayer -add Test_Player human");
 		assertNotNull(GameEngine.GetPlayer("Test Player"));
 
 		// Use a editmap command, not supported in the Startup Phase and ensure that
@@ -124,7 +124,7 @@ class GameEngineTest {
 
 		// Add one more player and switch to the gameplay phase by executing the
 		// assigncountries command
-		executeCommand("gameplayer -add Test_Player_2");
+		executeCommand("gameplayer -add Test_Player_2 human");
 		executeCommand("assigncountries");
 	}
 
@@ -151,7 +151,7 @@ class GameEngineTest {
 
 		// Use a gameplayer command, not supported in the Gameplay Phase and ensure that
 		// it is rejected
-		executeCommand("gameplayer -add Test_Player_3");
+		executeCommand("gameplayer -add Test_Player_3 human");
 		assertNull(GameEngine.GetPlayer("Test Player 3"));
 	}
 
