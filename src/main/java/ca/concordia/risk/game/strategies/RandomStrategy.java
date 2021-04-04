@@ -17,6 +17,7 @@ public class RandomStrategy extends PlayerStrategy {
 	ArrayList<Country> d_countryList;
 	ArrayList<Country> d_countryToAdvance;
 	Set<Country> d_countrySet;
+	Random d_rand;
 	int d_randomCount = 1;
 	int d_advanceIndex = 0;
 	boolean d_hasThisRoundRand = false;
@@ -27,6 +28,7 @@ public class RandomStrategy extends PlayerStrategy {
 	public RandomStrategy(Player p_player) {
 		super(p_player);
 		d_countrySet = new HashSet<Country>();
+		d_rand = new Random();
 	}
 
 	/**
@@ -36,15 +38,15 @@ public class RandomStrategy extends PlayerStrategy {
 	 */
 	@Override
 	public Order issueOrder() {
-		Random rand = new Random();
 		d_countryList = new ArrayList<Country>(d_player.getCountries());
 		if (d_player.getRemainingReinforcements() > 0) {
+			// We will deploy to a random country
 			Collections.shuffle(d_countryList);
 			
 			// Add this country to the list of countries that can advance armies
 			d_countrySet.add(d_countryList.get(0));
 			
-			return new DeployOrder(d_player, d_countryList.get(0), rand.nextInt(d_player.getRemainingReinforcements() + 1));
+			return new DeployOrder(d_player, d_countryList.get(0), d_rand.nextInt(d_player.getRemainingReinforcements() + 1));
 		}
 		
 		// Randomize the countries that can advance armies once per round
@@ -57,24 +59,26 @@ public class RandomStrategy extends PlayerStrategy {
 					d_countrySet.add(c);
 				}
 			}
+			
+			// Randomize the countries to advance armies
 			d_countryToAdvance = new ArrayList<Country>(d_countrySet);
 			Collections.shuffle(d_countryToAdvance);
 		}
 
 		// At least advance armies from 1 country per round
-		if (d_advanceIndex < d_countryToAdvance.size() && rand.nextInt(d_randomCount) < 1) {
-			// After each advance, the probabilities are reduced
+		if (d_advanceIndex < d_countryToAdvance.size() && d_rand.nextInt(d_randomCount) < 1) {
+			// After each advance, the probabilities to advance again are reduced
 			d_randomCount ++;
 			
 			// Get the next country
 			Country l_c = d_countryToAdvance.get(d_advanceIndex);
 			d_advanceIndex ++;
 			
-			// Get a random neighbor
+			// Get a Random neighbor
 			ArrayList<Country> l_neighborList = new ArrayList<Country>(l_c.getNeighbors());
 			Collections.shuffle(l_neighborList);
 
-			return new AdvanceOrder(d_player, l_c, l_neighborList.get(0), rand.nextInt(l_c.getArmies() + 1));
+			return new AdvanceOrder(d_player, l_c, l_neighborList.get(0), d_rand.nextInt(l_c.getArmies() + 1));
 		}
 		
 		// Reset all values for the next round
