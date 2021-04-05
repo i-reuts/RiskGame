@@ -69,7 +69,7 @@ public class CheaterStrategy extends PlayerStrategy{
 				
 				// Add initial armies based on strongest country if owned country does not has an army
 				if (l_gameCountry.getArmies() == 0 && l_maxArmies > 0) {
-					l_gameCountry.addArmies(l_maxArmies / 2);
+					l_gameCountry.addArmies(l_maxArmies);
 				}
 
 				l_gameCountry.addArmies(l_gameCountry.getArmies() * 2);
