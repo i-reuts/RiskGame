@@ -6,6 +6,7 @@ import java.util.List;
 import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.strategies.HumanStrategy;
+import ca.concordia.risk.game.strategies.RandomStrategy;
 import ca.concordia.risk.io.views.ConsoleView;
 
 /** Command representing <i>"gameplayer"</i> operation. */
@@ -79,6 +80,9 @@ public class GamePlayerCommand implements Command {
 		switch (p_playerData.d_playerType) {
 		case "human":
 			l_player.SetStrategy(new HumanStrategy(l_player));
+			return l_player;
+		case "random":
+			l_player.SetStrategy(new RandomStrategy(l_player));
 			return l_player;
 		default:
 			return null;
