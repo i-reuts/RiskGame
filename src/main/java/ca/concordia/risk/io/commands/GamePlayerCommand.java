@@ -81,6 +81,9 @@ public class GamePlayerCommand implements Command {
 		case "human":
 			l_player.SetStrategy(new HumanStrategy(l_player));
 			return l_player;
+		case "benevolent":
+			l_player.SetStrategy(new RandomStrategy(l_player));
+			return l_player;
 		case "random":
 			l_player.SetStrategy(new RandomStrategy(l_player));
 			return l_player;
