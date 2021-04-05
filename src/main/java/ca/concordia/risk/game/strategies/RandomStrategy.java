@@ -3,12 +3,18 @@ package ca.concordia.risk.game.strategies;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 
+import ca.concordia.risk.GameEngine;
+import ca.concordia.risk.game.Card;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.orders.AdvanceOrder;
+import ca.concordia.risk.game.orders.AirliftOrder;
+import ca.concordia.risk.game.orders.BlockadeOrder;
+import ca.concordia.risk.game.orders.BombOrder;
 import ca.concordia.risk.game.orders.DeployOrder;
 import ca.concordia.risk.game.orders.Order;
 
@@ -78,7 +84,28 @@ public class RandomStrategy extends PlayerStrategy {
 			d_countryToAdvance = new ArrayList<Country>(d_countrySet);
 			Collections.shuffle(d_countryToAdvance);
 		}
-
+		
+		// Play cards if available 
+		if (!d_player.getCards().isEmpty()) {
+			
+			LinkedList<Card> cards = (LinkedList<Card>) d_player.getCards();
+			for (Card ll : cards) {
+				System.out.println("has card " + ll.toString());
+			}
+			
+			if (d_player.useCard(Card.getBlockadeCard())) {
+				Country l_c = d_countryToAdvance.get(0);
+				d_countryToAdvance.remove(0);
+				return new BlockadeOrder(d_player, l_c);
+			}
+			if (d_player.useCard(Card.getAirliftCard())) {
+				Country l_c = d_countryToAdvance.get(0);
+				d_countryToAdvance.remove(0);
+				d_countryToAdvance.add(d_countryList.get(0));
+				return new AirliftOrder(d_player, l_c, d_countryList.get(0), l_c.getArmies());
+			}
+		}
+		
 		// At least advance armies from 1 country per round
 		if (d_advanceIndex < d_countryToAdvance.size() && d_rand.nextInt(d_randomCount) < 1) {
 			
