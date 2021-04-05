@@ -3,7 +3,6 @@ package ca.concordia.risk.game.strategies;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,6 +13,7 @@ import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.orders.AdvanceOrder;
 import ca.concordia.risk.game.orders.AirliftOrder;
 import ca.concordia.risk.game.orders.BlockadeOrder;
+import ca.concordia.risk.game.orders.BombOrder;
 import ca.concordia.risk.game.orders.DeployOrder;
 import ca.concordia.risk.game.orders.NegotiateOrder;
 import ca.concordia.risk.game.orders.Order;
@@ -87,23 +87,36 @@ public class RandomStrategy extends PlayerStrategy {
 		
 		// Play cards if available 
 		if (!d_player.getCards().isEmpty()) {
+			// Blockade
 			if (d_player.useCard(Card.getBlockadeCard())) {
 				Country l_c = d_countryToAdvance.get(0);
 				d_countryToAdvance.remove(0);
 				return new BlockadeOrder(d_player, l_c);
 			}
+			// Airlift
 			if (d_player.useCard(Card.getAirliftCard())) {
 				Country l_c = d_countryToAdvance.get(0);
 				d_countryToAdvance.remove(0);
 				d_countryToAdvance.add(d_countryList.get(0));
 				return new AirliftOrder(d_player, l_c, d_countryList.get(0), l_c.getArmies());
 			}
+			// Diplomacy
 			if (d_player.useCard(Card.getDiplomacyCard())) {
 				ArrayList<Player> l_players = new ArrayList<Player>(GameEngine.GetPlayers());
 
 				for (Player l_otherPlayer : l_players) {
-					if (l_otherPlayer.getName() != d_player.getName()) {
+					if (!l_otherPlayer.getName().equals(d_player.getName())) {
 						return new NegotiateOrder(d_player, l_otherPlayer);
+					}
+				}
+			}
+			// Bomb
+			if (d_player.useCard(Card.getBombCard())) {
+				for (Country c : d_countryList) {
+					for (Country n : c.getNeighbors()) {
+						if ((!n.getOwner().getName().equals(d_player.getName())) && n.getArmies() > 0) {
+							return new BombOrder(d_player, n);
+						}
 					}
 				}
 			}
