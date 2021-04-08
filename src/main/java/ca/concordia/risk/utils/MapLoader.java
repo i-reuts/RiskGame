@@ -23,6 +23,8 @@ import ca.concordia.risk.game.GameMap;
 public class MapLoader {
 
 	private static final String d_MapFolder = "./maps/";
+	private static String d_MapType;
+	private static HashMap<String, Integer> d_territories = new HashMap<String, Integer> ();
 	private static final String d_Encoding = "ISO-8859-1";
 
 	/**
@@ -49,15 +51,36 @@ public class MapLoader {
 		// any in practice.
 		// If required, encoding detection can be added later on.
 		Scanner l_sc = new Scanner(l_file, d_Encoding);
+		d_MapType = getMapType(l_sc);
+		
+		l_sc = new Scanner(l_file, d_Encoding);
 
-		SeekToTag("[continents]", l_sc);
-		Map<Integer, Continent> l_continentMap = ReadContinents(l_sc);
+		Map<Integer, Continent> l_continentMap;
+		Map<Integer, Country> l_countryMap;
 
-		SeekToTag("[countries]", l_sc);
-		Map<Integer, Country> l_countryMap = ReadCountries(l_sc, l_continentMap);
+		
+		if(d_MapType.equalsIgnoreCase("Conquest")) {
+			SeekToTag("[Continents]", l_sc);
+			l_continentMap = ReadContinents(l_sc);
 
-		SeekToTag("[borders]", l_sc);
-		ReadBorders(l_sc, l_countryMap);
+			SeekToTag("[Territories]", l_sc);
+			l_countryMap = ReadTerritories(l_sc, l_continentMap);
+
+			l_sc = new Scanner(l_file, d_Encoding);
+
+			SeekToTag("[Territories]", l_sc);
+			
+
+		} else {
+			SeekToTag("[continents]", l_sc);
+			l_continentMap = ReadContinents(l_sc);
+
+			SeekToTag("[countries]", l_sc);
+			l_countryMap = ReadCountries(l_sc, l_continentMap);
+
+			SeekToTag("[borders]", l_sc);
+			ReadBorders(l_sc, l_countryMap);
+		}
 
 		return CreateMap(l_continentMap, l_countryMap);
 	}
@@ -91,6 +114,31 @@ public class MapLoader {
 			throw l_e;
 		}
 	}
+
+	/**
+	 * Gets the map type
+	 * 
+	 * @return map type as a string
+	 */	
+	private static String getMapType(Scanner p_sc) {
+		String d_mapType = "Domination";
+		String p_tag = "[Map]";
+		while (p_sc.hasNextLine()) {
+			String l_line = p_sc.nextLine().trim();
+			if (l_line.startsWith(p_tag)) {
+				d_mapType = "Conquest";
+				return d_mapType;
+			}
+		}
+
+		return d_mapType;
+	}
+
+	/**
+	 * Gets the territory id.
+	 * 
+	 * @return id int.
+	 */
 
 	/**
 	 * Gets the map folder location.
@@ -144,11 +192,19 @@ public class MapLoader {
 			if (l_line.isBlank()) {
 				break;
 			}
-
 			try {
-				String[] l_tokens = l_line.split("\\s+");
-				String l_continentName = l_tokens[0].replace('_', ' ');
-				int l_continentValue = Integer.parseInt(l_tokens[1]);
+				String l_continentName;
+				int l_continentValue;
+
+				if(d_MapType.equalsIgnoreCase("Conquest")) {
+					String[] l_tokens = l_line.split("=");
+					l_continentName = l_tokens[0];
+					l_continentValue = Integer.parseInt(l_tokens[1]);
+				} else {
+					String[] l_tokens = l_line.split("\\s+");
+					l_continentName = l_tokens[0].replace('_', ' ');
+					l_continentValue = Integer.parseInt(l_tokens[1]);
+				}
 
 				l_continentMap.put(l_runningId, new Continent(l_continentName, l_continentValue));
 				l_runningId++;
@@ -176,7 +232,6 @@ public class MapLoader {
 
 		while (p_sc.hasNextLine()) {
 			String l_line = p_sc.nextLine().trim();
-
 			// Stop reading when we come across an empty line
 			if (l_line.isBlank()) {
 				break;
@@ -187,7 +242,6 @@ public class MapLoader {
 			}
 
 			try {
-				// Parse country data
 				String[] l_tokens = l_line.split("\\s+");
 				int l_countryId = Integer.parseInt(l_tokens[0]);
 				String l_countryName = l_tokens[1].replace('_', ' ');
@@ -195,6 +249,7 @@ public class MapLoader {
 
 				// Get country continent
 				Continent l_continent = p_continentMap.get(l_continentId);
+
 				// Create country
 				Country l_country = new Country(l_countryName, l_continent);
 				// Add country to continent
@@ -202,6 +257,63 @@ public class MapLoader {
 
 				// Add country to country map
 				l_countryMap.put(l_countryId, l_country);
+			} catch (Exception l_e) {
+				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
+			}
+		}
+
+		return l_countryMap;
+	}
+
+	/**
+	 * This method parses Territory names and IDs and maps them to their respective
+	 * Continent.
+	 * 
+	 * @param p_sc           Scanner object.
+	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding
+	 *                       Continent object.
+	 * @return HashMap with Country ID mapped to its corresponding Country object.
+	 * @throws FileParsingException thrown if an invalid line is encountered.
+	 */
+	private static Map<Integer, Country> ReadTerritories(Scanner p_sc, Map<Integer, Continent> p_continentMap)
+			throws FileParsingException {
+		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
+
+		int l_continentId = 0;
+		int l_runningId = 1;
+		String l_continentName = "";
+		while (p_sc.hasNextLine()) {
+			String l_line = p_sc.nextLine().trim();
+			// Go to next line when we come across an empty line
+			if (l_line.isBlank()) {
+				continue;
+			}
+			try {
+				String[] l_tokens = l_line.split(",");
+				int l_countryId = l_runningId;
+				String l_countryName = l_tokens[0];
+				String tmp_continentName = l_tokens[3];
+
+				if(!d_territories.containsKey(l_countryName)) {
+					d_territories.put(l_countryName, l_countryId);
+				}
+
+				if (!l_continentName.equalsIgnoreCase(tmp_continentName)) {
+					l_continentId++;
+					l_continentName = tmp_continentName;
+				}
+
+				// Get country continent
+				Continent l_continent = p_continentMap.get(l_continentId);
+
+				// Create country
+				Country l_country = new Country(l_countryName, l_continent);
+				// Add country to continent
+				l_continent.addCountry(l_country);
+
+				// Add country to country map
+				l_countryMap.put(l_countryId, l_country);
+				l_runningId++;
 			} catch (Exception l_e) {
 				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
 			}
@@ -231,8 +343,7 @@ public class MapLoader {
 				continue;
 			}
 
-			try {
-				// Parse country data
+			try {				
 				String[] l_tokens = l_line.split("\\s+");
 				int l_countryId = Integer.parseInt(l_tokens[0]);
 				for (int l_i = 1; l_i < l_tokens.length; l_i++) {
@@ -245,6 +356,8 @@ public class MapLoader {
 			}
 		}
 	}
+
+	
 
 	/**
 	 * This method creates the Risk game map.
