@@ -69,7 +69,7 @@ public class MapLoader {
 			l_sc = new Scanner(l_file, d_Encoding);
 
 			SeekToTag("[Territories]", l_sc);
-			
+			ReadConquestBorders(l_sc, l_countryMap);
 
 		} else {
 			SeekToTag("[continents]", l_sc);
@@ -357,7 +357,35 @@ public class MapLoader {
 		}
 	}
 
-	
+	/**
+	 * This method parses the borders and adds the neighbors for each country.
+	 * 
+	 * @param p_sc         Scanner object.
+	 * @param p_countryMap HashMap with Country ID mapped to its corresponding
+	 *                     Country object.
+	 * @throws FileParsingException thrown if an invalid line is encountered.
+	 */
+	private static void ReadConquestBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) throws FileParsingException {
+		int l_countryId = 1;
+		while (p_sc.hasNextLine()) {
+			String l_line = p_sc.nextLine().trim();
+			if (l_line.isBlank()) {
+				continue;
+			}
+			try {				
+				String[] l_tokens = l_line.split(",");
+				for (int l_i = 4; l_i < l_tokens.length; l_i++) {
+					// Add neighbors to country
+					String l_neighborName = l_tokens[l_i].trim();
+					int l_neighborId = d_territories.get(l_neighborName);
+					p_countryMap.get(l_countryId).addNeighbor(p_countryMap.get(l_neighborId));
+				}
+				l_countryId++;
+			} catch (Exception l_e) {
+				throw new FileParsingException("error when parsing conquest - invalid line format \"" + l_line + "\"");
+			}
+		}
+	}
 
 	/**
 	 * This method creates the Risk game map.
