@@ -1,6 +1,7 @@
 target/
 bin/
 logs/
+save/
 .settings/
 .classpath
 .project
