@@ -26,7 +26,7 @@ public abstract class PlayerStrategy {
 	 * Issues one player order.
 	 * 
 	 * @return an <code>Order</code> object if an order was issued.<br>
-	 *         <code>null</code> if not valid order was issued.
+	 *         <code>null</code> if no valid order was issued.
 	 */
 	public abstract Order issueOrder();
 }

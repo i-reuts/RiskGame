@@ -12,6 +12,7 @@ import ca.concordia.risk.game.phases.GameplayPhase;
 import ca.concordia.risk.game.phases.MapEditorPhase;
 import ca.concordia.risk.game.phases.StartupPhase;
 import ca.concordia.risk.io.commands.Command;
+import ca.concordia.risk.io.commands.LoadGameCommand;
 import ca.concordia.risk.io.commands.OrderCommand;
 import ca.concordia.risk.io.commands.PassCommand;
 import ca.concordia.risk.io.commands.ShowCardsCommand;
@@ -26,6 +27,7 @@ public class GameEngine {
 	private static Phase d_ActivePhase;
 	private static ConsoleView d_View;
 	private static GameMap d_ActiveMap;
+	private static String d_ActiveMapFilePath;
 	private static Map<String, Player> d_ActivePlayers = new TreeMap<String, Player>();
 	private static Player d_NeutralPlayer = new Player("Neutral");
 
@@ -87,6 +89,25 @@ public class GameEngine {
 	}
 
 	/**
+	 * Gets the active game map file path, if any.
+	 * 
+	 * @return string representing the game map file path.<br>
+	 *         <code>null</code> if not active map file.
+	 */
+	public static String GetActiveMapFile() {
+		return d_ActiveMapFilePath;
+	}
+
+	/**
+	 * Sets the active game map file path.
+	 * 
+	 * @param p_mapFilePath map file path to set.
+	 */
+	public static void SetActiveMapFile(String p_mapFilePath) {
+		d_ActiveMapFilePath = p_mapFilePath;
+	}
+
+	/**
 	 * Gets the collection of active players.
 	 * 
 	 * @return collection of active players.
@@ -135,6 +156,13 @@ public class GameEngine {
 	}
 
 	/**
+	 * Clears the collection of active players.
+	 */
+	public static void ClearPlayers() {
+		d_ActivePlayers.clear();
+	}
+
+	/**
 	 * Gets the neutral player.
 	 * 
 	 * @return neutral player.
@@ -174,6 +202,11 @@ public class GameEngine {
 			} else if (l_command instanceof PassCommand) {
 				((PassCommand) l_command).setPlayer(p_player);
 				l_command.execute();
+			} else if (l_command instanceof LoadGameCommand) {
+				// Load the game and give a null order to signify that game is interrupted and
+				// has to be restarted
+				l_command.execute();
+				return null;
 			} else {
 				l_command.execute();
 			}

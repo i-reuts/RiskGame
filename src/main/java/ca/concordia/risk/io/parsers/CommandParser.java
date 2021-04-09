@@ -95,6 +95,9 @@ public abstract class CommandParser {
 
 		d_commandParsers.put("pass", this::createUnavailableCommand);
 		d_commandParsers.put("showcards", this::createUnavailableCommand);
+		
+		d_commandParsers.put("savegame", this::createUnavailableCommand);
+		d_commandParsers.put("loadgame", this::createUnavailableCommand);
 	}
 
 	/**
