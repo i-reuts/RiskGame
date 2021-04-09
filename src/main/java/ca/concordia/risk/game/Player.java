@@ -28,7 +28,6 @@ public class Player {
 	private List<Card> d_cards = new LinkedList<Card>();;
 	private Set<Player> d_activeNegotiations = new HashSet<Player>();;
 
-	
 	/**
 	 * Creates a new player with a default <i>human</i> strategy.
 	 * 
@@ -47,6 +46,15 @@ public class Player {
 	 */
 	public String getName() {
 		return d_name;
+	}
+
+	/**
+	 * Gets the current player strategy.
+	 * 
+	 * @return strategy currently used by the player.
+	 */
+	public PlayerStrategy GetStrategy() {
+		return d_strategy;
 	}
 
 	/**
@@ -162,9 +170,9 @@ public class Player {
 	 */
 	public void issueOrder() {
 		Order l_order = d_strategy.issueOrder();
-		if (l_order != null) {
+		//if (l_order != null) {
 			d_orders.add(l_order);
-		}
+		//}
 	}
 
 	/**

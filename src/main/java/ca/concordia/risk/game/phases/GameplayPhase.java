@@ -70,16 +70,40 @@ public class GameplayPhase extends Phase {
 	 */
 	@Override
 	public void execute() {
-		d_logBuffer.write("\nTurn " + d_turnNumber + " begins");
+		try {
+			d_logBuffer.write("\nTurn " + d_turnNumber + " begins");
 
-		assignReinforcements();
-		issueCards();
-		clearNegotiations();
+			assignReinforcements();
+			issueCards();
+			clearNegotiations();
 
-		issueOrders();
-		executeOrders();
+			issueOrders();
+			executeOrders();
 
-		d_turnNumber++;
+			d_turnNumber++;
+		} catch (GameInterruptedException l_e) {
+			// Game was interrupted, skip the following phases in the loop
+			// and return early
+		}
+	}
+
+	/**
+	 * Gets the current turn number.
+	 * 
+	 * @return turn number.
+	 */
+	public int GetTurnNumber() {
+		return d_turnNumber;
+	}
+
+	/**
+	 * Sets the current turn number.
+	 * 
+	 * @param p_turnNumber turn number to set.
+	 */
+	public void SetTurnNumber(int p_turnNumber) {
+		d_turnNumber = p_turnNumber;
+		d_logBuffer.write("\nGame restarted from turn " + d_turnNumber);
 	}
 
 	/**
@@ -125,8 +149,11 @@ public class GameplayPhase extends Phase {
 	/**
 	 * Asks each player to issue orders in a round-robin fashion one order at a time
 	 * until no players have orders left to give.
+	 * 
+	 * @throws InterruptedException
+	 * @throws GameInterruptedException
 	 */
-	private void issueOrders() {
+	private void issueOrders() throws GameInterruptedException {
 		d_logBuffer.write("\nIssuing orders...");
 
 		// Clear the issued order flag for all players
@@ -147,6 +174,11 @@ public class GameplayPhase extends Phase {
 						d_logBuffer.write("Player " + l_p.getName() + " passed");
 					} else {
 						Order l_issuedOrder = l_p.peekLastOrder();
+						if (l_issuedOrder == null) {
+							// If the last order was null, the issue order of the player was interrupted
+							// Interrupt the turn
+							throw new GameInterruptedException();
+						}
 						d_logBuffer.write("Player " + l_p.getName() + " issued order: " + l_issuedOrder.getStatus());
 					}
 				}
@@ -176,6 +208,22 @@ public class GameplayPhase extends Phase {
 					d_logBuffer.write(l_order.getStatus());
 				}
 			}
+		}
+	}
+
+	/**
+	 * A custom <code>Exception</code> class thrown when the game is interrupted mid
+	 * turn.
+	 * <p>
+	 * For instance, the game will be interrupted if a save file is loaded.
+	 */
+	@SuppressWarnings("serial")
+	private static class GameInterruptedException extends Exception {
+		/** 
+		 * Creates the new <code>GameInterruptedException</code> with the default message.
+		 */
+		private GameInterruptedException() {
+			super("Game interrupted during player turn");
 		}
 	}
 }

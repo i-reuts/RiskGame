@@ -19,9 +19,8 @@ public class Card {
 	private static Map<CardType, Card> d_CardMap = new HashMap<>();
 
 	/*
-	 * Initializes the card table with cards of all available types.
-	 * <p>
-	 * The game will then reuse these cards, ensuring that no new cards are created.
+	 * Initializes the card table with cards of all available types. <p> The game
+	 * will then reuse these cards, ensuring that no new cards are created.
 	 */
 	static {
 		d_CardMap.put(CardType.BOMB, new Card(CardType.BOMB));
@@ -122,6 +121,28 @@ public class Card {
 			return "Diplomacy Card";
 		default:
 			return d_type.toString();
+		}
+	}
+
+	/**
+	 * Gets the card from its string representation.
+	 * 
+	 * @param p_cardString string representation of the card.
+	 * @return <code>Card</code> corresponding to the appropriate card.<br>
+	 *         <code>null</null> if the card string was invalid.
+	 */
+	public static Card getCardFromString(String p_cardString) {
+		switch (p_cardString) {
+		case "Airlift Card":
+			return getAirliftCard();
+		case "Blockade Card":
+			return getBlockadeCard();
+		case "Bomb Card":
+			return getBombCard();
+		case "Diplomacy Card":
+			return getDiplomacyCard();
+		default:
+			return null;
 		}
 	}
 }
