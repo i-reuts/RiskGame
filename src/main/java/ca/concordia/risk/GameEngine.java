@@ -186,7 +186,6 @@ public class GameEngine {
 	 * 
 	 * @param p_player player that is issuing the command.
 	 * @return order representing the order issued by the player.
-	 * @throws InterruptedException
 	 */
 	public static Order ProcessOrderCommand(Player p_player) {
 		Order l_order = null;

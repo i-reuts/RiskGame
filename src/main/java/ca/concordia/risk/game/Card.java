@@ -129,7 +129,7 @@ public class Card {
 	 * 
 	 * @param p_cardString string representation of the card.
 	 * @return <code>Card</code> corresponding to the appropriate card.<br>
-	 *         <code>null</null> if the card string was invalid.
+	 *         <code>null</code> if the card string was invalid.
 	 */
 	public static Card getCardFromString(String p_cardString) {
 		switch (p_cardString) {
