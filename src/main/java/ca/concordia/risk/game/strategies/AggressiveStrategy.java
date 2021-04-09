@@ -1,6 +1,7 @@
 package ca.concordia.risk.game.strategies;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -8,6 +9,8 @@ import java.util.Stack;
 
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.Player;
+import ca.concordia.risk.game.orders.AdvanceOrder;
+import ca.concordia.risk.game.orders.DeployOrder;
 import ca.concordia.risk.game.orders.Order;
 
 
@@ -17,6 +20,9 @@ public class AggressiveStrategy extends PlayerStrategy {
 	HashMap<Country, Country> d_backtrack = new HashMap<Country, Country>();
 	Stack<Country> d_path = new Stack<Country>();
 	ArrayList<Country> d_countryList;
+	Country d_countryToDeploy = null;
+	int d_amountToDeploy = 0;
+	boolean d_hasAdvance = false;
 	
 	public AggressiveStrategy(Player p_player) {
 		super(p_player);
@@ -24,6 +30,51 @@ public class AggressiveStrategy extends PlayerStrategy {
 
 	@Override
 	public Order issueOrder() {
+		d_countryList = new ArrayList<Country>(d_player.getCountries());
+		if (d_countryList.size() > 0 && d_player.getRemainingReinforcements() > 0) {
+			d_amountToDeploy = d_player.getRemainingReinforcements();
+			if (d_amountToDeploy > 0) {
+				// We will deploy all armies
+				d_player.retrieveReinforcements(d_amountToDeploy);
+				
+				// Look up for a country that already has armies
+				for (Country l_c : d_countryList) {
+					if (l_c.getArmies() > 0) {
+						d_countryToDeploy = l_c;
+						return new DeployOrder(d_player, d_countryToDeploy, d_amountToDeploy);
+					}
+				}
+				
+				// If no country has armies, look up for a country with enemies
+				if (d_countryToDeploy == null) {
+					for (Country l_c : d_countryList) {
+						for (Country l_n : l_c.getNeighbors()) {
+							if (!l_n.getOwner().getName().equals(d_player.getName())) {
+								d_countryToDeploy = l_c;
+								return new DeployOrder(d_player, d_countryToDeploy, d_amountToDeploy);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if (!d_hasAdvance) {
+			Country l_enemy;
+			l_enemy = findEnemy(d_countryToDeploy);
+			buildPath(l_enemy);
+			if (!d_path.isEmpty()) {
+				d_hasAdvance = true;
+				System.out.println("Advance " + (d_countryToDeploy.getArmies() + d_amountToDeploy));
+				return new AdvanceOrder(d_player, d_countryToDeploy, d_path.pop(), d_countryToDeploy.getArmies() + d_amountToDeploy);
+			}
+		}
+		
+		// Finish issuing orders
+		d_hasAdvance = false;
+		d_countryToDeploy = null;
+		d_amountToDeploy = 0;
+		d_player.setFinishedIssuingOrder(true);
 		return null;
 	}
 	
@@ -40,7 +91,7 @@ public class AggressiveStrategy extends PlayerStrategy {
 		l_visited.add(p_fromCountry);
 		d_backtrack.put(p_fromCountry, null);
 		
-		while (l_queue.size() != 0) {
+		while (l_queue.size() > 0) {
 			l_tmp = l_queue.poll();
 			
 			for (Country l_c : l_tmp.getNeighbors()) {
