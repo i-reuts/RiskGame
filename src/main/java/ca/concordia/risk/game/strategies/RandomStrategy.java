@@ -104,7 +104,8 @@ public class RandomStrategy extends PlayerStrategy {
 				// Diplomacy
 				if (d_player.useCard(Card.getDiplomacyCard())) {
 					ArrayList<Player> l_players = new ArrayList<Player>(GameEngine.GetPlayers());
-	
+					Collections.shuffle(l_players);
+					
 					for (Player l_otherPlayer : l_players) {
 						if (!l_otherPlayer.getName().equals(d_player.getName())) {
 							return new NegotiateOrder(d_player, l_otherPlayer);
