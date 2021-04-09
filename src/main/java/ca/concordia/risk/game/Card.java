@@ -19,7 +19,7 @@ public class Card {
 	private static Map<CardType, Card> d_CardMap = new HashMap<>();
 
 	/*
-	 * Initializes the card table with cards of all available types. <p> The game
+	 * Initializes the card table with cards of all available types. The game
 	 * will then reuse these cards, ensuring that no new cards are created.
 	 */
 	static {

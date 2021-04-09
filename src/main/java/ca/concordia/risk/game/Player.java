@@ -170,9 +170,7 @@ public class Player {
 	 */
 	public void issueOrder() {
 		Order l_order = d_strategy.issueOrder();
-		//if (l_order != null) {
-			d_orders.add(l_order);
-		//}
+		d_orders.add(l_order);
 	}
 
 	/**

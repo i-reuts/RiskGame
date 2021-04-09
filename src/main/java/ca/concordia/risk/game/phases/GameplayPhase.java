@@ -150,8 +150,8 @@ public class GameplayPhase extends Phase {
 	 * Asks each player to issue orders in a round-robin fashion one order at a time
 	 * until no players have orders left to give.
 	 * 
-	 * @throws InterruptedException
-	 * @throws GameInterruptedException
+	 * @throws GameInterruptedException thrown if the game is interrupted mid-turn,
+	 *                                  for example when loading a save file.
 	 */
 	private void issueOrders() throws GameInterruptedException {
 		d_logBuffer.write("\nIssuing orders...");
@@ -219,8 +219,9 @@ public class GameplayPhase extends Phase {
 	 */
 	@SuppressWarnings("serial")
 	private static class GameInterruptedException extends Exception {
-		/** 
-		 * Creates the new <code>GameInterruptedException</code> with the default message.
+		/**
+		 * Creates the new <code>GameInterruptedException</code> with the default
+		 * message.
 		 */
 		private GameInterruptedException() {
 			super("Game interrupted during player turn");
