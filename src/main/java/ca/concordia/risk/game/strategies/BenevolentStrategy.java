@@ -54,9 +54,9 @@ public class BenevolentStrategy extends PlayerStrategy {
 			Country l_weakestCountry = weakestCountry();
 
 			// Get the number of armies to be deployed
-			// int l_amountToDeploy = d_player.getRemainingReinforcements();
+			//int l_amountToDeploy = d_player.getRemainingReinforcements();
 			int l_amountToDeploy = d_rand.nextInt(d_player.getRemainingReinforcements()) + 1;
-
+			
 			d_player.retrieveReinforcements(l_amountToDeploy);
 			l_weakestCountry.addArmies(l_amountToDeploy);
 			d_weakCountryList.add(l_weakestCountry);
@@ -88,35 +88,28 @@ public class BenevolentStrategy extends PlayerStrategy {
 			}
 		}
 
-		Country l_weakestCountry = d_weakCountryList.get(0);
+		Country l_weakestCountry = d_weakCountryList.get(d_weakCountryList.size() - 1);
 		ArrayList<Country> l_neighborOfWeakest = new ArrayList<Country>(l_weakestCountry.getNeighbors());
-
-		for (Country c : l_neighborOfWeakest) {
-			if (c.getOwner().equals(d_player)) {
-				d_weakerNeighbor = l_neighborOfWeakest.get(0);
-				break;
-			}
-			
-			else 
-				d_weakerNeighbor = l_weakestCountry;
-			
-		}
-		for (Country c : l_neighborOfWeakest) {
-			if (c.getArmies() < d_weakerNeighbor.getArmies()) {
-				if (d_weakerNeighbor.getOwner().equals(d_player)) {
-					d_weakerNeighbor = c;
-				}
+		d_weakerNeighbor = l_neighborOfWeakest.get(0);
+		
+		for (Country l_c : l_neighborOfWeakest) {
+			if (l_c.getArmies() < d_weakerNeighbor.getArmies() && l_c.getOwner().getName().equals(d_player.getName())){
+					d_weakerNeighbor = l_c;
 			}
 		}
 
 		// Advance
+		if((d_weakerNeighbor.getOwner().getName().equals(d_player.getName()))) {
+			
 		if (!d_hasAdvanced.contains(l_weakestCountry)) {
 			d_hasAdvanced.add(l_weakestCountry);
 			return new AdvanceOrder(d_player, l_weakestCountry, d_weakerNeighbor,
-					((l_weakestCountry.getArmies() - d_weakerNeighbor.getArmies()) / 2));
+					((l_weakestCountry.getArmies() + d_weakerNeighbor.getArmies()) / 2));
+		}
 		}
 
 		// Finish issuing orders
+		d_weakCountryList = new ArrayList<Country>();
 		d_hasAdvanced = new ArrayList<Country>();
 		d_player.setFinishedIssuingOrder(true);
 
