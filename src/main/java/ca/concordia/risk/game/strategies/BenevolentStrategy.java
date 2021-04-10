@@ -102,6 +102,7 @@ public class BenevolentStrategy extends PlayerStrategy {
 			}
 		}
 		// Finish issuing orders
+		d_hasAdvance = false;
 		d_player.setFinishedIssuingOrder(true);
 
 		return null;
