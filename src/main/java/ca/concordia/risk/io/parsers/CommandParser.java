@@ -8,6 +8,7 @@ import java.util.Map;
 
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.InvalidCommand;
+import ca.concordia.risk.io.commands.LoadGameCommand;
 import ca.concordia.risk.io.commands.ShowMapCommand;
 
 /**
@@ -72,6 +73,7 @@ public abstract class CommandParser {
 	protected void registerParserMethods() {
 		// Shared commands
 		d_commandParsers.put("showmap", this::parseShowMapCommand);
+		d_commandParsers.put("loadgame", this::parseLoadGameCommand);
 
 		// Editor commands
 		d_commandParsers.put("editmap", this::createUnavailableCommand);
@@ -96,8 +98,7 @@ public abstract class CommandParser {
 		d_commandParsers.put("pass", this::createUnavailableCommand);
 		d_commandParsers.put("showcards", this::createUnavailableCommand);
 		
-		d_commandParsers.put("savegame", this::createUnavailableCommand);
-		d_commandParsers.put("loadgame", this::createUnavailableCommand);
+		d_commandParsers.put("savegame", this::createUnavailableCommand);		
 	}
 
 	/**
@@ -114,6 +115,22 @@ public abstract class CommandParser {
 	}
 
 	/**
+	 * Parses an <i>"loadgame"</i> command.
+	 * 
+	 * @param p_argumentList list of command arguments.
+	 * @return <code>LoadGameCommand</code> if the command was parsed successfully.
+	 *         <code>InvalidCommand</code> if a parsing error occurred.
+	 */
+	protected Command parseLoadGameCommand(List<String> p_argumentList) {
+		if (p_argumentList.isEmpty()) {
+			return new InvalidCommand("no parameters supplied to loadgame command");
+		}
+
+		String l_filename = p_argumentList.remove(0);
+		return new LoadGameCommand(l_filename);
+	}
+	
+	/**
 	 * Parses a <i>"showmap"</i> command.
 	 * 
 	 * @param p_argumentList list of command arguments.
@@ -122,6 +139,8 @@ public abstract class CommandParser {
 	protected Command parseShowMapCommand(List<String> p_argumentList) {
 		return new ShowMapCommand(false);
 	}
+	
+	
 
 	/**
 	 * Creates an <code>InvalidCommand</code> specifying that the given user command

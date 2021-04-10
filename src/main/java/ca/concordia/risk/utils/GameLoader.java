@@ -19,6 +19,9 @@ import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.phases.GameplayPhase;
+import ca.concordia.risk.game.phases.MapEditorPhase;
+import ca.concordia.risk.game.phases.Phase;
+import ca.concordia.risk.game.phases.StartupPhase;
 import ca.concordia.risk.game.strategies.PlayerStrategy;
 import ca.concordia.risk.utils.MapLoader.FileParsingException;
 
@@ -27,8 +30,8 @@ import ca.concordia.risk.utils.MapLoader.FileParsingException;
  * played.
  */
 public class GameLoader {
-	
-	private static final String d_SaveDirectoryPath = "save/"; 
+
+	private static final String d_SaveDirectoryPath = "save/";
 
 	/**
 	 * Saves the current game state into the save file with the given path.
@@ -66,9 +69,13 @@ public class GameLoader {
 	 * @throws GameLoaderException thrown if an error occurs while loading.
 	 */
 	public static void LoadGame(String p_saveFilePath) throws GameLoaderException {
-		// Ensure the active phase is Gameplay
-		if (!(GameEngine.GetActivePhase() instanceof GameplayPhase)) {
-			throw new GameLoaderException("invalid state - can only save game in Gameplay Phase");
+		// Ensure the active phase is Gameplay. If it's not, switch to Gameplay phase
+		Phase l_activePhase = GameEngine.GetActivePhase();
+		if (l_activePhase instanceof MapEditorPhase) {
+			GameEngine.SwitchToNextPhase();
+			GameEngine.SwitchToNextPhase();
+		} else if (l_activePhase instanceof StartupPhase) {
+			GameEngine.SwitchToNextPhase();
 		}
 
 		// Ensure the save file exists

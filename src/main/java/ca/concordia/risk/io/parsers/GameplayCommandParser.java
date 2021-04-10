@@ -9,7 +9,6 @@ import ca.concordia.risk.io.commands.BombOrderCommand;
 import ca.concordia.risk.io.commands.Command;
 import ca.concordia.risk.io.commands.DeployOrderCommand;
 import ca.concordia.risk.io.commands.InvalidCommand;
-import ca.concordia.risk.io.commands.LoadGameCommand;
 import ca.concordia.risk.io.commands.NegotiateOrderCommand;
 import ca.concordia.risk.io.commands.PassCommand;
 import ca.concordia.risk.io.commands.SaveGameCommand;
@@ -42,7 +41,6 @@ public class GameplayCommandParser extends CommandParser {
 		d_commandParsers.put("showcards", this::parseShowCardsCommand);
 
 		d_commandParsers.put("savegame", this::parseSaveGameCommand);
-		d_commandParsers.put("loadgame", this::parseLoadGameCommand);
 	}
 
 	/**
@@ -222,21 +220,5 @@ public class GameplayCommandParser extends CommandParser {
 
 		String l_filename = p_argumentList.remove(0);
 		return new SaveGameCommand(l_filename);
-	}
-
-	/**
-	 * Parses an <i>"loadgame"</i> command.
-	 * 
-	 * @param p_argumentList list of command arguments.
-	 * @return <code>LoadGameCommand</code> if the command was parsed successfully.
-	 *         <code>InvalidCommand</code> if a parsing error occurred.
-	 */
-	private Command parseLoadGameCommand(List<String> p_argumentList) {
-		if (p_argumentList.isEmpty()) {
-			return new InvalidCommand("no parameters supplied to loadgame command");
-		}
-
-		String l_filename = p_argumentList.remove(0);
-		return new LoadGameCommand(l_filename);
 	}
 }
