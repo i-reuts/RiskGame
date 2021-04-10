@@ -24,19 +24,14 @@ import ca.concordia.risk.game.orders.Order;
 public class BenevolentStrategy extends PlayerStrategy {
 
 	ArrayList<Country> d_countryList;
-	ArrayList<Country> d_hasAdvanced;
-	ArrayList<Country> d_weakCountryList;
-	Country d_weakerNeighbor = null;
-	Random d_rand;
+	Country d_deployTo;
+	boolean d_hasAdvance = false;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public BenevolentStrategy(Player p_player) {
 		super(p_player);
-		d_hasAdvanced = new ArrayList<Country>();
-		d_weakCountryList = new ArrayList<Country>();
-		d_rand = new Random();
 	}
 
 	/**
@@ -48,18 +43,16 @@ public class BenevolentStrategy extends PlayerStrategy {
 	@Override
 	public Order issueOrder() {
 		d_countryList = new ArrayList<Country>(d_player.getCountries());
-
 		if (d_countryList.size() > 0 && d_player.getRemainingReinforcements() > 0) {
 
 			Country l_weakestCountry = weakestCountry();
 
 			// Get the number of armies to be deployed
-			//int l_amountToDeploy = d_player.getRemainingReinforcements();
-			int l_amountToDeploy = d_rand.nextInt(d_player.getRemainingReinforcements()) + 1;
+			int l_amountToDeploy = d_player.getRemainingReinforcements();
 			
 			d_player.retrieveReinforcements(l_amountToDeploy);
 			l_weakestCountry.addArmies(l_amountToDeploy);
-			d_weakCountryList.add(l_weakestCountry);
+			d_deployTo = l_weakestCountry;
 
 			return new DeployOrder(d_player, l_weakestCountry, l_amountToDeploy);
 		}
@@ -72,7 +65,7 @@ public class BenevolentStrategy extends PlayerStrategy {
 			// Airlift
 			if (d_player.useCard(Card.getAirliftCard())) {
 				return new AirliftOrder(d_player, l_strongestCountry, l_weakestCountry,
-						(l_strongestCountry.getArmies() - l_weakestCountry.getArmies()) / 2);
+						(l_strongestCountry.getArmies() + l_weakestCountry.getArmies()) / 2);
 			}
 
 			// Diplomacy
@@ -88,29 +81,27 @@ public class BenevolentStrategy extends PlayerStrategy {
 			}
 		}
 
-		Country l_weakestCountry = d_weakCountryList.get(d_weakCountryList.size() - 1);
-		ArrayList<Country> l_neighborOfWeakest = new ArrayList<Country>(l_weakestCountry.getNeighbors());
-		d_weakerNeighbor = l_neighborOfWeakest.get(0);
-		
-		for (Country l_c : l_neighborOfWeakest) {
-			if (l_c.getArmies() < d_weakerNeighbor.getArmies() && l_c.getOwner().getName().equals(d_player.getName())){
-					d_weakerNeighbor = l_c;
+		Country l_deployedTo = d_deployTo;
+		ArrayList<Country> l_neighborsOfWeakest = new ArrayList<Country>(l_deployedTo.getNeighbors());
+		Country l_advanceTo = l_neighborsOfWeakest.get(0);
+
+		for (Country l_c : l_neighborsOfWeakest) {
+			if (l_c.getArmies() < l_advanceTo.getArmies() && (l_c.getOwner().getName().equals(d_player.getName()))) {
+				l_advanceTo = l_c;
 			}
 		}
 
 		// Advance
-		if((d_weakerNeighbor.getOwner().getName().equals(d_player.getName()))) {
+		// Advance once per turn
+		if (!d_hasAdvance) {
+			if ((l_advanceTo.getOwner().getName().equals(d_player.getName())) && l_deployedTo.getArmies() != 0) {
 			
-		if (!d_hasAdvanced.contains(l_weakestCountry)) {
-			d_hasAdvanced.add(l_weakestCountry);
-			return new AdvanceOrder(d_player, l_weakestCountry, d_weakerNeighbor,
-					((l_weakestCountry.getArmies() + d_weakerNeighbor.getArmies()) / 2));
+				d_hasAdvance = true;
+				return new AdvanceOrder(d_player, l_deployedTo, l_advanceTo,
+						((l_deployedTo.getArmies() + l_advanceTo.getArmies()) / 2));
+			}
 		}
-		}
-
 		// Finish issuing orders
-		d_weakCountryList = new ArrayList<Country>();
-		d_hasAdvanced = new ArrayList<Country>();
 		d_player.setFinishedIssuingOrder(true);
 
 		return null;
