@@ -6,6 +6,7 @@ import java.util.List;
 import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.strategies.AggressiveStrategy;
+import ca.concordia.risk.game.strategies.BenevolentStrategy;
 import ca.concordia.risk.game.strategies.CheaterStrategy;
 import ca.concordia.risk.game.strategies.HumanStrategy;
 import ca.concordia.risk.game.strategies.RandomStrategy;
@@ -84,7 +85,7 @@ public class GamePlayerCommand implements Command {
 			l_player.SetStrategy(new HumanStrategy(l_player));
 			return l_player;
 		case "benevolent":
-			l_player.SetStrategy(new RandomStrategy(l_player));
+			l_player.SetStrategy(new BenevolentStrategy(l_player));
 			return l_player;
 		case "random":
 			l_player.SetStrategy(new RandomStrategy(l_player));
