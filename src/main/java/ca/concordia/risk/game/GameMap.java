@@ -107,8 +107,15 @@ public class GameMap {
 		d_continents.put(p_continent.getName(), p_continent);
 		return true;
 	}
-	
-	
+
+	/**
+	 * This is a helper function for <code>removeCountry</code> and
+	 * <code>removeContinent</code>.
+	 * 
+	 * This method removes the passed neighbor country.
+	 * 
+	 * @param p_neighborToRemove neighbor to remove.
+	 */
 	public void removeNeighbors(Country p_neighborToRemove) {
 		for (Country l_c : d_countries.values()) {
 			l_c.removeNeighbor(p_neighborToRemove);
