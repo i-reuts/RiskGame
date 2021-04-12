@@ -53,12 +53,30 @@ public class BombOrder implements Order {
 	}
 
 	/**
-	 * Checks if the country to be bombed is owned by the player. Also, it checks if
-	 * it is adjacent to one of the current player’s territories.
+	 * Checks if the target country is adjacent to one of the current player’s
+	 * territories
+	 * 
+	 * @return <code>true</code>if the target country is adjacent to one of the
+	 *         current player’s territories. <br>
+	 *         <code>false</code> otherwise.
+	 */
+	private boolean isAdjacent() {
+
+		boolean l_checksAdjacency = false;
+		for (Country l_ownedCountry : d_player.getCountries()) {
+			if (l_ownedCountry.hasNeighbor(d_bombCountry)) {
+				l_checksAdjacency = true;
+				break;
+			}
+		}
+		return l_checksAdjacency;
+	}
+
+	/**
+	 * Checks if the country to be bombed is owned by the player.
 	 * 
 	 * @return <code>true</code>if the country to be bombed is not owned by the
-	 *         player itself and is adjacent to one of the current player’s
-	 *         territories. <br>
+	 *         player itself . <br>
 	 *         <code>false</code> otherwise.
 	 */
 	private boolean isValid() {
@@ -67,16 +85,9 @@ public class BombOrder implements Order {
 			d_status = "Bombing failed: " + d_player.getName() + " owns the country to be bombed";
 			return false;
 		}
-
-		// Check if the target country is adjacent to one of the player's countries
-		boolean l_isAdjacent = false;
-		for (Country l_ownedCountry : d_player.getCountries()) {
-			if (l_ownedCountry.hasNeighbor(d_bombCountry)) {
-				l_isAdjacent = true;
-				break;
-			}
-		}
-		if (l_isAdjacent == false) {
+		// Checks if the target country is adjacent to one of the current player’s
+		// territories
+		if (!isAdjacent()) {
 			d_status = "Bombing failed: country " + d_bombCountry.getName()
 					+ " is not adjacent to any country owned by " + d_player.getName();
 			return false;
