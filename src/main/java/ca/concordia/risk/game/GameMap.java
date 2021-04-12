@@ -159,7 +159,8 @@ public class GameMap {
 			}
 
 			// Remove country from the map
-			d_countries.remove(l_country.getName());
+			//d_countries.remove(l_country.getName());
+			//removeCountry(l_country.getName());
 		}
 
 		// Remove continent
