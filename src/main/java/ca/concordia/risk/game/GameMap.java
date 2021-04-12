@@ -132,12 +132,8 @@ public class GameMap {
 		// Remove country from the continent it belongs to
 		Continent l_continent = l_country.getContinent();
 		l_continent.removeCountry(l_country);
-
 		// Remove country from neighbors of all other countries
-		for (Country l_c : d_countries.values()) {
-			l_c.removeNeighbor(l_country);
-		}
-
+		removeNeighbors(l_country);
 		// Remove country from the map
 		d_countries.remove(p_countryName);
 
@@ -161,9 +157,6 @@ public class GameMap {
 		// Remove all of the continent countries
 		for (Country l_country : l_continent.getCountries()) {
 			// Remove country from neighbors of all other countries
-			/*for (Country l_c : d_countries.values()) {
-				l_c.removeNeighbor(l_country);
-			}*/
 			removeNeighbors(l_country);
 			// Remove country from the map
 			removeCountry(l_country.getName());
