@@ -49,7 +49,6 @@ public class BenevolentStrategy extends PlayerStrategy {
 			int l_amountToDeploy = d_player.getRemainingReinforcements();
 
 			d_player.retrieveReinforcements(l_amountToDeploy);
-			l_weakestCountry.addArmies(l_amountToDeploy);
 
 			return new DeployOrder(d_player, l_weakestCountry, l_amountToDeploy);
 		}
@@ -78,22 +77,35 @@ public class BenevolentStrategy extends PlayerStrategy {
 			}
 		}
 
-		Country l_advanceFrom = strongestCountry();
-		ArrayList<Country> l_neighborsOfStrongest = new ArrayList<Country>(l_advanceFrom.getNeighbors());
-		Country l_advanceTo = l_neighborsOfStrongest.get(0);
-
-		for (Country l_c : l_neighborsOfStrongest) {
-			if ((l_c.getArmies() < l_advanceTo.getArmies()) && (l_c.getOwner().getName().equals(d_player.getName()))) {
-				l_advanceTo = l_c;
+		// Issue advance orders from stronger to weaker countries
+		// For each country owned by the player
+		for (Country l_c : d_player.getCountries()) {
+			// If country already advanced or has less than two armies, skip it
+			if (d_hasAdvanced.contains(l_c) || l_c.getArmies() < 2) {
+				continue;
 			}
-		}
-
-		// Advance
-		if (!d_hasAdvanced.contains(l_advanceFrom)) {
-			if ((l_advanceTo.getOwner().getName().equals(d_player.getName())) && l_advanceFrom.getArmies() != 0) {
-				d_hasAdvanced.add(l_advanceFrom);
-				return new AdvanceOrder(d_player, l_advanceFrom, l_advanceTo,
-						((l_advanceFrom.getArmies() - l_advanceTo.getArmies()) / 2));
+			// Otherwise, check all neighbors and look for the weakest ally neighbor
+			Country l_weakestNeighbor = null;
+			for (Country l_neighbor : l_c.getNeighbors()) {
+				boolean l_playerOwnsNeighbour = l_neighbor.getOwner().equals(d_player);
+				boolean l_armyDifferenceMoreThanOne = (l_c.getArmies() - l_neighbor.getArmies() > 1);
+				// If player owns the neighbor and difference of armies between the country and
+				// the neighbor is more than 1, the neighbor is considered a weaker neighbor and
+				// we can advance to it
+				if (l_playerOwnsNeighbour && l_armyDifferenceMoreThanOne) {
+					// Check if this weaker neighbor is the weakest out of the ones we've seen so
+					// far
+					if (l_weakestNeighbor == null || l_neighbor.getArmies() < l_weakestNeighbor.getArmies()) {
+						// If so make it the weakest neighbor
+						l_weakestNeighbor = l_neighbor;
+					}
+				}
+			}
+			// If the weakest neighbor was found, issue an Advance order to it
+			if (l_weakestNeighbor != null) {
+				d_hasAdvanced.add(l_c);
+				return new AdvanceOrder(d_player, l_c, l_weakestNeighbor,
+						((l_c.getArmies() - l_weakestNeighbor.getArmies()) / 2));
 			}
 		}
 		// Finish issuing orders
