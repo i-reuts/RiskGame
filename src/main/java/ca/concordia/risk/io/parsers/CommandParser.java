@@ -109,9 +109,8 @@ public abstract class CommandParser {
 	 */
 	private List<String> preprocessCommandString(String p_rawCommand) {
 		String[] l_args = p_rawCommand.split("\s+");
-		List<String> l_argList = new LinkedList<String>(Arrays.asList(l_args));
-
-		return l_argList;
+		
+		return Arrays.asList(l_args);
 	}
 
 	/**
