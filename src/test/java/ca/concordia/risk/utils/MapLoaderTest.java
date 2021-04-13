@@ -76,7 +76,7 @@ class MapLoaderTest {
 	 *         <code>false</code> otherwise.
 	 */
 	private static boolean MapFileExists(String p_fileName) {
-		File l_mapFile = new File(MapLoader.getMapFolderPath() + p_fileName);
+		File l_mapFile = new File(MapLoader.GetMapFolderPath() + p_fileName);
 		return l_mapFile.exists();
 	}
 }

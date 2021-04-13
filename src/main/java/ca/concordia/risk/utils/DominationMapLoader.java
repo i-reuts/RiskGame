@@ -15,18 +15,13 @@ import java.util.Set;
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
+import ca.concordia.risk.utils.MapLoader.FileParsingException;
 
 /**
  * This class provides functionality to load the map from and save the map to
  * <i>.map</i> files.
- * 
- * @author Sindu
  */
-
 public class DominationMapLoader {
-	
-	private static final String d_MapFolder = "./maps/";
-	private static final String d_Encoding = "ISO-8859-1";
 
 	/**
 	 * Loads a map file.
@@ -41,8 +36,8 @@ public class DominationMapLoader {
 	 * @throws FileNotFoundException thrown if the map file with the requested file
 	 *                               name does not exist.
 	 */
-	public static GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
-		File l_file = new File(d_MapFolder + p_fileName);
+	public GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
+		File l_file = new File(MapLoader.d_MapFolder + p_fileName);
 		if (!l_file.exists()) {
 			throw new FileNotFoundException(p_fileName + " not found in the maps folder");
 		}
@@ -51,21 +46,21 @@ public class DominationMapLoader {
 		// UTF encoded map files are theoretically possible, however we haven't found
 		// any in practice.
 		// If required, encoding detection can be added later on.
-		Scanner l_sc = new Scanner(l_file, d_Encoding);
-
-		Map<Integer, Continent> l_continentMap;
-		Map<Integer, Country> l_countryMap;
-
-        SeekToTag("[continents]", l_sc);
-        l_continentMap = ReadContinents(l_sc);
-
-        SeekToTag("[countries]", l_sc);
-        l_countryMap = ReadCountries(l_sc, l_continentMap);
-
-        SeekToTag("[borders]", l_sc);
-        ReadBorders(l_sc, l_countryMap);
-
-		return CreateMap(l_continentMap, l_countryMap);
+		try (Scanner l_sc = new Scanner(l_file, MapLoader.d_Encoding)) {
+			Map<Integer, Continent> l_continentMap;
+			Map<Integer, Country> l_countryMap;
+		
+			SeekToTag("[continents]", l_sc);
+			l_continentMap = ReadContinents(l_sc);
+		
+			SeekToTag("[countries]", l_sc);
+			l_countryMap = ReadCountries(l_sc, l_continentMap);
+		
+			SeekToTag("[borders]", l_sc);
+			ReadBorders(l_sc, l_countryMap);
+		
+			return CreateMap(l_continentMap, l_countryMap);
+		}
 	}
 
 	/**
@@ -76,19 +71,19 @@ public class DominationMapLoader {
 	 * @throws IOException exception thrown if an error occurs while writing the map
 	 *                     to file.
 	 */
-	public static void SaveMap(String p_fileName, GameMap p_map) throws IOException {
+	public void SaveMap(String p_fileName, GameMap p_map) throws IOException {
 		List<Continent> l_continentList = p_map.getContinents();
 		List<Country> l_countryList = p_map.getCountries();
 
 		Map<Continent, Integer> l_continentToIdMap = GenerateContinentIds(l_continentList);
 		Map<Country, Integer> l_countryToIdMap = GenerateCountryIds(l_countryList);
 
-		File l_file = new File(d_MapFolder + p_fileName);
+		File l_file = new File(MapLoader.d_MapFolder + p_fileName);
 		try (BufferedWriter l_writer = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(l_file), d_Encoding))) {
+				new OutputStreamWriter(new FileOutputStream(l_file), MapLoader.d_Encoding))) {
 			WriteContinents(l_writer, l_continentList);
-            WriteCountries(l_writer, l_countryList, l_continentToIdMap);
-            WriteBorders(l_writer, l_countryList, l_countryToIdMap);
+			WriteCountries(l_writer, l_countryList, l_continentToIdMap);
+			WriteBorders(l_writer, l_countryList, l_countryToIdMap);
 		} catch (IOException l_e) {
 			// In case if we have a partially written file, delete it
 			if (l_file.exists()) {
@@ -96,21 +91,6 @@ public class DominationMapLoader {
 			}
 			throw l_e;
 		}
-	}
-
-	/**
-	 * Gets the territory id.
-	 * 
-	 * @return id int.
-	 */
-
-	/**
-	 * Gets the map folder location.
-	 * 
-	 * @return map folder path.
-	 */
-	public static String getMapFolderPath() {
-		return d_MapFolder;
 	}
 
 	/**
@@ -159,10 +139,10 @@ public class DominationMapLoader {
 			try {
 				String l_continentName;
 				int l_continentValue;
-                
-                String[] l_tokens = l_line.split("\\s+");
-                l_continentName = l_tokens[0].replace('_', ' ');
-                l_continentValue = Integer.parseInt(l_tokens[1]);
+
+				String[] l_tokens = l_line.split("\\s+");
+				l_continentName = l_tokens[0].replace('_', ' ');
+				l_continentValue = Integer.parseInt(l_tokens[1]);
 
 				l_continentMap.put(l_runningId, new Continent(l_continentName, l_continentValue));
 				l_runningId++;
@@ -244,7 +224,7 @@ public class DominationMapLoader {
 				continue;
 			}
 
-			try {				
+			try {
 				String[] l_tokens = l_line.split("\\s+");
 				int l_countryId = Integer.parseInt(l_tokens[0]);
 				for (int l_i = 1; l_i < l_tokens.length; l_i++) {
@@ -386,24 +366,6 @@ public class DominationMapLoader {
 			}
 
 			p_writer.newLine();
-		}
-	}
-
-	/**
-	 * A custom <code>Exception</code> class thrown when a parsing error occurs
-	 * while parsing the .map file.
-	 */
-	@SuppressWarnings("serial")
-	public static class FileParsingException extends Exception {
-
-		/**
-		 * This constructor calls the constructor of the Exception class and sets a
-		 * custom file exception message.
-		 * 
-		 * @param p_message contains the custom file exception message.
-		 */
-		public FileParsingException(String p_message) {
-			super("Invalid map file: " + p_message);
 		}
 	}
 }
