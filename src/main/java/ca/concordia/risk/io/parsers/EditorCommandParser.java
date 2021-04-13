@@ -60,11 +60,13 @@ public class EditorCommandParser extends CommandParser {
 	 */
 	private Command parseSaveMapCommand(List<String> p_argumentList) {
 		if (p_argumentList.isEmpty()) {
-			return new InvalidCommand("no parameters supplied to savemap command");
+			return new InvalidCommand("savemap command expects two parameters");
 		}
 
 		String l_filename = p_argumentList.remove(0);
-		return new SaveMapCommand(l_filename);
+		String l_fileFormat = p_argumentList.remove(0);
+		
+		return new SaveMapCommand(l_filename, l_fileFormat);
 	}
 
 	/**
@@ -138,7 +140,7 @@ public class EditorCommandParser extends CommandParser {
 	 *         occurred.
 	 */
 	private Command parseEditCountryCommand(List<String> p_argumentList) {
-		if (p_argumentList.isEmpty()) {
+		if (p_argumentList.size() < 2) {
 			return new InvalidCommand("no parameters supplied to editcountry command");
 		}
 

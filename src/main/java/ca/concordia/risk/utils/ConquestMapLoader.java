@@ -6,27 +6,22 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
-
 import ca.concordia.risk.game.Continent;
 import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
+import ca.concordia.risk.utils.MapLoader.FileParsingException;
 
 /**
  * This class implements Conquest Map Loader
  * 
  * @author Sindu
  */
-
 public class ConquestMapLoader {
-	
-	private static final String d_MapFolder = "./maps/";
-	private static HashMap<String, Integer> d_territories = new HashMap<String, Integer> ();
-	private static final String d_Encoding = "ISO-8859-1";
 
 	/**
 	 * Loads a map file.
@@ -41,8 +36,8 @@ public class ConquestMapLoader {
 	 * @throws FileNotFoundException thrown if the map file with the requested file
 	 *                               name does not exist.
 	 */
-	public static GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
-		File l_file = new File(d_MapFolder + p_fileName);
+	public GameMap loadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
+		File l_file = new File(MapLoader.d_MapFolder + p_fileName);
 		if (!l_file.exists()) {
 			throw new FileNotFoundException(p_fileName + " not found in the maps folder");
 		}
@@ -51,23 +46,25 @@ public class ConquestMapLoader {
 		// UTF encoded map files are theoretically possible, however we haven't found
 		// any in practice.
 		// If required, encoding detection can be added later on.
-		Scanner l_sc = new Scanner(l_file, d_Encoding);
+		Scanner l_sc = new Scanner(l_file, MapLoader.d_Encoding);
 
 		Map<Integer, Continent> l_continentMap;
-		Map<Integer, Country> l_countryMap;
+		Map<String, Country> l_countryMap;
 
-        SeekToTag("[Continents]", l_sc);
-        l_continentMap = ReadContinents(l_sc);
+		seekToTag("[Continents]", l_sc);
+		l_continentMap = readContinents(l_sc);
 
-        SeekToTag("[Territories]", l_sc);
-        l_countryMap = ReadCountries(l_sc, l_continentMap);
+		seekToTag("[Territories]", l_sc);
+		l_countryMap = readCountries(l_sc, l_continentMap);
 
-        l_sc = new Scanner(l_file, d_Encoding);
+		l_sc.close();
+		l_sc = new Scanner(l_file, MapLoader.d_Encoding);
 
-        SeekToTag("[Territories]", l_sc);
-        ReadBorders(l_sc, l_countryMap);
+		seekToTag("[Territories]", l_sc);
+		readBorders(l_sc, l_countryMap);
+		l_sc.close();
 
-		return CreateMap(l_continentMap, l_countryMap);
+		return createMap(l_continentMap, l_countryMap);
 	}
 
 	/**
@@ -78,17 +75,18 @@ public class ConquestMapLoader {
 	 * @throws IOException exception thrown if an error occurs while writing the map
 	 *                     to file.
 	 */
-	public static void SaveMap(String p_fileName, GameMap p_map) throws IOException {
+	public void saveMap(String p_fileName, GameMap p_map) throws IOException {
 		List<Continent> l_continentList = p_map.getContinents();
 		List<Country> l_countryList = p_map.getCountries();
 
-		Map<Continent, Integer> l_continentToIdMap = GenerateContinentIds(l_continentList);
+		Map<Continent, Integer> l_continentToIdMap = generateContinentIds(l_continentList);
 
-		File l_file = new File(d_MapFolder + p_fileName);
+		File l_file = new File(MapLoader.d_MapFolder + p_fileName);
 		try (BufferedWriter l_writer = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(l_file), d_Encoding))) {
-			WriteContinents(l_writer, l_continentList);
-			WriteCountries(l_writer, l_countryList, l_continentToIdMap);
+				new OutputStreamWriter(new FileOutputStream(l_file), MapLoader.d_Encoding))) {
+			l_writer.write("[Map]\n\n");
+			writeContinents(l_writer, l_continentList);
+			writeCountries(l_writer, l_countryList, l_continentToIdMap);
 		} catch (IOException l_e) {
 			// In case if we have a partially written file, delete it
 			if (l_file.exists()) {
@@ -96,21 +94,6 @@ public class ConquestMapLoader {
 			}
 			throw l_e;
 		}
-	}
-
-	/**
-	 * Gets the territory id.
-	 * 
-	 * @return id int.
-	 */
-
-	/**
-	 * Gets the map folder location.
-	 * 
-	 * @return map folder path.
-	 */
-	public static String getMapFolderPath() {
-		return d_MapFolder;
 	}
 
 	/**
@@ -125,7 +108,7 @@ public class ConquestMapLoader {
 	 * @throws FileParsingException thrown if end of file is reached before
 	 *                              encountering the tag.
 	 */
-	private static void SeekToTag(String p_tag, Scanner p_sc) throws FileParsingException {
+	private void seekToTag(String p_tag, Scanner p_sc) throws FileParsingException {
 		while (p_sc.hasNextLine()) {
 			String l_line = p_sc.nextLine().trim();
 			if (l_line.startsWith(p_tag)) {
@@ -145,7 +128,7 @@ public class ConquestMapLoader {
 	 *         object.
 	 * @throws FileParsingException thrown if an invalid line is encountered.
 	 */
-	private static Map<Integer, Continent> ReadContinents(Scanner p_sc) throws FileParsingException {
+	private Map<Integer, Continent> readContinents(Scanner p_sc) throws FileParsingException {
 		Map<Integer, Continent> l_continentMap = new HashMap<Integer, Continent>();
 
 		int l_runningId = 1;
@@ -159,9 +142,9 @@ public class ConquestMapLoader {
 			try {
 				String l_continentName;
 				int l_continentValue;
-                String[] l_tokens = l_line.split("=");
-                l_continentName = l_tokens[0];
-                l_continentValue = Integer.parseInt(l_tokens[1]);
+				String[] l_tokens = l_line.split("=");
+				l_continentName = l_tokens[0];
+				l_continentValue = Integer.parseInt(l_tokens[1]);
 
 				l_continentMap.put(l_runningId, new Continent(l_continentName, l_continentValue));
 				l_runningId++;
@@ -174,32 +157,20 @@ public class ConquestMapLoader {
 	}
 
 	/**
-	 * This method parses Country names and IDs and maps them to their respective
-	 * Continent.
-	 * 
-	 * @param p_sc           Scanner object.
-	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding
-	 *                       Continent object.
-	 * @return HashMap with Country ID mapped to its corresponding Country object.
-	 * @throws FileParsingException thrown if an invalid line is encountered.
-	 */
-	
-	/**
 	 * This method parses Territory names and IDs and maps them to their respective
 	 * Continent.
 	 * 
 	 * @param p_sc           Scanner object.
 	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding
 	 *                       Continent object.
-	 * @return HashMap with Country ID mapped to its corresponding Country object.
+	 * @return HashMap with Country name mapped to its corresponding Country object.
 	 * @throws FileParsingException thrown if an invalid line is encountered.
 	 */
-	private static Map<Integer, Country> ReadCountries(Scanner p_sc, Map<Integer, Continent> p_continentMap)
+	private Map<String, Country> readCountries(Scanner p_sc, Map<Integer, Continent> p_continentMap)
 			throws FileParsingException {
-		Map<Integer, Country> l_countryMap = new HashMap<Integer, Country>();
+		Map<String, Country> l_countryMap = new HashMap<String, Country>();
 
 		int l_continentId = 0;
-		int l_runningId = 1;
 		String l_continentName = "";
 		while (p_sc.hasNextLine()) {
 			String l_line = p_sc.nextLine().trim();
@@ -209,13 +180,8 @@ public class ConquestMapLoader {
 			}
 			try {
 				String[] l_tokens = l_line.split(",");
-				int l_countryId = l_runningId;
 				String l_countryName = l_tokens[0];
 				String tmp_continentName = l_tokens[3];
-
-				if(!d_territories.containsKey(l_countryName)) {
-					d_territories.put(l_countryName, l_countryId);
-				}
 
 				if (!l_continentName.equalsIgnoreCase(tmp_continentName)) {
 					l_continentId++;
@@ -231,8 +197,7 @@ public class ConquestMapLoader {
 				l_continent.addCountry(l_country);
 
 				// Add country to country map
-				l_countryMap.put(l_countryId, l_country);
-				l_runningId++;
+				l_countryMap.put(l_countryName, l_country);
 			} catch (Exception l_e) {
 				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
 			}
@@ -245,27 +210,26 @@ public class ConquestMapLoader {
 	 * This method parses the borders and adds the neighbors for each country.
 	 * 
 	 * @param p_sc         Scanner object.
-	 * @param p_countryMap HashMap with Country ID mapped to its corresponding
+	 * @param p_countryMap HashMap with Country name mapped to its corresponding
 	 *                     Country object.
 	 * @throws FileParsingException thrown if an invalid line is encountered.
 	 */
-	
-	private static void ReadBorders(Scanner p_sc, Map<Integer, Country> p_countryMap) throws FileParsingException {
-		int l_countryId = 1;
+
+	private void readBorders(Scanner p_sc, Map<String, Country> p_countryMap) throws FileParsingException {
 		while (p_sc.hasNextLine()) {
 			String l_line = p_sc.nextLine().trim();
 			if (l_line.isBlank()) {
 				continue;
 			}
-			try {				
+			try {
 				String[] l_tokens = l_line.split(",");
+				String l_countryName = l_tokens[0];
 				for (int l_i = 4; l_i < l_tokens.length; l_i++) {
 					// Add neighbors to country
 					String l_neighborName = l_tokens[l_i].trim();
-					int l_neighborId = d_territories.get(l_neighborName);
-					p_countryMap.get(l_countryId).addNeighbor(p_countryMap.get(l_neighborId));
+					Country neighbor = p_countryMap.get(l_neighborName);
+					p_countryMap.get(l_countryName).addNeighbor(neighbor);
 				}
-				l_countryId++;
 			} catch (Exception l_e) {
 				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
 			}
@@ -277,11 +241,11 @@ public class ConquestMapLoader {
 	 * 
 	 * @param p_continentMap HashMap with Continent ID mapped to its corresponding
 	 *                       Continent object.
-	 * @param p_countryMap   HashMap with Country ID mapped to its corresponding
+	 * @param p_countryMap   HashMap with Country name mapped to its corresponding
 	 *                       Country object.
 	 * @return game map.
 	 */
-	private static GameMap CreateMap(Map<Integer, Continent> p_continentMap, Map<Integer, Country> p_countryMap) {
+	private GameMap createMap(Map<Integer, Continent> p_continentMap, Map<String, Country> p_countryMap) {
 		GameMap l_gameMap = new GameMap();
 
 		for (Continent l_c : p_continentMap.values()) {
@@ -301,7 +265,7 @@ public class ConquestMapLoader {
 	 * @param p_continentList list of all continents in the map.
 	 * @return map of Continent to generated Continent ID.
 	 */
-	private static Map<Continent, Integer> GenerateContinentIds(List<Continent> p_continentList) {
+	private Map<Continent, Integer> generateContinentIds(List<Continent> p_continentList) {
 		Map<Continent, Integer> l_continentToIdMap = new HashMap<Continent, Integer>();
 
 		int l_continentId = 1;
@@ -321,7 +285,7 @@ public class ConquestMapLoader {
 	 * @throws IOException exception thrown if an error occurs while writing the map
 	 *                     to file.
 	 */
-	private static void WriteContinents(BufferedWriter p_writer, List<Continent> p_continentList) throws IOException {
+	private void writeContinents(BufferedWriter p_writer, List<Continent> p_continentList) throws IOException {
 		p_writer.write("[Continents]");
 		p_writer.newLine();
 
@@ -341,45 +305,36 @@ public class ConquestMapLoader {
 	 * @throws IOException exception thrown if an error occurs while writing the map
 	 *                     to file.
 	 */
-	private static void WriteCountries(BufferedWriter p_writer, List<Country> p_countryList,
+	private void writeCountries(BufferedWriter p_writer, List<Country> p_countryList,
 			Map<Continent, Integer> p_continentToIdMap) throws IOException {
+		// Write the tag
 		p_writer.newLine();
 		p_writer.write("[Territories]");
 		p_writer.newLine();
 
+		// Sort the country list by continent before saving
+		Collections.sort(p_countryList, (c1, c2) -> c1.getContinent().getName().compareTo(c2.getContinent().getName()));
+
+		String l_prevContinentName = "";
 		for (int l_i = 0; l_i < p_countryList.size(); l_i++) {
-			String n_list = "";
 			Country l_country = p_countryList.get(l_i);
 			Continent l_continent = l_country.getContinent();
 
-			Set<Country> l_neighbors = l_country.getNeighbors();
-			for (Country l_c : l_neighbors) {				
-				n_list = "," + n_list + l_c.getName() + " ";
+			// If continent block is finished, add an extra new line
+			if (!l_continent.getName().equals(l_prevContinentName)) {
+				l_prevContinentName = l_continent.getName();
+				p_writer.newLine();
 			}
-			
-			p_writer.write(l_country.getName() + "," + l_continent.getName() + n_list);
+
+			// Write country and continent names
+			p_writer.write(l_country.getName() + ",,," + l_continent.getName());
+
+			// Write the neighbors
+			for (Country l_c : l_country.getNeighbors()) {
+				p_writer.write("," + l_c.getName());
+			}
 			p_writer.newLine();
 		}
 		p_writer.newLine();
 	}
-
-	/**
-	 * A custom <code>Exception</code> class thrown when a parsing error occurs
-	 * while parsing the .map file.
-	 */
-	@SuppressWarnings("serial")
-	public static class FileParsingException extends Exception {
-
-		/**
-		 * This constructor calls the constructor of the Exception class and sets a
-		 * custom file exception message.
-		 * 
-		 * @param p_message contains the custom file exception message.
-		 */
-		public FileParsingException(String p_message) {
-			super("Invalid map file: " + p_message);
-		}
-	}
-
 }
-

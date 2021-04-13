@@ -12,14 +12,17 @@ import ca.concordia.risk.utils.MapValidator;
 public class SaveMapCommand implements Command {
 
 	private String d_filename;
+	private String d_fileFormat;
 
 	/**
 	 * Creates a new <code>SaveMapCommand</code> object.
 	 * 
-	 * @param p_filename filename of the map file to save the active map into.
+	 * @param p_filename   filename of the map file to save the active map into.
+	 * @param p_fileFormat file format to use for the map file.
 	 */
-	public SaveMapCommand(String p_filename) {
+	public SaveMapCommand(String p_filename, String p_fileFormat) {
 		d_filename = p_filename;
+		d_fileFormat = p_fileFormat;
 	}
 
 	/** Saves the active map into the requested map file. */
@@ -33,13 +36,13 @@ public class SaveMapCommand implements Command {
 				l_view.display("Validating the map...");
 				if (MapValidator.Validate(l_gameMap)) {
 					l_view.display("Map is valid. Saving...");
-					MapLoader.SaveMap(d_filename, l_gameMap);
+					MapLoader.SaveMap(d_filename, l_gameMap, d_fileFormat);
 					l_view.display("Map saved");
 				} else {
 					l_view.display("Map is invalid: " + MapValidator.getStatus());
 					l_view.display("Please fix the map before saving");
 				}
-			} catch (IOException l_e) {
+			} catch (IOException | IllegalArgumentException l_e) {
 				l_view.display("Error when saving the map: " + l_e.getMessage());
 			}
 		} else {
