@@ -1,9 +1,12 @@
 package ca.concordia.risk;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import ca.concordia.risk.game.Country;
 import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.game.Player;
 import ca.concordia.risk.game.orders.Order;
@@ -239,6 +242,27 @@ public class GameEngine {
 
 		// Setup initial phase
 		d_ActivePhase = l_editorPhase;
+	}
+	
+	/** Assigns countries randomly to active players. */
+	public static void AssignCountries() {
+		// Get all countries and shuffle them randomly
+		List<Country> l_countryList = d_ActiveMap.getCountries();
+		Collections.shuffle(l_countryList);
+
+		// While there are countries remaining, assign shuffled countries one by one to
+		// players in a round-robin fashion
+		while (!l_countryList.isEmpty()) {
+			for (Player l_player : d_ActivePlayers.values()) {
+				if (l_countryList.isEmpty()) {
+					break;
+				}
+
+				Country l_country = l_countryList.remove(l_countryList.size() - 1);
+				l_player.addCountry(l_country);
+				l_country.setOwner(l_player);
+			}
+		}
 	}
 
 	/**

@@ -83,6 +83,8 @@ public abstract class CommandParser {
 		d_commandParsers.put("editcountry", this::createUnavailableCommand);
 		d_commandParsers.put("editneighbor", this::createUnavailableCommand);
 		d_commandParsers.put("loadmap", this::createUnavailableCommand);
+		
+		d_commandParsers.put("tournament ", this::createUnavailableCommand);
 
 		// Startup commands
 		d_commandParsers.put("gameplayer", this::createUnavailableCommand);

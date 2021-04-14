@@ -61,12 +61,6 @@ public class RandomStrategy extends PlayerStrategy {
 				// Retrieve reinforcements from the player
 				d_player.retrieveReinforcements(l_amountToDeploy);
 				
-				// Add them to the local array of countries (to keep track of armies deploy in this turn)
-				d_countryList.get(0).addArmies(l_amountToDeploy);
-				
-				// Add this country to the list of countries that can advance armies
-				d_countrySet.add(d_countryList.get(0));
-				
 				return new DeployOrder(d_player, d_countryList.get(0), l_amountToDeploy);
 			}
 			
@@ -98,7 +92,6 @@ public class RandomStrategy extends PlayerStrategy {
 				if (d_player.useCard(Card.getAirliftCard())) {
 					Country l_c = d_countryToAdvance.get(0);
 					d_countryToAdvance.remove(0);
-					d_countryToAdvance.add(d_countryList.get(0));
 					return new AirliftOrder(d_player, l_c, d_countryList.get(0), l_c.getArmies());
 				}
 				// Diplomacy
