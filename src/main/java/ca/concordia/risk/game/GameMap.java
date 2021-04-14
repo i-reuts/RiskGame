@@ -109,20 +109,6 @@ public class GameMap {
 	}
 
 	/**
-	 * This is a helper function for <code>removeCountry</code> and
-	 * <code>removeContinent</code>.
-	 * 
-	 * This method removes the passed neighbor country.
-	 * 
-	 * @param p_neighborToRemove neighbor to remove.
-	 */
-	public void removeNeighbors(Country p_neighborToRemove) {
-		for (Country l_c : d_countries.values()) {
-			l_c.removeNeighbor(p_neighborToRemove);
-		}
-	}
-
-	/**
 	 * Removes a country with the specified name from the map.
 	 * 
 	 * @param p_countryName name of the country to remove.
@@ -272,6 +258,20 @@ public class GameMap {
 				}
 			}
 			p_builder.append("\n");
+		}
+	}
+	
+	/**
+	 * This is a helper function for <code>removeCountry</code> and
+	 * <code>removeContinent</code>.
+	 * 
+	 * This method removes the passed neighbor country.
+	 * 
+	 * @param p_neighborToRemove neighbor to remove.
+	 */
+	private void removeNeighbors(Country p_neighborToRemove) {
+		for (Country l_c : d_countries.values()) {
+			l_c.removeNeighbor(p_neighborToRemove);
 		}
 	}
 }
