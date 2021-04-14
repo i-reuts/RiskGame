@@ -18,6 +18,7 @@ import ca.concordia.risk.GameEngine;
 import ca.concordia.risk.game.orders.DeployOrder;
 import ca.concordia.risk.game.orders.Order;
 import ca.concordia.risk.game.strategies.HumanStrategy;
+import ca.concordia.risk.game.strategies.BenevolentStrategy;
 
 /**
  * Unit test class for the <code>Player</code>.
@@ -131,7 +132,7 @@ class PlayerTest {
 		PipedInputStream l_mockInputStream = new PipedInputStream();
 		PrintWriter l_mockInputStreamWriter = new PrintWriter(new PipedOutputStream(l_mockInputStream), true);
 		System.setIn(l_mockInputStream);
-		
+
 		PrintStream l_defaultOutputStream = System.out;
 		System.setOut(new PrintStream(PrintStream.nullOutputStream()));
 
@@ -147,7 +148,7 @@ class PlayerTest {
 		l_player.addCountry(l_country);
 		l_country.setOwner(l_player);
 		l_player.assignReinfocements();
-		
+
 		// Initialize the game engine and switch to the gameplay phase
 		GameEngine.Initialize();
 		GameEngine.SetMap(l_map);
@@ -172,4 +173,34 @@ class PlayerTest {
 		System.setIn(l_defaultInputStream);
 		System.setOut(l_defaultOutputStream);
 	}
+
+	/**
+	 * Tests order issuing by the benevolent player.
+	 * 
+	 */
+	@Test
+	void testBenevolentlyIssuingOrders() {
+
+		// Create a simple map and a player
+		GameMap l_map = new GameMap();
+		Continent l_continent = new Continent("Test Continent", 3);
+		Country l_country1 = new Country("Test Country 1", l_continent);
+		l_map.addContinent(l_continent);
+		l_map.addCountry(l_country1);
+
+		Player l_player = new Player("Test Player");
+		l_player.SetStrategy(new BenevolentStrategy(l_player));
+		l_player.addCountry(l_country1);
+		l_country1.setOwner(l_player);
+		l_player.assignReinfocements();
+
+		l_player.issueOrder();
+
+		Order l_order = l_player.peekLastOrder();
+		assertTrue(l_order instanceof DeployOrder);
+
+		l_order.execute();
+		assertEquals(l_order.getStatus(), "Test Player deployed 6 armies to Test Country 1");
+	}
+
 }
