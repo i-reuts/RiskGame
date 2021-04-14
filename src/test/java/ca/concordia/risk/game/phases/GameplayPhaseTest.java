@@ -41,7 +41,7 @@ class GameplayPhaseTest {
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		// Assume test map file exists
-		File l_mapFile = new File(MapLoader.getMapFolderPath() + d_TestMapPath);
+		File l_mapFile = new File(MapLoader.GetMapFolderPath() + d_TestMapPath);
 		assumeTrue(l_mapFile.exists());
 
 		// Save the standard input and output streams

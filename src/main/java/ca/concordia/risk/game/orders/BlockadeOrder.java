@@ -47,7 +47,9 @@ public class BlockadeOrder implements Order {
 			d_blockadeCountry.addArmies(d_blockadeCountry.getArmies() * 2);
 			// makes the respective country as a neutral territory.
 			d_player.removeCountry(d_blockadeCountry);
-			d_blockadeCountry.setOwner(GameEngine.GetNeutralPlayer());
+			Player l_neutralPlayer = GameEngine.GetNeutralPlayer();
+			d_blockadeCountry.setOwner(l_neutralPlayer);
+			l_neutralPlayer.addCountry(d_blockadeCountry);
 
 			d_status = d_player.getName() + " blockaded " + d_blockadeCountry.getName();
 		}

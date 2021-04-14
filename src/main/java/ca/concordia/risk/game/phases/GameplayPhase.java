@@ -103,7 +103,7 @@ public class GameplayPhase extends Phase {
 	 * 
 	 * @return turn number.
 	 */
-	public int GetTurnNumber() {
+	public int getTurnNumber() {
 		return d_turnNumber;
 	}
 
@@ -112,7 +112,7 @@ public class GameplayPhase extends Phase {
 	 * 
 	 * @param p_turnNumber turn number to set.
 	 */
-	public void SetTurnNumber(int p_turnNumber) {
+	public void setTurnNumber(int p_turnNumber) {
 		d_turnNumber = p_turnNumber;
 		d_logBuffer.write("\nGame restarted from turn " + d_turnNumber);
 	}

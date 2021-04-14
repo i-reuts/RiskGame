@@ -121,7 +121,7 @@ public class GameLoader {
 
 		// Save turn number
 		GameplayPhase l_phase = (GameplayPhase) GameEngine.GetActivePhase();
-		l_saveData.d_turn = l_phase.GetTurnNumber();
+		l_saveData.d_turn = l_phase.getTurnNumber();
 
 		// Save player data for each players
 		Collection<Player> l_players = GameEngine.GetPlayers();
@@ -148,6 +148,12 @@ public class GameLoader {
 			l_saveData.d_playerDataList.add(l_playerData);
 		}
 
+		// Save country data for neutral player
+		l_saveData.d_neutralPlayerData = new SaveData.PlayerData();
+		for (Country l_country : GameEngine.GetNeutralPlayer().getCountries()) {
+			l_saveData.d_neutralPlayerData.d_ownedCountryDataList.put(l_country.getName(), l_country.getArmies());
+		}
+
 		// Return built save data
 		return l_saveData;
 	}
@@ -168,7 +174,7 @@ public class GameLoader {
 
 			// Restore the game turn
 			GameplayPhase l_phase = (GameplayPhase) GameEngine.GetActivePhase();
-			l_phase.SetTurnNumber(p_saveData.d_turn);
+			l_phase.setTurnNumber(p_saveData.d_turn);
 
 			// Restore players and countries
 			GameEngine.ClearPlayers();
@@ -192,7 +198,6 @@ public class GameLoader {
 				GameEngine.AddPlayer(l_player);
 
 				// Restore country ownership and armies
-				l_map = GameEngine.GetMap();
 				for (Entry<String, Integer> l_countryData : l_playerData.d_ownedCountryDataList.entrySet()) {
 					// Find the target country
 					Country l_country = l_map.getCountry(l_countryData.getKey());
@@ -202,6 +207,19 @@ public class GameLoader {
 					l_player.addCountry(l_country);
 					l_country.setOwner(l_player);
 				}
+			}
+
+			// Restore neutral player countries
+			Player l_neutralPlayer = GameEngine.GetNeutralPlayer();
+			SaveData.PlayerData l_neutralPlayerData = p_saveData.d_neutralPlayerData;
+			for (Entry<String, Integer> l_countryData : l_neutralPlayerData.d_ownedCountryDataList.entrySet()) {
+				// Find the target country
+				Country l_country = l_map.getCountry(l_countryData.getKey());
+				// Restore armies
+				l_country.addArmies(l_countryData.getValue());
+				// Restore ownership
+				l_neutralPlayer.addCountry(l_country);
+				l_country.setOwner(l_neutralPlayer);
 			}
 		} catch (FileNotFoundException | FileParsingException l_e) {
 			// Report map loading error
@@ -224,6 +242,7 @@ public class GameLoader {
 		private int d_turn;
 		private String d_mapFilename;
 		private ArrayList<PlayerData> d_playerDataList = new ArrayList<PlayerData>();
+		PlayerData d_neutralPlayerData;
 
 		/**
 		 * Serializable data class that stores the save data of a Player.

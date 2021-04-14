@@ -160,6 +160,7 @@ public class GameEngine {
 	 */
 	public static void ClearPlayers() {
 		d_ActivePlayers.clear();
+		d_NeutralPlayer = new Player("Neutral");
 	}
 
 	/**
@@ -225,6 +226,7 @@ public class GameEngine {
 
 		// Cleanup active players
 		d_ActivePlayers = new TreeMap<String, Player>();
+		d_NeutralPlayer = new Player("Neutral");
 
 		// Initialize and connect all phases
 		Phase l_editorPhase = new MapEditorPhase();
