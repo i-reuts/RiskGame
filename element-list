@@ -1,0 +1,10 @@
+ca.concordia.risk
+ca.concordia.risk.game
+ca.concordia.risk.game.gamemodes
+ca.concordia.risk.game.orders
+ca.concordia.risk.game.phases
+ca.concordia.risk.game.strategies
+ca.concordia.risk.io.commands
+ca.concordia.risk.io.parsers
+ca.concordia.risk.io.views
+ca.concordia.risk.utils
