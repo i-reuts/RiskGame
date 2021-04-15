@@ -7,6 +7,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * This class represents a log file writer.
@@ -16,7 +18,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class LogFileWriter implements Observer {
 
-	private static final String d_LogFilePath = "logs/gamelog.log";
+	private static final String d_LogFilePath = "logs/gamelog";
+	private static final String d_LogFileExtension = ".log";
 	private static final Charset d_Encoding = StandardCharsets.ISO_8859_1;
 
 	private PrintWriter d_logWriter;
@@ -29,7 +32,9 @@ public class LogFileWriter implements Observer {
 	 * @throws FileNotFoundException thrown if opening the log file fails.
 	 */
 	public void openLogFile() throws FileNotFoundException {
-		File l_logFile = new File(d_LogFilePath);
+		String l_timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+		
+		File l_logFile = new File(d_LogFilePath + l_timeStamp + d_LogFileExtension);
 		if (!l_logFile.exists()) {
 			l_logFile.getParentFile().mkdirs();
 		}
