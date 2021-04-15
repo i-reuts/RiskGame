@@ -10,7 +10,7 @@ import ca.concordia.risk.game.orders.Order;
  */
 public abstract class PlayerStrategy {
 
-	/** Player context for this strategy */
+	/** Player context for this strategy. */
 	protected Player d_player;
 
 	/**

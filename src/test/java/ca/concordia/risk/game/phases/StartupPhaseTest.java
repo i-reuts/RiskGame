@@ -91,7 +91,7 @@ public class StartupPhaseTest {
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
 		l_gameplayerCommand.addPlayer("Player_1", "human");
 		l_gameplayerCommand.addPlayer("Player_1", "human");
-		l_gameplayerCommand.addPlayer("Player_2","human");
+		l_gameplayerCommand.addPlayer("Player_2", "human");
 		l_gameplayerCommand.execute();
 
 		// Player with the same name cannot be added twice
@@ -116,7 +116,7 @@ public class StartupPhaseTest {
 	void testStartGameOnePlayer() {
 		// Add just one player
 		GamePlayerCommand l_gameplayerCommand = new GamePlayerCommand();
-		l_gameplayerCommand.addPlayer("Player_0","human");
+		l_gameplayerCommand.addPlayer("Player_0", "human");
 		l_gameplayerCommand.execute();
 
 		// Try to start the game with one player

@@ -47,18 +47,15 @@ public class DominationMapLoader {
 		// any in practice.
 		// If required, encoding detection can be added later on.
 		try (Scanner l_sc = new Scanner(l_file, MapLoader.d_Encoding)) {
-			Map<Integer, Continent> l_continentMap;
-			Map<Integer, Country> l_countryMap;
-		
 			SeekToTag("[continents]", l_sc);
-			l_continentMap = ReadContinents(l_sc);
-		
+			Map<Integer, Continent> l_continentMap = ReadContinents(l_sc);
+
 			SeekToTag("[countries]", l_sc);
-			l_countryMap = ReadCountries(l_sc, l_continentMap);
-		
+			Map<Integer, Country> l_countryMap = ReadCountries(l_sc, l_continentMap);
+
 			SeekToTag("[borders]", l_sc);
 			ReadBorders(l_sc, l_countryMap);
-		
+
 			return CreateMap(l_continentMap, l_countryMap);
 		}
 	}

@@ -25,16 +25,18 @@ import ca.concordia.risk.game.orders.Order;
  */
 public class RandomStrategy extends PlayerStrategy {
 
-	ArrayList<Country> d_countryList;
-	ArrayList<Country> d_countryToAdvance;
-	Set<Country> d_countrySet;
-	Random d_rand;
-	int d_randomCount = 1;
-	int d_advanceIndex = 0;
-	boolean d_hasThisRoundRand = false;
+	private ArrayList<Country> d_countryList;
+	private ArrayList<Country> d_countryToAdvance;
+	private Set<Country> d_countrySet;
+	private Random d_rand;
+	private int d_randomCount = 1;
+	private int d_advanceIndex = 0;
+	private boolean d_hasThisRoundRand = false;
 
 	/**
-	 * {@inheritDoc}
+	 * Creates a new random strategy.
+	 * 
+	 * @param p_player player using this strategy to set as context.
 	 */
 	public RandomStrategy(Player p_player) {
 		super(p_player);
@@ -54,37 +56,37 @@ public class RandomStrategy extends PlayerStrategy {
 			if (d_player.getRemainingReinforcements() > 0) {
 				// We will deploy to a random country
 				Collections.shuffle(d_countryList);
-				
+
 				// Random amount to deploy
 				int l_amountToDeploy = d_rand.nextInt(d_player.getRemainingReinforcements()) + 1;
-				
+
 				// Retrieve reinforcements from the player
 				d_player.retrieveReinforcements(l_amountToDeploy);
-				
+
 				return new DeployOrder(d_player, d_countryList.get(0), l_amountToDeploy);
 			}
-			
+
 			// Randomize the countries that can advance armies once per round
 			if (!d_hasThisRoundRand) {
 				d_hasThisRoundRand = true;
-				
+
 				// Add all countries that already had armies
 				for (Country l_c : d_countryList) {
 					if (l_c.getArmies() > 0) {
 						d_countrySet.add(l_c);
 					}
 				}
-				
+
 				// Randomize the countries to advance armies
 				d_countryToAdvance = new ArrayList<Country>(d_countrySet);
 				Collections.shuffle(d_countryToAdvance);
 			}
-			
-			// Play cards if available 
+
+			// Play cards if available
 			if (!d_player.getCards().isEmpty()) {
 				// Blockade
 				if (d_player.useCard(Card.getBlockadeCard())) {
-					if(!d_countryToAdvance.isEmpty()) {
+					if (!d_countryToAdvance.isEmpty()) {
 						Country l_c = d_countryToAdvance.get(0);
 						d_countryToAdvance.remove(0);
 						return new BlockadeOrder(d_player, l_c);
@@ -92,7 +94,7 @@ public class RandomStrategy extends PlayerStrategy {
 				}
 				// Airlift
 				if (d_player.useCard(Card.getAirliftCard())) {
-					if(!d_countryToAdvance.isEmpty()) {
+					if (!d_countryToAdvance.isEmpty()) {
 						Country l_c = d_countryToAdvance.get(0);
 						d_countryToAdvance.remove(0);
 						return new AirliftOrder(d_player, l_c, d_countryList.get(0), l_c.getArmies());
@@ -102,7 +104,7 @@ public class RandomStrategy extends PlayerStrategy {
 				if (d_player.useCard(Card.getDiplomacyCard())) {
 					ArrayList<Player> l_players = new ArrayList<Player>(GameEngine.GetPlayers());
 					Collections.shuffle(l_players);
-					
+
 					for (Player l_otherPlayer : l_players) {
 						if (!l_otherPlayer.getName().equals(d_player.getName())) {
 							return new NegotiateOrder(d_player, l_otherPlayer);
@@ -120,31 +122,31 @@ public class RandomStrategy extends PlayerStrategy {
 					}
 				}
 			}
-			
+
 			// At least advance armies from 1 country per round
 			if (d_advanceIndex < d_countryToAdvance.size() && d_rand.nextInt(d_randomCount) < 1) {
-				
+
 				// After each advance, the probabilities to advance again are reduced
-				d_randomCount ++;
-				
+				d_randomCount++;
+
 				// Get the next country
 				Country l_c = d_countryToAdvance.get(d_advanceIndex);
-				d_advanceIndex ++;
-				
+				d_advanceIndex++;
+
 				// Get a Random neighbor
 				ArrayList<Country> l_neighborList = new ArrayList<Country>(l_c.getNeighbors());
 				Collections.shuffle(l_neighborList);
-				
+
 				return new AdvanceOrder(d_player, l_c, l_neighborList.get(0), d_rand.nextInt(l_c.getArmies()) + 1);
 			}
 		}
-		
+
 		// Reset all values for the next round
 		d_advanceIndex = 0;
 		d_randomCount = 1;
 		d_hasThisRoundRand = false;
 		d_countrySet = new HashSet<Country>();
-		
+
 		// Finish issuing orders
 		d_player.setFinishedIssuingOrder(true);
 		return null;

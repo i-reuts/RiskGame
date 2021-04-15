@@ -23,10 +23,10 @@ public class Player {
 	private int d_reinforcements;
 	private boolean d_earnedCard;
 	private boolean d_finishedIssuingOrders;
-	private Deque<Order> d_orders = new LinkedList<Order>();;
-	private Set<Country> d_countries = new HashSet<Country>();;
-	private List<Card> d_cards = new LinkedList<Card>();;
-	private Set<Player> d_activeNegotiations = new HashSet<Player>();;
+	private Deque<Order> d_orders = new LinkedList<Order>();
+	private Set<Country> d_countries = new HashSet<Country>();
+	private List<Card> d_cards = new LinkedList<Card>();
+	private Set<Player> d_activeNegotiations = new HashSet<Player>();
 
 	/**
 	 * Creates a new player with a default <i>human</i> strategy.

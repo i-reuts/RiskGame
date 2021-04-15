@@ -24,7 +24,7 @@ import ca.concordia.risk.utils.LogFileWriter;
  *
  */
 public class GameplayPhase extends Phase {
-	
+
 	private static final int d_TurnLimit = 10000;
 
 	private LogEntryBuffer d_logBuffer = new LogEntryBuffer();
@@ -69,7 +69,7 @@ public class GameplayPhase extends Phase {
 
 		d_logBuffer.detach(d_logFileWriter);
 		d_logFileWriter.closeLogFile();
-		
+
 		// Clean up the players
 		GameEngine.ClearPlayers();
 	}
@@ -237,9 +237,9 @@ public class GameplayPhase extends Phase {
 				l_eliminatedPlayers.add(l_player);
 			}
 		}
-		
+
 		// Remove eliminated players from the game and report on their elimination
-		for(Player l_player : l_eliminatedPlayers) {
+		for (Player l_player : l_eliminatedPlayers) {
 			// Remove the player from the game
 			GameEngine.RemovePlayer(l_player.getName());
 
@@ -260,11 +260,12 @@ public class GameplayPhase extends Phase {
 			// End the Gameplay Phase
 			GameEngine.SwitchToNextPhase();
 		} else if (d_turnNumber == d_TurnLimit) {
-			// If no victor is found and we reached the turn limit, declare a draw and end the game
+			// If no victor is found and we reached the turn limit, declare a draw and end
+			// the game
 			String l_turnLimitMessage = "\nTurn limit of " + d_TurnLimit + " turns reached. The game is a draw";
 			d_logBuffer.write(l_turnLimitMessage);
 			GameEngine.GetView().display(l_turnLimitMessage);
-			
+
 			// End the Gameplay Phase
 			GameEngine.SwitchToNextPhase();
 		}

@@ -13,7 +13,9 @@ import ca.concordia.risk.game.orders.Order;
 public class HumanStrategy extends PlayerStrategy {
 
 	/**
-	 * {@inheritDoc}
+	 * Creates a new human strategy.
+	 * 
+	 * @param p_player player using this strategy to set as context.
 	 */
 	public HumanStrategy(Player p_player) {
 		super(p_player);

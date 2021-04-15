@@ -26,6 +26,11 @@ import ca.concordia.risk.game.Player;
 import ca.concordia.risk.io.commands.GamePlayerCommand;
 import ca.concordia.risk.utils.MapLoader;
 
+/**
+ * Unit test class for the <code>StartupPhase</code> class.
+ * <p>
+ * Tests player elimination and game ending conditions.
+ */
 @TestMethodOrder(OrderAnnotation.class)
 class GameplayPhaseTest {
 
@@ -61,8 +66,6 @@ class GameplayPhaseTest {
 		GameEngine.Initialize();
 
 		// Create and set the map
-		GameMap l_map = new GameMap();
-
 		Continent l_continent = new Continent("Continent 1", 3);
 		Country l_country1 = new Country("Country 1", l_continent);
 		Country l_country2 = new Country("Country 2", l_continent);
@@ -75,6 +78,7 @@ class GameplayPhaseTest {
 		l_country3.addNeighbor(l_country1);
 		l_country3.addNeighbor(l_country2);
 
+		GameMap l_map = new GameMap();
 		l_map.addContinent(l_continent);
 		l_map.addCountry(l_country1);
 		l_map.addCountry(l_country2);
@@ -118,6 +122,9 @@ class GameplayPhaseTest {
 		System.setIn(d_DefaultInputStream);
 	}
 
+	/**
+	 * Test player elimination when they lose all countries.
+	 */
 	@Test
 	@Order(1)
 	void testPlayerElimination() {
@@ -138,6 +145,9 @@ class GameplayPhaseTest {
 		assertNull(GameEngine.GetPlayer("Player 2"));
 	}
 
+	/**
+	 * Tests game ending when only one player remains.
+	 */
 	@Test
 	@Order(2)
 	void testGameEnding() {

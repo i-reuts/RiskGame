@@ -21,11 +21,13 @@ import ca.concordia.risk.game.orders.Order;
  */
 public class BenevolentStrategy extends PlayerStrategy {
 
-	ArrayList<Country> d_countryList;
-	ArrayList<Country> d_hasAdvanced;
+	private ArrayList<Country> d_countryList;
+	private ArrayList<Country> d_hasAdvanced;
 
 	/**
-	 * {@inheritDoc}
+	 * Creates a new benevolent strategy.
+	 * 
+	 * @param p_player player using this strategy to set as context.
 	 */
 	public BenevolentStrategy(Player p_player) {
 		super(p_player);
@@ -117,33 +119,33 @@ public class BenevolentStrategy extends PlayerStrategy {
 
 	/**
 	 * The strongest country of the player having maximum number of armies is
-	 * decided
+	 * decided.
 	 * 
 	 * @return the country with Maximum number of armies
 	 */
 	private Country strongestCountry() {
 		d_countryList = new ArrayList<Country>(d_player.getCountries());
 		Country l_strongest = d_countryList.get(0);
-		for (Country c : d_countryList) {
-			if (c.getArmies() > l_strongest.getArmies()) {
-				l_strongest = c;
+		for (Country l_c : d_countryList) {
+			if (l_c.getArmies() > l_strongest.getArmies()) {
+				l_strongest = l_c;
 			}
 		}
 		return l_strongest;
 	}
 
 	/**
-	 * The weakest country of the player having minimum number of armies is decided
+	 * The weakest country of the player having minimum number of armies is decided.
 	 * 
 	 * @return the country with Minimum number of armies
 	 */
 	private Country weakestCountry() {
 		d_countryList = new ArrayList<Country>(d_player.getCountries());
 		Country l_weakest = d_countryList.get(0);
-		for (Country c : d_countryList) {
-			for (Country n : c.getNeighbors()) {
-				if (c.getArmies() < l_weakest.getArmies() && !n.getOwner().equals(d_player)) {
-					l_weakest = c;
+		for (Country l_c : d_countryList) {
+			for (Country l_n : l_c.getNeighbors()) {
+				if (l_c.getArmies() < l_weakest.getArmies() && !l_n.getOwner().equals(d_player)) {
+					l_weakest = l_c;
 					break;
 				}
 			}

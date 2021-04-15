@@ -13,12 +13,12 @@ import ca.concordia.risk.game.GameMap;
  */
 public class MapLoader {
 
-	/** Map file root directory */
+	/** Map file root directory. */
 	protected static final String d_MapFolder = "./maps/";
-	/** Encoding to use when reading and writing map files */
+	/** Encoding to use when reading and writing map files. */
 	protected static final String d_Encoding = "ISO-8859-1";
 
-	/** Represents the map file type */
+	/** Represents the map file type. */
 	private enum MapType {
 		DOMINATION, CONQUEST
 	};

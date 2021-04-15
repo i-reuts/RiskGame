@@ -17,7 +17,7 @@ import ca.concordia.risk.game.GameMap;
 import ca.concordia.risk.utils.MapLoader.FileParsingException;
 
 /**
- * This class implements Conquest Map Loader
+ * This class implements the map loader for conquest maps.
  * 
  * @author Sindu
  */
@@ -48,14 +48,11 @@ public class ConquestMapLoader {
 		// If required, encoding detection can be added later on.
 		Scanner l_sc = new Scanner(l_file, MapLoader.d_Encoding);
 
-		Map<Integer, Continent> l_continentMap;
-		Map<String, Country> l_countryMap;
-
 		seekToTag("[Continents]", l_sc);
-		l_continentMap = readContinents(l_sc);
+		Map<Integer, Continent> l_continentMap = readContinents(l_sc);
 
 		seekToTag("[Territories]", l_sc);
-		l_countryMap = readCountries(l_sc, l_continentMap);
+		Map<String, Country> l_countryMap = readCountries(l_sc, l_continentMap);
 
 		l_sc.close();
 		l_sc = new Scanner(l_file, MapLoader.d_Encoding);
@@ -181,11 +178,11 @@ public class ConquestMapLoader {
 			try {
 				String[] l_tokens = l_line.split(",");
 				String l_countryName = l_tokens[0];
-				String tmp_continentName = l_tokens[3];
+				String l_tmpContinentName = l_tokens[3];
 
-				if (!l_continentName.equalsIgnoreCase(tmp_continentName)) {
+				if (!l_continentName.equalsIgnoreCase(l_tmpContinentName)) {
 					l_continentId++;
-					l_continentName = tmp_continentName;
+					l_continentName = l_tmpContinentName;
 				}
 
 				// Get country continent
@@ -227,8 +224,8 @@ public class ConquestMapLoader {
 				for (int l_i = 4; l_i < l_tokens.length; l_i++) {
 					// Add neighbors to country
 					String l_neighborName = l_tokens[l_i].trim();
-					Country neighbor = p_countryMap.get(l_neighborName);
-					p_countryMap.get(l_countryName).addNeighbor(neighbor);
+					Country l_neighbor = p_countryMap.get(l_neighborName);
+					p_countryMap.get(l_countryName).addNeighbor(l_neighbor);
 				}
 			} catch (Exception l_e) {
 				throw new FileParsingException("error when parsing - invalid line format \"" + l_line + "\"");
@@ -313,7 +310,8 @@ public class ConquestMapLoader {
 		p_writer.newLine();
 
 		// Sort the country list by continent before saving
-		Collections.sort(p_countryList, (c1, c2) -> c1.getContinent().getName().compareTo(c2.getContinent().getName()));
+		Collections.sort(p_countryList,
+				(l_c1, l_c2) -> l_c1.getContinent().getName().compareTo(l_c2.getContinent().getName()));
 
 		String l_prevContinentName = "";
 		for (int l_i = 0; l_i < p_countryList.size(); l_i++) {

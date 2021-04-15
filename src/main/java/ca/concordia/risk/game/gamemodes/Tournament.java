@@ -156,16 +156,16 @@ public class Tournament {
 	 * Resets the state from the previous game and sets up the next game by loading
 	 * the map, adding players and assigning countries.
 	 * 
-	 * @param l_mapFilename filename of the map file to use in the next game.
+	 * @param p_mapFilename filename of the map file to use in the next game.
 	 * @throws Exception thrown if an unexpected exception occurs while
 	 *                   initializing.
 	 */
-	private void initializeGame(String l_mapFilename) throws Exception {
+	private void initializeGame(String p_mapFilename) throws Exception {
 		// Re-initialize the game engine
 		GameEngine.Initialize();
 
 		// Load the map
-		GameMap l_map = MapLoader.LoadMap(l_mapFilename);
+		GameMap l_map = MapLoader.LoadMap(p_mapFilename);
 		GameEngine.SetMap(l_map);
 
 		// Create and add players

@@ -83,7 +83,7 @@ public abstract class CommandParser {
 		d_commandParsers.put("editcountry", this::createUnavailableCommand);
 		d_commandParsers.put("editneighbor", this::createUnavailableCommand);
 		d_commandParsers.put("loadmap", this::createUnavailableCommand);
-		
+
 		d_commandParsers.put("tournament ", this::createUnavailableCommand);
 
 		// Startup commands
@@ -99,8 +99,8 @@ public abstract class CommandParser {
 
 		d_commandParsers.put("pass", this::createUnavailableCommand);
 		d_commandParsers.put("showcards", this::createUnavailableCommand);
-		
-		d_commandParsers.put("savegame", this::createUnavailableCommand);		
+
+		d_commandParsers.put("savegame", this::createUnavailableCommand);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public abstract class CommandParser {
 		String l_filename = p_argumentList.remove(0);
 		return new LoadGameCommand(l_filename);
 	}
-	
+
 	/**
 	 * Parses a <i>"showmap"</i> command.
 	 * 
@@ -139,8 +139,6 @@ public abstract class CommandParser {
 	protected Command parseShowMapCommand(List<String> p_argumentList) {
 		return new ShowMapCommand(false);
 	}
-	
-	
 
 	/**
 	 * Creates an <code>InvalidCommand</code> specifying that the given user command

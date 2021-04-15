@@ -12,17 +12,19 @@ import ca.concordia.risk.game.orders.Order;
  * <p>
  * A <code>Player</code> that cheats.
  */
-public class CheaterStrategy extends PlayerStrategy{
-	
-	ArrayList<Country> d_countryList;
-	
+public class CheaterStrategy extends PlayerStrategy {
+
+	private ArrayList<Country> d_countryList;
+
 	/**
-	 * {@inheritDoc}
+	 * Creates a new cheater strategy.
+	 * 
+	 * @param p_player player using this strategy to set as context.
 	 */
 	public CheaterStrategy(Player p_player) {
 		super(p_player);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -37,14 +39,14 @@ public class CheaterStrategy extends PlayerStrategy{
 				if (!l_n.getOwner().getName().equals(d_player.getName())) {
 					// Get the instance of the game engine
 					Country l_conqueredCountry = GameEngine.GetMap().getCountry(l_n.getName());
-					
+
 					l_conqueredCountry.getOwner().removeCountry(l_conqueredCountry);
 					l_conqueredCountry.setOwner(d_player);
 					d_player.addCountry(l_conqueredCountry);
 				}
 			}
 		}
-		
+
 		d_countryList = new ArrayList<Country>(d_player.getCountries());
 		for (Country l_c : d_countryList) {
 			boolean l_duplicateArmies = false;
@@ -53,11 +55,11 @@ public class CheaterStrategy extends PlayerStrategy{
 				// If a country has a neighbor enemy, double the armies.
 				if (!l_n.getOwner().getName().equals(d_player.getName())) {
 					l_duplicateArmies = true;
-					
+
 					if (l_c.getArmies() > 0) {
 						break;
 					}
-					
+
 					// If owned country does not has armies, then calculate the strongest enemy
 					if (l_maxArmies < l_n.getArmies()) {
 						l_maxArmies = l_n.getArmies();
@@ -66,8 +68,9 @@ public class CheaterStrategy extends PlayerStrategy{
 			}
 			if (l_duplicateArmies) {
 				Country l_gameCountry = GameEngine.GetMap().getCountry(l_c.getName());
-				
-				// Add initial armies based on strongest country if owned country does not has an army
+
+				// Add initial armies based on strongest country if owned country does not has
+				// an army
 				if (l_gameCountry.getArmies() == 0 && l_maxArmies > 0) {
 					l_gameCountry.addArmies(l_maxArmies);
 				}
@@ -75,7 +78,7 @@ public class CheaterStrategy extends PlayerStrategy{
 				l_gameCountry.addArmies(l_gameCountry.getArmies() * 2);
 			}
 		}
-		
+
 		d_player.setFinishedIssuingOrder(true);
 		return null;
 	}

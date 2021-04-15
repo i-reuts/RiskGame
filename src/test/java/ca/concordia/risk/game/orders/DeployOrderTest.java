@@ -22,11 +22,11 @@ public class DeployOrderTest {
 
 	private static GameMap d_Map;
 	private static Player d_Player;
-	private static Country d_Country1; 
-	
+	private static Country d_Country1;
+
 	/**
-	 * Initializes the context with an empty map, creates a player 
-	 * and adds a country to the player before all tests.
+	 * Initializes the context with an empty map, creates a player and adds a
+	 * country to the player before all tests.
 	 */
 	@BeforeAll
 	public static void SetUp() {
@@ -44,11 +44,11 @@ public class DeployOrderTest {
 		// Create a player
 		d_Player = new Player("Player A");
 
-		// Add 1st country to countries owned by the player A  
+		// Add 1st country to countries owned by the player A
 		d_Player.addCountry(d_Country1);
 
 	}
-	
+
 	/**
 	 * Tests validating a Deployment order.
 	 * <p>
@@ -70,14 +70,14 @@ public class DeployOrderTest {
 	 */
 	@Test
 	public void deploymentOrderFailtest() {
-		//give an order deploy any random number of armies: 6
+		// give an order deploy any random number of armies: 6
 		DeployOrder l_deployorder = new DeployOrder(d_Player, d_Country1, 6);
 		l_deployorder.execute();
 		assertEquals(l_deployorder.getStatus(), "Player A deployed 6 armies to Country 0");
 
 		// Remove the added country from the countries owned by the player
 		d_Player.removeCountry(d_Country1);
-		
+
 		// give an order to deploy any random number of armies: 6
 		l_deployorder = new DeployOrder(d_Player, d_Country1, 6);
 		l_deployorder.execute();

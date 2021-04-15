@@ -107,8 +107,8 @@ public class EditCountryCommand implements Command {
 	 */
 	private static class NewCountryData {
 
-		public String d_countryName;
-		public String d_continentName;
+		private String d_countryName;
+		private String d_continentName;
 
 		/**
 		 * Creates a new <code>NewCountryData</code> tuple.

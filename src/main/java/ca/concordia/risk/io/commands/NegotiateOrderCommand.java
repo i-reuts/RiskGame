@@ -49,13 +49,13 @@ public class NegotiateOrderCommand implements OrderCommand {
 			l_view.display("Invalid order: player " + d_playerName + " does not exist");
 			return null;
 		}
-		
+
 		// Ensure not negotiating with themself
 		if (d_playerName.equals(p_player.getName())) {
 			l_view.display("Invalid order: player " + d_playerName + " cannot negotiate with themself");
 			return null;
 		}
-		
+
 		// Validate if the player has a diplomacy card
 		if (!p_player.useCard(Card.getDiplomacyCard())) {
 			l_view.display("Invalid order: player " + p_player.getName() + " does not have a diplomacy card");

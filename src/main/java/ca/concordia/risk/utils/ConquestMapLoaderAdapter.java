@@ -10,16 +10,16 @@ import ca.concordia.risk.utils.MapLoader.FileParsingException;
  * <code>DominationMapLoader</code>.
  */
 public class ConquestMapLoaderAdapter extends DominationMapLoader {
-	private ConquestMapLoader loader;
+	private ConquestMapLoader d_loader;
 
 	/**
 	 * Creates a new adapter, wrapping a given <code>ConquestMapLoader</code>
 	 * object.
 	 * 
-	 * @param loader <code>ConquestMapLoader</code> to wrap.
+	 * @param p_loader <code>ConquestMapLoader</code> to wrap.
 	 */
-	public ConquestMapLoaderAdapter(ConquestMapLoader loader) {
-		this.loader = loader;
+	public ConquestMapLoaderAdapter(ConquestMapLoader p_loader) {
+		this.d_loader = p_loader;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class ConquestMapLoaderAdapter extends DominationMapLoader {
 	 */
 	@Override
 	public GameMap LoadMap(String p_fileName) throws FileParsingException, FileNotFoundException {
-		return loader.loadMap(p_fileName);
+		return d_loader.loadMap(p_fileName);
 	}
 
 	/**
@@ -41,6 +41,6 @@ public class ConquestMapLoaderAdapter extends DominationMapLoader {
 	 */
 	@Override
 	public void SaveMap(String p_fileName, GameMap p_map) throws IOException {
-		loader.saveMap(p_fileName, p_map);
+		d_loader.saveMap(p_fileName, p_map);
 	}
 }

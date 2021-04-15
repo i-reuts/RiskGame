@@ -54,7 +54,7 @@ public class BombOrder implements Order {
 
 	/**
 	 * Checks if the target country is adjacent to one of the current player’s
-	 * territories
+	 * territories.
 	 * 
 	 * @return <code>true</code>if the target country is adjacent to one of the
 	 *         current player’s territories. <br>

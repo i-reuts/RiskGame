@@ -260,7 +260,7 @@ public class GameMap {
 			p_builder.append("\n");
 		}
 	}
-	
+
 	/**
 	 * This is a helper function for <code>removeCountry</code> and
 	 * <code>removeContinent</code>.

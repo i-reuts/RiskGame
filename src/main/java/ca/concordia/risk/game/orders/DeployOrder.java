@@ -27,7 +27,7 @@ public class DeployOrder implements Order {
 		d_player = p_player;
 		d_deployCountry = p_country;
 		d_armiesToDeploy = p_numArmies;
-		
+
 		d_status = "deploy " + d_armiesToDeploy + " armies to " + d_deployCountry.getName();
 	}
 

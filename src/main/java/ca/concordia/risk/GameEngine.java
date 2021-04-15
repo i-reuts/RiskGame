@@ -243,7 +243,7 @@ public class GameEngine {
 		// Setup initial phase
 		d_ActivePhase = l_editorPhase;
 	}
-	
+
 	/** Assigns countries randomly to active players. */
 	public static void AssignCountries() {
 		// Get all countries and shuffle them randomly

@@ -21,6 +21,7 @@ public class LogFileWriter implements Observer {
 	private static final String d_LogFilePath = "logs/gamelog";
 	private static final String d_LogFileExtension = ".log";
 	private static final Charset d_Encoding = StandardCharsets.ISO_8859_1;
+	private static final boolean d_UseTimestamps = false;
 
 	private PrintWriter d_logWriter;
 
@@ -32,8 +33,11 @@ public class LogFileWriter implements Observer {
 	 * @throws FileNotFoundException thrown if opening the log file fails.
 	 */
 	public void openLogFile() throws FileNotFoundException {
-		String l_timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
-		
+		String l_timeStamp = "";
+		if (d_UseTimestamps) {
+			l_timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+		}
+
 		File l_logFile = new File(d_LogFilePath + l_timeStamp + d_LogFileExtension);
 		if (!l_logFile.exists()) {
 			l_logFile.getParentFile().mkdirs();

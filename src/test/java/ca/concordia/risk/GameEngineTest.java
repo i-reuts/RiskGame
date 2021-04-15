@@ -170,7 +170,7 @@ class GameEngineTest {
 	 * it and executes the resulting order, if any.
 	 * 
 	 * @param p_commandInput raw command string to process.
-	 * @param p_player player to execute command for.
+	 * @param p_player       player to execute command for.
 	 */
 	private void executeOrderCommand(String p_commandInput, Player p_player) {
 		d_MockInputStreamWriter.println(p_commandInput);

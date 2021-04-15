@@ -20,15 +20,17 @@ import ca.concordia.risk.game.orders.Order;
  */
 public class AggressiveStrategy extends PlayerStrategy {
 	// Key = node , Value = backtrack node
-	HashMap<Country, Country> d_backtrack = new HashMap<Country, Country>();
-	Stack<Country> d_path = new Stack<Country>();
-	ArrayList<Country> d_countryList;
-	Country d_countryToDeploy = null;
-	int d_amountToDeploy = 0;
-	boolean d_hasAdvance = false;
+	private HashMap<Country, Country> d_backtrack = new HashMap<Country, Country>();
+	private Stack<Country> d_path = new Stack<Country>();
+	private ArrayList<Country> d_countryList;
+	private Country d_countryToDeploy = null;
+	private int d_amountToDeploy = 0;
+	private boolean d_hasAdvance = false;
 
 	/**
-	 * {@inheritDoc}
+	 * Creates a new aggressive strategy.
+	 * 
+	 * @param p_player player using this strategy to set as context.
 	 */
 	public AggressiveStrategy(Player p_player) {
 		super(p_player);
@@ -93,7 +95,7 @@ public class AggressiveStrategy extends PlayerStrategy {
 	}
 
 	/**
-	 * Populate d_backtrack with a BFS approach, until finding an enemy
+	 * Populate d_backtrack with a BFS approach, until finding an enemy.
 	 * 
 	 * @param p_fromCountry Current country to trace a path to an enemy country.
 	 * @return Enemy Country to advance towards
