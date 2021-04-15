@@ -80,6 +80,7 @@ public class GameplayPhase extends Phase {
 	@Override
 	public void execute() {
 		try {
+			GameEngine.GetView().display("\nTurn " + d_turnNumber + " begins");
 			d_logBuffer.write("\nTurn " + d_turnNumber + " begins");
 
 			assignReinforcements();
