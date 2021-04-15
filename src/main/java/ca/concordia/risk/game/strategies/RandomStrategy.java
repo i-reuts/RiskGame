@@ -84,15 +84,19 @@ public class RandomStrategy extends PlayerStrategy {
 			if (!d_player.getCards().isEmpty()) {
 				// Blockade
 				if (d_player.useCard(Card.getBlockadeCard())) {
-					Country l_c = d_countryToAdvance.get(0);
-					d_countryToAdvance.remove(0);
-					return new BlockadeOrder(d_player, l_c);
+					if(!d_countryToAdvance.isEmpty()) {
+						Country l_c = d_countryToAdvance.get(0);
+						d_countryToAdvance.remove(0);
+						return new BlockadeOrder(d_player, l_c);
+					}
 				}
 				// Airlift
 				if (d_player.useCard(Card.getAirliftCard())) {
-					Country l_c = d_countryToAdvance.get(0);
-					d_countryToAdvance.remove(0);
-					return new AirliftOrder(d_player, l_c, d_countryList.get(0), l_c.getArmies());
+					if(!d_countryToAdvance.isEmpty()) {
+						Country l_c = d_countryToAdvance.get(0);
+						d_countryToAdvance.remove(0);
+						return new AirliftOrder(d_player, l_c, d_countryList.get(0), l_c.getArmies());
+					}
 				}
 				// Diplomacy
 				if (d_player.useCard(Card.getDiplomacyCard())) {
