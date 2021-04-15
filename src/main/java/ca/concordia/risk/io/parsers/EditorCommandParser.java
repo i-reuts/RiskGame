@@ -414,7 +414,7 @@ public class EditorCommandParser extends CommandParser {
 
 			// If the first argument is a flag (starts with "-"), stop parsing map files
 			if (l_mapFile.startsWith("-")) {
-				return;
+				break;
 			}
 
 			// Argument was a filename, remove it from the argument list and add it to the
@@ -446,7 +446,7 @@ public class EditorCommandParser extends CommandParser {
 
 			// If the first argument is a flag (starts with "-"), stop parsing strategies
 			if (l_strategy.startsWith("-")) {
-				return;
+				break;
 			}
 
 			// Argument was a strategy, remove it from the argument list and add it to the
@@ -474,6 +474,10 @@ public class EditorCommandParser extends CommandParser {
 	private void parseTournamentNumGames(List<String> p_argumentList, TournamentCommand p_command)
 			throws ParsingException {
 		try {
+			if(p_argumentList.size() < 1) {
+				throw new ParsingException("-G flag must have one argument");
+			}
+			
 			int l_numGames = Integer.parseInt(p_argumentList.remove(0));
 
 			if (l_numGames < 1 || l_numGames > 5) {
@@ -498,6 +502,10 @@ public class EditorCommandParser extends CommandParser {
 	private void parseTournamentMaxTurns(List<String> p_argumentList, TournamentCommand p_command)
 			throws ParsingException {
 		try {
+			if(p_argumentList.size() < 1) {
+				throw new ParsingException("-D flag must have one argument");
+			}
+			
 			int l_maxTurns = Integer.parseInt(p_argumentList.remove(0));
 
 			if (l_maxTurns < 10 || l_maxTurns > 50) {

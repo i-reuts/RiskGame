@@ -242,7 +242,7 @@ public class GameLoader {
 		private int d_turn;
 		private String d_mapFilename;
 		private ArrayList<PlayerData> d_playerDataList = new ArrayList<PlayerData>();
-		PlayerData d_neutralPlayerData;
+		private PlayerData d_neutralPlayerData;
 
 		/**
 		 * Serializable data class that stores the save data of a Player.
